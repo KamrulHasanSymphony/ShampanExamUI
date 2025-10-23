@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace ShampanTailor.Models
+namespace ShampanExam.Models
 {
     public class ApplicationUser : IdentityUser
     {

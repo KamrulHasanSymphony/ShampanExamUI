@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShampanTailor.Models.KendoCommon
+namespace ShampanExam.Models.KendoCommon
 {
     public class GridOptions
     {

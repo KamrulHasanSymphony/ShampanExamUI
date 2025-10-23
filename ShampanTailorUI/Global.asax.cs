@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
-using ShampanTailor.Models;
-using ShampanTailorUI.Persistence;
+using ShampanExam.Models;
+using ShampanExamUI.Persistence;
 using System;
 using System.Security.Claims;
 using System.Web;
@@ -9,7 +9,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 
-namespace ShampanTailorUI
+namespace ShampanExamUI
 {
     public class MvcApplication : System.Web.HttpApplication
     {

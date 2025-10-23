@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Repo;
-using ShampanTailorUI.Persistence;
+using ShampanExam.Models;
+using ShampanExam.Repo;
+using ShampanExamUI.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +17,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
-using static ShampanTailorUI.App_Start.IdentityConfig;
+using static ShampanExamUI.App_Start.IdentityConfig;
 
-namespace ShampanTailorUI.Controllers
+namespace ShampanExamUI.Controllers
 {
     public class LoginController : Controller
     {

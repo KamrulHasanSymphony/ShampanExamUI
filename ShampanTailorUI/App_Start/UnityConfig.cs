@@ -2,7 +2,7 @@ using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
 
-namespace ShampanTailorUI
+namespace ShampanExamUI
 {
     public static class UnityConfig
     {

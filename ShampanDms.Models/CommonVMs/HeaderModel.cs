@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShampanTailor.Models
+namespace ShampanExam.Models
 {
     public class HeaderModel
     {

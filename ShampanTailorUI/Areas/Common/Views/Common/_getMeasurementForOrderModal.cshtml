@@ -1,4 +1,4 @@
-﻿@model ShampanTailor.Models.QuestionVM.OrderMeasurementDetailVM
+﻿@model ShampanExam.Models.QuestionVM.OrderMeasurementDetailVM
 
 <style>
     .dataTable {
@@ -116,7 +116,7 @@
         //});
 
         // Send data to the server
-        CommonAjaxService.finalSave("/Tailors/OrderMeasurementDetail/CreateEdit", model, saveDone, saveFail);
+        CommonAjaxService.finalSave("/Exams/OrderMeasurementDetail/CreateEdit", model, saveDone, saveFail);
     }
 
 

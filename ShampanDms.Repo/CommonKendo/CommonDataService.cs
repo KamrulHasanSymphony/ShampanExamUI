@@ -1,5 +1,5 @@
-﻿using ShampanTailor.Models;
-using ShampanTailor.Models.KendoCommon;
+﻿using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
 using System;
 using System.Collections.Generic;
 using System.Data;

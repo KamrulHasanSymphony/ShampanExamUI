@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Models.KendoCommon;
-using ShampanTailor.Repo.Configuration;
+using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
+using ShampanExam.Repo.Configuration;
 using System;
 using System.IO;
-using static ShampanTailor.Models.CommonModel;
+using static ShampanExam.Models.CommonModel;
 
-namespace ShampanTailor.Repo
+namespace ShampanExam.Repo
 {
     public class CompanyProfileRepo
     {        

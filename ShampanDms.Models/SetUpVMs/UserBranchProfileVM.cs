@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShampanTailor.Models
+namespace ShampanExam.Models
 {
     public class UserBranchProfileVM
     {

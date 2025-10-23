@@ -1,4 +1,4 @@
-﻿namespace ShampanTailor.Models.KendoCommon
+﻿namespace ShampanExam.Models.KendoCommon
 {
     public enum DatabaseType
     {

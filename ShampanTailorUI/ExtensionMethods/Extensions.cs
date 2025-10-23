@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
+using ShampanExam.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Security.Claims;
 using System.Web;
 
-namespace ShampanTailorUI
+namespace ShampanExamUI
 {
     public static class Extensions
     {       

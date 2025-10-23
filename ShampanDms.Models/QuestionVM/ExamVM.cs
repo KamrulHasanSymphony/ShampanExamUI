@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShampanTailor.Models.QuestionVM
+namespace ShampanExam.Models.QuestionVM
 {
     public class ExamVM : Audit
     {

@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Models.Exam;
-using ShampanTailor.Repo;
-using ShampanTailor.Repo.Exam;
+using ShampanExam.Models;
+using ShampanExam.Models.Exam;
+using ShampanExam.Repo;
+using ShampanExam.Repo.Exam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ShampanTailorUI.Areas.Exam.Controllers
+namespace ShampanExamUI.Areas.Exam.Controllers
 {
     [Authorize]
     [RouteArea("Exam")]

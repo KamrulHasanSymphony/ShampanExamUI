@@ -1,4 +1,4 @@
-﻿@model ShampanTailor.Models.QuestionVM.OrderItemDesignVM
+﻿@model ShampanExam.Models.QuestionVM.OrderItemDesignVM
 
 @{
     ViewBag.Title = "Order Item Design Entry";
@@ -194,7 +194,7 @@
             model.OrderItemDesignList = orderItemDesignList;
 
             $.ajax({
-                url: "/Tailors/OrderItemDesign/CreateEdit",
+                url: "/Exams/OrderItemDesign/CreateEdit",
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(model),
@@ -294,7 +294,7 @@
                 model.OrderItemDesignList = orderItemDesignList;
 
                 $.ajax({
-                    url: "/Tailors/OrderItemDesign/CreateEdit",
+                    url: "/Exams/OrderItemDesign/CreateEdit",
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(model),

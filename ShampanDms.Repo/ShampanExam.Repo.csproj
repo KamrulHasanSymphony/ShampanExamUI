@@ -78,9 +78,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShampanDms.Models\ShampanTailor.Models.csproj">
+    <ProjectReference Include="..\ShampanDms.Models\ShampanExam.Models.csproj">
       <Project>{9ea5be9b-b683-4c9d-8cde-0d8497c1612c}</Project>
-      <Name>ShampanTailor.Models</Name>
+      <Name>ShampanExam.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using ShampanTailor.Models;
+using ShampanExam.Models;
 using System.Configuration;
 using System;
 using System.Data.Entity;
 
-namespace ShampanTailorUI.Persistence
+namespace ShampanExamUI.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

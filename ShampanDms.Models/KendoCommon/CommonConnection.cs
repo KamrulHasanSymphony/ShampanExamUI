@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace ShampanTailor.Models.KendoCommon
+namespace ShampanExam.Models.KendoCommon
 {
     public class CommonConnection
     {      

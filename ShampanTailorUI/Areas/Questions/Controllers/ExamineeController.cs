@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Models.KendoCommon;
-using ShampanTailor.Models.QuestionVM;
-using ShampanTailor.Repo;
-using ShampanTailor.Repo.ExamineeRepo;
-using ShampanTailor.Repo.Helper;
+using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
+using ShampanExam.Models.QuestionVM;
+using ShampanExam.Repo;
+using ShampanExam.Repo.ExamineeRepo;
+using ShampanExam.Repo.Helper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ShampanTailorUI.Areas.Questions.Controllers
+namespace ShampanExamUI.Areas.Questions.Controllers
 {
     [Authorize]
     [RouteArea("Questions")]

@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model ShampanTailor.Models.QuestionVM.QuestionHeaderVM
+@model ShampanExam.Models.QuestionVM.QuestionHeaderVM
 @{
     ViewBag.Title = "Question Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -115,8 +115,8 @@
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
 
-                            @Html.Hidden("QuestionOptionDetailsJson", JsonConvert.SerializeObject(Model.QuestionOptionDetails ?? new List<ShampanTailor.Models.QuestionVM.QuestionOptionDetailVM>()))
-                            @Html.Hidden("QuestionShortDetailsJson", JsonConvert.SerializeObject(Model.QuestionShortDetails ?? new List<ShampanTailor.Models.QuestionVM.QuestionShortDetailVM>()))
+                            @Html.Hidden("QuestionOptionDetailsJson", JsonConvert.SerializeObject(Model.QuestionOptionDetails ?? new List<ShampanExam.Models.QuestionVM.QuestionOptionDetailVM>()))
+                            @Html.Hidden("QuestionShortDetailsJson", JsonConvert.SerializeObject(Model.QuestionShortDetails ?? new List<ShampanExam.Models.QuestionVM.QuestionShortDetailVM>()))
 
                             <div class="form-group row">
                                 <!-- Question Subject -->
@@ -162,7 +162,7 @@
                                     @Html.LabelFor(model => model.QuestionType)
                                     <div class="input-group">
                                         @Html.DropDownListFor(model => model.QuestionType,
-                                            new SelectList(Enum.GetNames(typeof(ShampanTailor.Models.QuestionVM.QuestionTypeEnum))),
+                                            new SelectList(Enum.GetNames(typeof(ShampanExam.Models.QuestionVM.QuestionTypeEnum))),
                                             "Select Question Type",
                                             new { @class = "form-control form-control-sm" })
                                     </div>

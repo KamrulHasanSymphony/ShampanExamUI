@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model ShampanTailor.Models.QuestionVM.GradeHeaderVM
+@model ShampanExam.Models.QuestionVM.GradeHeaderVM
 @{
     ViewBag.Title = "Grade Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -116,7 +116,7 @@
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
 
-                            @Html.Hidden("GradeDetailsJson", JsonConvert.SerializeObject(Model.gradeDetailList ?? new List<ShampanTailor.Models.QuestionVM.GradeDetailVM>()))
+                            @Html.Hidden("GradeDetailsJson", JsonConvert.SerializeObject(Model.gradeDetailList ?? new List<ShampanExam.Models.QuestionVM.GradeDetailVM>()))
 
                             <div class="form-group row">
                                 <!-- Grade Name -->

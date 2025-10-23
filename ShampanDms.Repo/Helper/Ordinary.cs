@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace ShampanTailor.Repo.Helper
+namespace ShampanExam.Repo.Helper
 {
     public class Ordinary
     {

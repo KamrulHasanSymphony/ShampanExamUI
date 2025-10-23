@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace ShampanTailor.Models.KendoCommon
+namespace ShampanExam.Models.KendoCommon
 {
     public class GenericListGenerator
     {

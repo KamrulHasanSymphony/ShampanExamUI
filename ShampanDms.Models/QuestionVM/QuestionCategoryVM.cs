@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShampanTailor.Models.QuestionVM
+namespace ShampanExam.Models.QuestionVM
 {
     public class QuestionCategoryVM: Audit
     {

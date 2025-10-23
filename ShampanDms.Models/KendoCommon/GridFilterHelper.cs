@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ShampanTailor.Models.KendoCommon
+namespace ShampanExam.Models.KendoCommon
 {
     public class GridFilterHelper
     {

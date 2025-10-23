@@ -2,17 +2,17 @@
 using DocumentFormat.OpenXml.Wordprocessing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ShampanTailor.Models;
-using ShampanTailor.Models.QuestionVM;
-using ShampanTailor.Repo;
-using ShampanTailorUI.Persistence;
+using ShampanExam.Models;
+using ShampanExam.Models.QuestionVM;
+using ShampanExam.Repo;
+using ShampanExamUI.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace ShampanTailorUI.Areas.Common.Controllers
+namespace ShampanExamUI.Areas.Common.Controllers
 {
     [Authorize]
     public class CommonController : Controller

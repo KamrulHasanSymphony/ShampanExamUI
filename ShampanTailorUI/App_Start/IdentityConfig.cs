@@ -3,10 +3,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using ShampanTailor.Models;
-using ShampanTailorUI.Persistence;
+using ShampanExam.Models;
+using ShampanExamUI.Persistence;
 
-namespace ShampanTailorUI.App_Start
+namespace ShampanExamUI.App_Start
 {
     public class IdentityConfig
     {

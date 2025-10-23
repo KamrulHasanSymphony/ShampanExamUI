@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace ShampanTailor.Models.QuestionVM
+namespace ShampanExam.Models.QuestionVM
 {
     public class GradeHeaderVM : Audit
     {

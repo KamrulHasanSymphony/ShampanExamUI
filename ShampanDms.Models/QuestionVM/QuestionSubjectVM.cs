@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShampanTailor.Models.QuestionVM
+namespace ShampanExam.Models.QuestionVM
 {
     public class QuestionSubjectVM : Audit
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace ShampanTailor.Models
+namespace ShampanExam.Models
 {
     public class LoginResource
     {

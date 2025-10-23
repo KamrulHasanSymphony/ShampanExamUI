@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Shampan.Services.CommonKendo;
-using ShampanTailor.Models;
-using ShampanTailor.Models.KendoCommon;
+using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace ShampanTailor.Repo
+namespace ShampanExam.Repo
 {
     public class MenuAuthorizationRepo
     {

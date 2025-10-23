@@ -3,13 +3,13 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using ShampanTailor.Models;
-using ShampanTailorUI.Persistence;
+using ShampanExam.Models;
+using ShampanExamUI.Persistence;
 using System;
-using static ShampanTailorUI.App_Start.IdentityConfig;
-[assembly: OwinStartup(typeof(ShampanTailorUI.Startup))]
+using static ShampanExamUI.App_Start.IdentityConfig;
+[assembly: OwinStartup(typeof(ShampanExamUI.Startup))]
 
-namespace ShampanTailorUI
+namespace ShampanExamUI
 {
     public class Startup
     {

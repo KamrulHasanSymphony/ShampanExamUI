@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ShampanTailorUI.Areas.Common
+namespace ShampanExamUI.Areas.Common
 {
     public class CommonAreaRegistration : AreaRegistration 
     {

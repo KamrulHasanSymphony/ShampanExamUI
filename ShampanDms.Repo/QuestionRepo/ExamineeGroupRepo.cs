@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Models.KendoCommon;
-using ShampanTailor.Models.QuestionVM;
-using ShampanTailor.Repo.Configuration;
+using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
+using ShampanExam.Models.QuestionVM;
+using ShampanExam.Repo.Configuration;
 using System;
 using System.IO;
-using static ShampanTailor.Models.CommonModel;
+using static ShampanExam.Models.CommonModel;
 
-namespace ShampanTailor.Repo.QuestionRepo
+namespace ShampanExam.Repo.QuestionRepo
 {
     public class ExamineeGroupRepo
     {

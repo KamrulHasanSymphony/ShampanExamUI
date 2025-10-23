@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Models.KendoCommon;
-using ShampanTailor.Repo;
-using ShampanTailor.Repo.Helper;
-using ShampanTailorUI.Persistence;
+using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
+using ShampanExam.Repo;
+using ShampanExam.Repo.Helper;
+using ShampanExamUI.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace ShampanTailorUI.Areas.SetUp.Controllers
+namespace ShampanExamUI.Areas.SetUp.Controllers
 {
     [Authorize]
     [RouteArea("SetUp")]

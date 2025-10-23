@@ -1,9 +1,9 @@
-﻿using ShampanTailor.Models;
-using ShampanTailor.Repo.Configuration;
+﻿using ShampanExam.Models;
+using ShampanExam.Repo.Configuration;
 using System;
-using static ShampanTailor.Models.CommonModel;
+using static ShampanExam.Models.CommonModel;
 
-namespace ShampanTailor.Repo
+namespace ShampanExam.Repo
 {
     public class AuthRepo
     {

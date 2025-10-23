@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace ShampanTailor.Models.KendoCommon
+namespace ShampanExam.Models.KendoCommon
 {
     public static class Kendo<T>
     {

@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 
-namespace ShampanTailorUI
+namespace ShampanExamUI
 {
     public static class Extentions
     {

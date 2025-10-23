@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ShampanTailor.Models
+namespace ShampanExam.Models
 {
     public class ResultVM
     {

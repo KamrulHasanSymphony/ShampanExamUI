@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
-using ShampanTailor.Models;
-using ShampanTailor.Repo.Configuration;
+using ShampanExam.Models;
+using ShampanExam.Repo.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ShampanTailor.Models.CommonModel;
+using static ShampanExam.Models.CommonModel;
 
-namespace ShampanTailor.Repo.Exam
+namespace ShampanExam.Repo.Exam
 {
     public class ExamRepo
     {

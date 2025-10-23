@@ -1,4 +1,4 @@
-﻿namespace ShampanTailor.Service.ViewModel
+﻿namespace ShampanExam.Service.ViewModel
 {
     public class IndexModel
     {

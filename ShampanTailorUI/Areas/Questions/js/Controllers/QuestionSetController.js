@@ -657,7 +657,7 @@
         $('#btnPrevious').click('click', function () {
             var getId = $('#Id').val();
             if (parseInt(getId) > 0) {
-                window.location.href = "/Tailors/Item/NextPrevious?id=" + getId + "&status=Previous";
+                window.location.href = "/Exams/Item/NextPrevious?id=" + getId + "&status=Previous";
             }
         });
 
@@ -665,7 +665,7 @@
         $('#btnNext').click('click', function () {
             var getId = $('#Id').val();
             if (parseInt(getId) > 0) {
-                window.location.href = "/Tailors/Item/NextPrevious?id=" + getId + "&status=Next";
+                window.location.href = "/Exams/Item/NextPrevious?id=" + getId + "&status=Next";
             }
         });
 

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ShampanTailorUI.Areas.Questions
+namespace ShampanExamUI.Areas.Questions
 {
     public class ExamAreaRegistration : AreaRegistration 
     {

@@ -6,9 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Security;
 using System.Text;
-using static ShampanTailor.Models.CommonModel;
+using static ShampanExam.Models.CommonModel;
 
-namespace ShampanTailor.Repo.Configuration
+namespace ShampanExam.Repo.Configuration
 {
     public class HttpRequestHelper
     {

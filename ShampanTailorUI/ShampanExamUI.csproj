@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ShampanTailorUI</RootNamespace>
-    <AssemblyName>ShampanTailorUI</AssemblyName>
+    <RootNamespace>ShampanExamUI</RootNamespace>
+    <AssemblyName>ShampanExamUI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -3914,13 +3914,13 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShampanDms.Models\ShampanTailor.Models.csproj">
+    <ProjectReference Include="..\ShampanDms.Models\ShampanExam.Models.csproj">
       <Project>{9EA5BE9B-B683-4C9D-8CDE-0D8497C1612C}</Project>
-      <Name>ShampanTailor.Models</Name>
+      <Name>ShampanExam.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ShampanDms.Repo\ShampanTailor.Repo.csproj">
+    <ProjectReference Include="..\ShampanDms.Repo\ShampanExam.Repo.csproj">
       <Project>{3F68312C-FAC0-4901-84B6-28DFCD506712}</Project>
-      <Name>ShampanTailor.Repo</Name>
+      <Name>ShampanExam.Repo</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

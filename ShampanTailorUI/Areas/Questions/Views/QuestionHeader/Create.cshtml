@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model ShampanTailor.Models.QuestionVM.QuestionHeaderVM
+@model ShampanExam.Models.QuestionVM.QuestionHeaderVM
 @{
     ViewBag.Title = "Question Header Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -110,8 +110,8 @@
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
 
-                            @Html.Hidden("OptionDetailsJson", JsonConvert.SerializeObject(Model.QuestionOptionDetails ?? new List<ShampanTailor.Models.QuestionVM.QuestionOptionDetailVM>()))
-                            @Html.Hidden("ShortDetailsJson", JsonConvert.SerializeObject(Model.QuestionShortDetails ?? new List<ShampanTailor.Models.QuestionVM.QuestionShortDetailVM>()))
+                            @Html.Hidden("OptionDetailsJson", JsonConvert.SerializeObject(Model.QuestionOptionDetails ?? new List<ShampanExam.Models.QuestionVM.QuestionOptionDetailVM>()))
+                            @Html.Hidden("ShortDetailsJson", JsonConvert.SerializeObject(Model.QuestionShortDetails ?? new List<ShampanExam.Models.QuestionVM.QuestionShortDetailVM>()))
 
 
                             <div class="form-group row">

@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 
 
-namespace ShampanTailor.Models.KendoCommon
+namespace ShampanExam.Models.KendoCommon
 {
     public class KendoGridDBLDAT<T>
     {

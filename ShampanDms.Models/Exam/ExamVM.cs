@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShampanTailor.Models.Exam
+namespace ShampanExam.Models.Exam
 {
     public class ExamVM
     {

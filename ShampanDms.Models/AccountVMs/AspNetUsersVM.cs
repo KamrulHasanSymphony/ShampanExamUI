@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShampanTailor.Models
+namespace ShampanExam.Models
 {
 
     public class AspNetUsersVM

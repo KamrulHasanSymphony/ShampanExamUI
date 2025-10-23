@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json
 
-@model ShampanTailor.Models.QuestionVM.QuestionSetHeaderVM
+@model ShampanExam.Models.QuestionVM.QuestionSetHeaderVM
 @{
     ViewBag.Title = "Question Set Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -117,7 +117,7 @@
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
 
-                            @Html.Hidden("QuestionDetailsJson", JsonConvert.SerializeObject(Model.questionSetDetailList ?? new List<ShampanTailor.Models.QuestionVM.QuestionSetDetailVM>()))
+                            @Html.Hidden("QuestionDetailsJson", JsonConvert.SerializeObject(Model.questionSetDetailList ?? new List<ShampanExam.Models.QuestionVM.QuestionSetDetailVM>()))
 
                             <div class="form-group row">
                                 <!-- Name -->
