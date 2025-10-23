@@ -1,0 +1,203 @@
+﻿@model List<ShampanTailor.Models.Exam.QuestionVM>
+
+@{
+    ViewBag.Title = "Exam Question Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var i = 0;
+}
+
+
+<div class="container mt-4">
+    <h2 class="mb-4">Examination</h2>
+
+    <form asp-action="SubmitExam" method="post" id="examForm">
+        @foreach (var question in Model)
+        {
+            i = i + 1;
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        Question @(i)
+
+                        <span class="badge bg-light text-dark float-end">@question.QuestionMark Marks</span>
+                    </h5>
+                </div>
+
+                <div class="card-body">
+                    <p class="question-text mb-3"><strong>@question.QuestionText</strong></p>
+
+                    <input type="hidden" name="Answers[@i].QuestionId" value="@question.Id" />
+                    <input type="hidden" name="Answers[@i].QuestionType" value="@question.QuestionType" />
+
+                    @if (question.QuestionType.ToLower() == "singleoption")
+                    {
+                        <!-- Radio Button Questions (Single Choice) -->
+                        <div class="options-container">
+                            @for (int j = 0; j < question.Options.Count; j++)
+                            {
+                                var option = question.Options[j];
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="Question_@question.Id"
+                                           id="option_@option.Id"
+                                           value="@option.Id"
+                                           onchange="updateHiddenField(@question.Id, @option.Id, 'radio')">
+                                    <label class="form-check-label" for="option_@option.Id">
+                                        @option.QuestionOption
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <input type="hidden" name="Answers[@i].SelectedOptionIds" id="hidden_@question.Id" value="" />
+                    }
+                    else if (question.QuestionType.ToLower() == "multioption")
+                    {
+                        <!-- Checkbox Questions (Multiple Choice) -->
+                        <div class="options-container">
+                            @for (int j = 0; j < question.Options.Count; j++)
+                            {
+                                var option = question.Options[j];
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input checkbox-@question.Id"
+                                           type="checkbox"
+                                           name="CheckboxOption_@question.Id"
+                                           id="option_@option.Id"
+                                           value="@option.Id"
+                                           onchange="updateCheckboxes(@question.Id)">
+                                    <label class="form-check-label" for="option_@option.Id">
+                                        @option.QuestionOption
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <input type="hidden" name="Answers[@i].SelectedOptionIds" id="hidden_checkbox_@question.Id" value="" />
+                    }
+                    else if (question.QuestionType.ToLower() == "singleline")
+                    {
+                        <!-- Text Input Questions (Short Answer) -->
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   name="Answers[@i].TextAnswer"
+                                   id="text_@question.Id"
+                                   placeholder="Enter your answer here..." />
+                        </div>
+                    }
+                    else if (question.QuestionType.ToLower() == "multiline")
+                    {
+                        <!-- Text Input Questions (Short Answer) -->
+                        <div class="form-group">
+                            <textarea class="form-control"
+                                      name="Answers[@i].TextAnswer"
+                                      id="text_@question.Id"
+                                      rows="3"
+                                      placeholder="Enter your answer here..."></textarea>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="d-grid gap-2 mb-4">
+            <button type="submit" class="btn btn-success btn-lg">Submit Exam</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .question-text {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .options-container {
+        padding-left: 10px;
+    }
+
+    .form-check {
+        padding: 10px;
+        border-radius: 5px;
+        transition: background-color 0.2s;
+    }
+
+        .form-check:hover {
+            background-color: #f8f9fa;
+        }
+
+    .form-check-input {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        margin-top: 0.15em;
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 1rem;
+    }
+
+    .card {
+        border: 1px solid #dee2e6;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+</style>
+
+<script>
+    // Update hidden field for radio buttons
+    function updateHiddenField(questionId, optionId, type) {
+        document.getElementById('hidden_' + questionId).value = optionId;
+    }
+
+    // Update hidden field for checkboxes
+    function updateCheckboxes(questionId) {
+        var checkboxes = document.querySelectorAll('.checkbox-' + questionId + ':checked');
+        var selectedIds = Array.from(checkboxes).map(cb => cb.value);
+        document.getElementById('hidden_checkbox_' + questionId).value = selectedIds.join(',');
+    }
+
+    // Form validation before submit
+    document.getElementById('examForm').addEventListener('submit', function (e) {
+        var unanswered = [];
+        var questions = document.querySelectorAll('.card');
+
+        questions.forEach(function (card, index) {
+            var questionNum = index + 1;
+            var hasRadio = card.querySelector('input[type="radio"]');
+            var hasCheckbox = card.querySelector('input[type="checkbox"]');
+            var hasText = card.querySelector('textarea');
+
+            if (hasRadio) {
+                var radioChecked = card.querySelector('input[type="radio"]:checked');
+                if (!radioChecked) {
+                    unanswered.push(questionNum);
+                }
+            } else if (hasCheckbox) {
+                var checkboxChecked = card.querySelector('input[type="checkbox"]:checked');
+                if (!checkboxChecked) {
+                    unanswered.push(questionNum);
+                }
+            } else if (hasText) {
+                if (hasText.value.trim() === '') {
+                    unanswered.push(questionNum);
+                }
+            }
+        });
+
+        if (unanswered.length > 0) {
+            var confirmSubmit = confirm('You have not answered question(s): ' + unanswered.join(', ') + '. Do you want to submit anyway?');
+            if (!confirmSubmit) {
+                e.preventDefault();
+            }
+        }
+    });
+</script>
+
+
+
+
+
