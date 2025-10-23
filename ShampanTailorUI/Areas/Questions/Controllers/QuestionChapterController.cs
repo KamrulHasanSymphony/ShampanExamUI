@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ShampanDms.Models.Helper;
 using ShampanTailor.Models;
 using ShampanTailor.Models.KendoCommon;
 using ShampanTailor.Models.QuestionVM;
 using ShampanTailor.Repo;
+using ShampanTailor.Repo.Helper;
 using ShampanTailor.Repo.QuestionRepo;
 using System;
 using System.Collections.Generic;
