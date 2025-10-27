@@ -313,7 +313,7 @@ namespace ShampanExamUI.Controllers
 
                     var claims = new List<Claim>
                 {
-                                new Claim("Database", "ShampanTailor_DB"),
+                                new Claim("Database", "ShampanQuestion_DB"),
                              };
 
                     var user = new ApplicationUser
