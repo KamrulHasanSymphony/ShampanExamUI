@@ -300,10 +300,9 @@
             });
 
             grid.dataSource.read();
-            return; // ✅ Stop here if just reloading
+            return; 
         }
 
-        // ✅ Otherwise initialize new grid
         $("#kAllQuestions").kendoGrid({
             dataSource: new kendo.data.DataSource({
                 transport: {
@@ -352,6 +351,7 @@
                         return (page - 1) * pageSize + (index + 1);
                     }
                 },
+                { field: "Id", title: "Id", width: 300, hidden: true },
                 { field: "QuestionText", title: "Question", width: 300 },
                 { field: "QuestionMark", title: "Mark", width: 80 },
                 {
@@ -364,12 +364,13 @@
                 template: "<div class='text-center p-3'>No questions found for this chapter.</div>"
             },
             dataBound: function () {
-                // 🔹 Attach click event for Add button after grid renders
+                debugger;
                 $("#kAllQuestions .k-grid-add-question").off("click").on("click", function (e) {
-                    e.preventDefault(); // 🛑 Stops form submission
-                    e.stopPropagation(); // 🛑 Prevents bubbling
+                    e.preventDefault(); 
+                    e.stopPropagation(); 
                     var grid = $("#kAllQuestions").data("kendoGrid");
                     var dataItem = grid.dataItem($(this).closest("tr"));
+                    console.log(dataItem);
                     AddQuestionToSet(dataItem);
                 });
             }
@@ -394,7 +395,7 @@
             var dataItem = grid.dataItem(this);
 
             // prevent duplicate transfer
-            var exists = addDS.data().some(i => i.Id === dataItem.Id);
+            var exists = addDS.data().some(i => i.QuestionHeaderId === dataItem.Id);
             if (!exists) {
                 // Add a **copy** to prevent reference issues
                 addDS.add($.extend({}, dataItem));
@@ -404,6 +405,10 @@
 
                 // Disable select button in row
                 $(this).find(".k-grid-select").prop("disabled", true);
+            }
+            else
+            {
+                ShowNotification(2, "Question already added.");
             }
         });
     });
@@ -416,7 +421,7 @@
             $("#kAddedQuestions").kendoGrid({
                 dataSource: { data: [] },
                 columns: [
-                    { field: "Id", hidden: true },
+                    { field: "QuestionHeaderId", hidden: true },
                     { field: "QuestionText", title: "Question", width: 300 },
                     { field: "QuestionMark", title: "Mark", width: 80 },
                     {
@@ -440,13 +445,13 @@
         }
 
         var ds = addedGrid.dataSource;
-        if (ds.data().some(q => q.Id === dataItem.Id)) {
+        if (ds.data().some(q => q.QuestionHeaderId === dataItem.Id)) {
             ShowNotification(2, "Question already added.");
             return;
         }
 
         ds.add({
-            Id: dataItem.Id,
+            QuestionHeaderId: dataItem.Id,
             QuestionText: dataItem.QuestionText,
             QuestionMark: dataItem.QuestionMark
         });
@@ -705,37 +710,101 @@
     // 🔹 Save & Post
     // =========================
 
+    // Save the form data
     function save() {
+        debugger;
         var validator = $("#frmEntry").validate();
         if (!validator.form()) {
-            ShowNotification(3, "Please complete required fields.");
+            validator.focusInvalid();
             return;
         }
 
         var model = serializeInputs("frmEntry");
-        var details = [];
-        var grid = $("#kDetails").data("kendoGrid");
+        var formData = new FormData();
 
+        var Qdetails = [];
+        var grid = $("#kAddedQuestions").data("kendoGrid");
         if (grid) {
-            grid.saveChanges();
-            grid.dataSource.data().forEach(item => {
-                if (item.QuestionHeaderId) {
-                    details.push({
-                        QuestionHeaderId: item.QuestionHeaderId,
-                        QuestionMark: item.QuestionMark
-                    });
+            var dataItems = grid.dataSource.view();
+
+            for (var i = 0; i < dataItems.length; i++) {
+                var item = dataItems[i];
+
+                // Validate if a Question is selected
+                if (!item.QuestionHeaderId || parseFloat(item.QuestionHeaderId) <= 0) {
+                    ShowNotification(3, "Question is required.");
+                    return;
                 }
-            });
+
+                Qdetails.push({
+                    QuestionSetHeaderId: item.Id,
+                    QuestionHeaderId: item.QuestionHeaderId,
+                    QuestionMark: item.QuestionMark
+                });
+            }
         }
 
-        if (details.length === 0) {
-            ShowNotification(3, "Please add at least one question.");
+        // Prevent save if no details are added
+        if (Qdetails.length === 0) {
+            ShowNotification(3, "At least one question entry is required.");
             return;
         }
 
-        model.details = details;
-        CommonAjaxService.finalSave("/Exam/QuestionSet/CreateEdit", model, saveDone, saveFail);
+        model.questionSetDetailList = Qdetails;
+
+        // Append normal properties
+        for (var key in model) {
+            if (key !== "questionSetDetailList") {
+                formData.append(key, model[key]);
+            }
+        }
+
+        // Append Question detail list
+        model.questionSetDetailList.forEach(function (detail, i) {
+            for (var key in detail) {
+                if (detail.hasOwnProperty(key)) {
+                    formData.append(`questionSetDetailList[${i}].${key}`, detail[key]);
+                }
+            }
+        });
+
+
+        formData.append("IsActive", $('#IsActive').prop('checked'));
+
+        CommonAjaxService.finalImageSave("/Questions/QuestionSets/CreateEdit", formData, saveDone, saveFail);
     }
+
+    //function save() {
+    //    var validator = $("#frmEntry").validate();
+    //    if (!validator.form()) {
+    //        ShowNotification(3, "Please complete required fields.");
+    //        return;
+    //    }
+
+    //    var model = serializeInputs("frmEntry");
+    //    var details = [];
+    //    var grid = $("#kDetails").data("kendoGrid");
+
+    //    if (grid) {
+    //        grid.saveChanges();
+    //        grid.dataSource.data().forEach(item => {
+    //            if (item.QuestionHeaderId) {
+    //                details.push({
+    //                    QuestionHeaderId: item.QuestionHeaderId,
+    //                    QuestionMark: item.QuestionMark
+    //                });
+    //            }
+    //        });
+    //    }
+
+    //    if (details.length === 0) {
+    //        ShowNotification(3, "Please add at least one question.");
+    //        return;
+    //    }
+
+    //    model.details = details;
+    //    CommonAjaxService.finalSave("/Exam/QuestionSet/CreateEdit", model, saveDone, saveFail);
+    //}
 
     function saveDone(result) {
         if (result.Status == 200) {

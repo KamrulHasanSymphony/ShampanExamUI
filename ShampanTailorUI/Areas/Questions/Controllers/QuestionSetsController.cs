@@ -59,15 +59,16 @@ namespace ShampanExamUI.Areas.Questions.Controllers
             return View("Create", vm);
         }
 
+
         [HttpPost]
         public ActionResult CreateEdit(QuestionSetHeaderVM model)
         {
             ResultModel<QuestionSetHeaderVM> result = new ResultModel<QuestionSetHeaderVM>();
-            ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error" };
+            ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
             _repo = new QuestionSetsRepo();
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     if (model.Operation.ToLower() == "add")
@@ -83,7 +84,6 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                             model = JsonConvert.DeserializeObject<QuestionSetHeaderVM>(resultVM.DataVM.ToString());
                             model.Operation = "add";
                             Session["result"] = resultVM.Status + "~" + resultVM.Message;
-
                             result = new ResultModel<QuestionSetHeaderVM>()
                             {
                                 Success = true,
@@ -108,8 +108,8 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     }
                     else if (model.Operation.ToLower() == "update")
                     {
-                        model.LastUpdateBy = Session["UserId"].ToString();
-                        //model.LastUpdateOn = DateTime.Now.ToString();
+                        model.LastModifiedBy = Session["UserId"].ToString();
+                        model.LastModifiedOn = DateTime.Now.ToString();
                         model.LastUpdateFrom = Ordinary.GetLocalIpAddress();
 
                         resultVM = _repo.Update(model);
@@ -129,6 +129,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                         else
                         {
                             Session["result"] = "Fail" + "~" + resultVM.Message;
+
                             result = new ResultModel<QuestionSetHeaderVM>()
                             {
                                 Status = Status.Fail,
@@ -149,19 +150,123 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                     return View("Create", model);
                 }
-            }
-            else
-            {
-                result = new ResultModel<QuestionSetHeaderVM>()
-                {
-                    Success = false,
-                    Status = Status.Fail,
-                    Message = "Model State Error!",
-                    Data = model
-                };
-                return Json(result);
-            }
+            //}
+            //else
+            //{
+            //    result = new ResultModel<QuestionSetHeaderVM>()
+            //    {
+            //        Success = false,
+            //        Status = Status.Fail,
+            //        Message = "Model State Error!",
+            //        Data = model
+            //    };
+            //    return Json(result);
+            //}
         }
+
+        //[HttpPost]
+        //public ActionResult CreateEdit(QuestionSetHeaderVM model)
+        //{
+        //    ResultModel<QuestionSetHeaderVM> result = new ResultModel<QuestionSetHeaderVM>();
+        //    ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error" };
+        //    _repo = new QuestionSetsRepo();
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            if (model.Operation.ToLower() == "add")
+        //            {
+        //                model.CreatedBy = Session["UserId"].ToString();
+        //                model.CreatedOn = DateTime.Now.ToString();
+        //                model.CreatedFrom = Ordinary.GetLocalIpAddress();
+
+        //                resultVM = _repo.Insert(model);
+
+        //                if (resultVM.Status == ResultStatus.Success.ToString())
+        //                {
+        //                    model = JsonConvert.DeserializeObject<QuestionSetHeaderVM>(resultVM.DataVM.ToString());
+        //                    model.Operation = "add";
+        //                    Session["result"] = resultVM.Status + "~" + resultVM.Message;
+
+        //                    result = new ResultModel<QuestionSetHeaderVM>()
+        //                    {
+        //                        Success = true,
+        //                        Status = Status.Success,
+        //                        Message = resultVM.Message,
+        //                        Data = model
+        //                    };
+        //                    return Json(result);
+        //                }
+        //                else
+        //                {
+        //                    Session["result"] = "Fail" + "~" + resultVM.Message;
+
+        //                    result = new ResultModel<QuestionSetHeaderVM>()
+        //                    {
+        //                        Status = Status.Fail,
+        //                        Message = resultVM.Message,
+        //                        Data = model
+        //                    };
+        //                    return Json(result);
+        //                }
+        //            }
+        //            else if (model.Operation.ToLower() == "update")
+        //            {
+        //                model.LastUpdateBy = Session["UserId"].ToString();
+        //                //model.LastUpdateOn = DateTime.Now.ToString();
+        //                model.LastUpdateFrom = Ordinary.GetLocalIpAddress();
+
+        //                resultVM = _repo.Update(model);
+
+        //                if (resultVM.Status == ResultStatus.Success.ToString())
+        //                {
+        //                    Session["result"] = resultVM.Status + "~" + resultVM.Message;
+        //                    result = new ResultModel<QuestionSetHeaderVM>()
+        //                    {
+        //                        Success = true,
+        //                        Status = Status.Success,
+        //                        Message = resultVM.Message,
+        //                        Data = model
+        //                    };
+        //                    return Json(result);
+        //                }
+        //                else
+        //                {
+        //                    Session["result"] = "Fail" + "~" + resultVM.Message;
+        //                    result = new ResultModel<QuestionSetHeaderVM>()
+        //                    {
+        //                        Status = Status.Fail,
+        //                        Message = resultVM.Message,
+        //                        Data = model
+        //                    };
+        //                    return Json(result);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                return RedirectToAction("Index");
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Session["result"] = "Fail" + "~" + e.Message;
+        //            Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //            return View("Create", model);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        result = new ResultModel<QuestionSetHeaderVM>()
+        //        {
+        //            Success = false,
+        //            Status = Status.Fail,
+        //            Message = "Model State Error!",
+        //            Data = model
+        //        };
+        //        return Json(result);
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult Edit(string id)
