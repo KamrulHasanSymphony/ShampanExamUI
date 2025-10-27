@@ -104,8 +104,10 @@
     <Compile Include="QuestionVM\QuestionChapterVM.cs" />
     <Compile Include="QuestionVM\QuestionHeaderVM.cs" />
     <Compile Include="QuestionVM\QuestionOptionDetailVM.cs" />
+    <Compile Include="QuestionVM\questionRequest.cs" />
     <Compile Include="QuestionVM\QuestionSetDetailVM.cs" />
     <Compile Include="QuestionVM\QuestionSetHeaderVM.cs" />
+    <Compile Include="QuestionVM\QuestionSetQuestionVM.cs" />
     <Compile Include="QuestionVM\QuestionShortDetailVM.cs" />
     <Compile Include="QuestionVM\QuestionSubjectVM.cs" />
     <Compile Include="SetUpVMs\UserBranchProfileVM.cs" />

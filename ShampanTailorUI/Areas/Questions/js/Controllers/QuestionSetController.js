@@ -14,32 +14,7 @@
         GetQuestionSubjectComboBox();
         GetQuestionChapterComboBox();
         LoadQuestionsBySubjectChapter();
-        //function GetQuestionSubjectComboBox() {
-        //    debugger;
-        //    var QuestionSubjectComboBox = $("#QuestionSubjectId").kendoMultiColumnComboBox({
-        //        dataTextField: "Name",
-        //        dataValueField: "Id",
-        //        height: 400,
-        //        columns: [
-        //            { field: "Name", title: "Name", width: 150 },
-        //            { field: "Remarks", title: "Remarks", width: 150 }
-        //        ],
-        //        filter: "contains",
-        //        filterFields: ["Name"],
-        //        dataSource: {
-        //            transport: {
-        //                read: "/Questions/QuestionSubject/Dropdown"
-        //            }
-        //        },
-        //        placeholder: "Select Question Subject",
-        //        change: function (e) {
-        //            var subjectId = this.value();
-        //            if (subjectId) {
-        //                LoadChaptersBySubject(subjectId);
-        //            }
-        //        }
-        //    }).data("kendoMultiColumnComboBox");
-        //}
+  
 
         function GetQuestionSubjectComboBox() {
             var QuestionSubjectComboBox = $("#QuestionSubjectId").kendoMultiColumnComboBox({
@@ -123,75 +98,6 @@
             }).data("kendoMultiColumnComboBox");
         }
 
-
-
-
-        //function GetQuestionChapterComboBox() {
-        //    debugger;
-        //    var QuestionChapterComboBox = $("#QuestionChapterId").kendoMultiColumnComboBox({
-        //        dataTextField: "Name",
-        //        dataValueField: "Id",
-        //        height: 400,
-        //        columns: [
-        //            { field: "Name", title: "Name", width: 150 },
-        //            { field: "Remarks", title: "Remarks", width: 150 }
-        //        ],
-        //        filter: "contains",
-        //        filterFields: ["Name"],
-        //        dataSource: {
-        //            transport: {
-        //                read: "/Questions/QuestionChapter/Dropdown"
-        //            }
-        //        },
-        //        placeholder: "Select Question Chapter",
-        //        change: function (e) {
-        //            debugger;
-        //            var subjectId = $("#QuestionSubjectId").val();
-        //            var chapterId = this.value();
-        //            if (subjectId && chapterId) {
-        //                LoadQuestionsBySubjectChapter(subjectId, chapterId);
-        //            }
-        //        }
-        //    }).data("kendoMultiColumnComboBox");
-        //}
-
-        //function LoadQuestionsBySubjectChapter(subjectId, chapterId) {
-        //    $("#questionTable").kendoGrid({
-        //        dataSource: {
-        //            transport: {
-        //                read: {
-        //                    url: '/Questions/QuestionHeader/Dropdown',
-        //                    data: {
-        //                        subjectId: subjectId,
-        //                        chapterId: chapterId
-        //                    },
-        //                    dataType: 'json',
-        //                    type: 'GET'
-        //                }
-        //            },
-        //            schema: {
-        //                data: 'Items',
-        //                total: 'TotalCount'
-        //            },
-        //            pageSize: 10
-        //        },
-        //        height: 300,
-        //        sortable: true,
-        //        pageable: true,
-        //        selectable: 'row',
-        //        columns: [
-        //            {
-        //                title: "Action",
-        //                width: 60,
-        //                template: "<button class='btn btn-sm btn-success k-grid-select' title='Select'><i class='fa fa-arrow-right'></i></button>"
-        //            },
-        //            { field: "Id", title: "ID", hidden: true, width: 60 },
-        //            { field: "QuestionText", title: "Question Text", width: "50%" },
-        //            { field: "QuestionType", title: "Type", width: "20%" },
-        //            { field: "QuestionMark", title: "Mark", width: "10%" }
-        //        ]
-        //    });
-        //}
         function LoadQuestionsBySubjectChapter(subjectId, chapterId) {
 
             var SupplierComboBox = $("#FromShedId").kendoMultiColumnComboBox({
@@ -229,7 +135,7 @@
                         }
                     }
                 },
-                placeholder: "change Shed", // Set the placeholder
+                placeholder: "change Shed", 
                 value: "",
                 dataBound: function (e) {
                     if (getFromShedId) {
@@ -248,48 +154,6 @@
             }).data("kendoMultiColumnComboBox");
         }
 
-
-        //function LoadQuestionsBySubjectChapter(subjectId, chapterId) {
-        //    // Initialize Kendo Grid to display questions
-        //    $("#questionTable").kendoGrid({
-        //        dataSource: {
-        //            transport: {
-        //                read: {
-        //                    url: '/Questions/QuestionHeader/Dropdown',
-        //                    data: {
-        //                        subjectId: subjectId,
-        //                        chapterId: chapterId
-        //                    },
-        //                    dataType: 'json',
-        //                    type: 'GET'
-        //                }
-        //            },
-        //            schema: {
-        //                data: 'Items',
-        //                total: 'TotalCount'
-        //            },
-        //            pageSize: 10
-        //        },
-        //        height: 300,
-        //        sortable: true,
-        //        pageable: true,
-        //        selectable: 'row',
-        //        columns: [
-        //            {
-        //                title: "Action",
-        //                width: 60,
-        //                template: "<button class='btn btn-sm btn-success k-grid-select' title='Select'><i class='fa fa-arrow-right'></i></button>"
-        //            },
-        //            { field: "Id", title: "ID", hidden: true, width: 60 },
-        //            { field: "QuestionText", title: "Question Text", width: "50%" },
-        //            { field: "QuestionType", title: "Type", width: "20%" },
-        //            { field: "QuestionMark", title: "Mark", width: "10%" }
-        //        ]
-        //    });
-        /*}*/
-
-
-
         $("#gridFromShed").on("click", "tr", function (e) {
             const grid = $("#gridFromShed").data("kendoGrid");
             ;
@@ -306,8 +170,6 @@
             const toGrid = $("#gridToShed").data("kendoGrid");
             const toItem = toGrid.dataItem($(this).closest("tr")); // keep this
 
-            //const toRow = $(this).closest("tr");
-            //const toItem = toGrid.dataItem(toRow);
             tofarmId = toItem.FarmId;
 
             if (!selectedFromRow) {
@@ -362,73 +224,6 @@
 
         });
 
-
-        //function LoadQuestionsBySubjectChapter(subjectId, chapterId) {
-        //    debugger;
-        //    $('#QuestionChapterId').change(function () {
-        //        debugger;
-        //        var subjectId = $('#QuestionSubjectId').val();
-        //        var chapterId = $(this).val();
-
-        //        if (subjectId && chapterId) {
-        //            $.ajax({
-        //                url: '/Questions/QuestionHeader/Dropdown',
-        //                type: 'GET',
-        //                data: { subjectId: subjectId, chapterId: chapterId },
-        //                success: function (data) {
-        //                    debugger;
-        //                    var html = '';
-        //                    if (data && data.length > 0) {
-        //                        $.each(data, function (i, item) {
-        //                            html += '<tr>' +
-        //                                '<td>' + (i + 1) + '</td>' +
-        //                                '<td>' + item.QuestionText + '</td>' +
-        //                                '<td>' + item.QuestionType + '</td>' +
-        //                                '<td>' + item.QuestionMark + '</td>' +
-        //                                '</tr>';
-        //                        });
-        //                    } else {
-        //                        html = '<tr><td colspan="4" class="text-center text-muted">No questions found</td></tr>';
-        //                    }
-        //                    $('#questionTable tbody').html(html);
-        //                },
-        //                error: function (xhr, status, error) {
-        //                    console.error("Error loading questions:", error);
-        //                }
-        //            });
-        //        } else {
-        //            // Reset table if chapter not selected
-        //            $('#questionTable tbody').html('<tr><td colspan="4" class="text-center text-muted">Select chapter to load questions</td></tr>');
-        //        }
-        //    });
-        //    //$("#questionDetailsGrid").kendoGrid({
-        //    //    dataSource: {
-        //    //        transport: {
-        //    //            read: {
-        //    //                url: "/Questions/QuestionHeader/Dropdown",
-        //    //                data: {
-        //    //                    subjectId: subjectId,
-        //    //                    chapterId: chapterId
-        //    //                },
-        //    //                dataType: "json"
-        //    //            }
-        //    //        },
-        //    //        pageSize: 10
-        //    //    },
-        //    //    pageable: true,
-        //    //    filterable: true,
-        //    //    selectable: "row",
-        //    //    columns: [
-        //    //        { field: "Id", hidden: true },
-        //    //        { field: "QuestionText", title: "Question Text", width: "50%" },
-        //    //        { field: "QuestionType", title: "Type", width: "20%" },
-        //    //        { field: "QuestionMark", title: "Mark", width: "10%" }
-        //    //    ]
-        //    //});
-        //}
-
-
-        // Initialize the question details grid
         var $table = $('#questionDetails');
         var table = initEditTable($table, { searchHandleAfterEdit: false });
 

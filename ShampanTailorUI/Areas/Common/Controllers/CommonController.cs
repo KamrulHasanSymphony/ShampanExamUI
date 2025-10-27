@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
 using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo;
 using ShampanExamUI.Persistence;
@@ -362,6 +363,38 @@ namespace ShampanExamUI.Areas.Common.Controllers
             }
         }
 
+
+        [HttpPost]
+        public JsonResult GetAllQuestionsByChapter(GridOptions options,string QuestionchapterId)
+        {
+
+
+            ResultVM result = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+            try
+            {
+
+                result = _repo.GetAllQuestionsByChapter(options, QuestionchapterId);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<QuestionHeaderVM>>(result.DataVM.ToString());
+
+                    return Json(new
+                    {
+                        Items = gridData.Items,
+                        TotalCount = gridData.TotalCount
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { Error = true, Message = "No data found." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
     }
 }

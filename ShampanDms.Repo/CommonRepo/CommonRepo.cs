@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Shampan.Services.CommonKendo;
 using ShampanExam.Models;
+using ShampanExam.Models.KendoCommon;
 using ShampanExam.Repo.Configuration;
+using ShampanTailor.Models.QuestionVM;
 using System;
 using System.Collections.Generic;
 using static ShampanExam.Models.CommonModel;
@@ -553,6 +555,39 @@ namespace ShampanExam.Repo
                 #endregion
 
 
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        public ResultVM GetAllQuestionsByChapter(GridOptions options,string QuestionchapterId)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
+
+                #region Invoke API 
+                var requestPayload = new questionRequest
+                {
+                    Options = options,
+                    ChapterID = QuestionchapterId
+                };
+
+                var data = httpRequestHelper.PostData("api/Common/GetAllQuestionsByChapter", authModel,
+                    JsonConvert.SerializeObject(requestPayload, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    }));
+
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+
+                #endregion
 
                 return result;
             }

@@ -1,0 +1,143 @@
+﻿@using Newtonsoft.Json
+@model ShampanExam.Models.QuestionVM.QuestionSetHeaderVM
+@{
+    ViewBag.Title = "Question Set Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0"> Question Set Entry </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li id="btnBack"><img src="~/Content/css/ButtonsIcons/back-icon.png" title="Click for Go Back" /></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Buttons -->
+<div class="card">
+    <div class="card-header p-2">
+        @if (Model.IsPost)
+        {
+            <button type="button" class="button sslPush">Already Posted</button>
+        }
+        else if (Model.Operation.Equals("update", StringComparison.OrdinalIgnoreCase))
+        {
+            <button style="float:right;" type="button" title="Add New" data-url="/Exam/QuestionSet/Create" onclick="GoTo(this)" class="button NewButton addNewButton">New</button>
+            <button type="button" class="button btnsave sslUpdate">Update</button>
+            <button type="button" class="button btnPost sslPost">Post</button>
+        }
+        else
+        {
+            <div class="divSave">
+                <button class="button btnsave sslSave" type="button">Save</button>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Form -->
+<div class="container-fluid">
+    <form id="frmEntry">
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Operation)
+        @Html.HiddenFor(m => m.IsPost)
+        @Html.Hidden("detailsListJson", JsonConvert.SerializeObject(Model.questionSetDetailList ?? new List<ShampanExam.Models.QuestionVM.QuestionSetDetailVM>()))
+        @*@Html.Hidden("questionadddetailsListJson", JsonConvert.SerializeObject(Model.questionSetQuestionList ?? new List<ShampanExam.Models.QuestionVM.QuestionSetQuestionVM>()))*@
+
+        <div class="card card-secondary">
+            <div class="card-header"><h3 class="card-title">Question Set Info</h3></div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control form-control-sm", placeholder = "Enter Set Name" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(m => m.QuestionSubjectId)
+                        @Html.TextBoxFor(m => m.QuestionSubjectId, new { @class = "form-control form-control-sm", placeholder = "Select Subject" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(m => m.QuestionChapterId)
+                        @Html.TextBoxFor(m => m.QuestionChapterId, new { @class = "form-control form-control-sm", placeholder = "Select Chapter" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.LabelFor(m => m.TotalMark)
+                        @Html.TextBoxFor(m => m.TotalMark, new { @class = "form-control form-control-sm NumericCheck", placeholder = "Total Mark" })
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.LabelFor(m => m.Remarks)
+                        @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control form-control-sm", placeholder = "Remarks" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Grids Section -->
+
+        <div class="card card-secondary">
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-secondary">
+                        <div class="card-header" id="QuestionToggle">
+                            <h3 class="card-title">Question List</h3>
+                        </div>
+                        <div class="card-body" id="Questionsection">
+                            <div id="kAllQuestions"></div>
+                            <div class="mt-2">
+                                <button id="btnAddQuestion" class="NewButton" title="Add for Question">
+                                    <i class="fa fa-arrow-right"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-secondary">
+                        <div class="card-header" id="addedQuestionToggle">
+                            <h3 class="card-title">Added Question List</h3>
+                        </div>
+                        <div class="card-body" id="addedQuestionsection">
+                            <div id="kAddedQuestions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Audit Section -->
+        <div class="card card-secondary mt-3 auditcard">
+            <div class="card-header"><h3 class="card-title">Audit Info</h3></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">@Html.Label("Created By") @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control form-control-sm", @readonly = "readonly" })</div>
+                    <div class="col-sm-3">@Html.Label("Created On") @Html.TextBoxFor(m => m.CreatedAt, new { @class = "form-control form-control-sm", @readonly = "readonly" })</div>
+                    <div class="col-sm-3">@Html.Label("Updated By") @Html.TextBoxFor(m => m.LastUpdateBy, new { @class = "form-control form-control-sm", @readonly = "readonly" })</div>
+                    <div class="col-sm-3">@Html.Label("Updated On") @Html.TextBoxFor(m => m.LastUpdateAt, new { @class = "form-control form-control-sm", @readonly = "readonly" })</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script src="~/Areas/Common/js/Services/CommonService.js"></script>
+    <script src="~/Areas/Common/js/Services/CommonAjaxService.js"></script>
+    <script src="~/Areas/Questions/js/Controllers/QuestionSetsController.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            QuestionSetsController.init();
+        });
+    </script>
+}

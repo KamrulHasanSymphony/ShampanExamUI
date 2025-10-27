@@ -422,6 +422,7 @@
     <Compile Include="Areas\Questions\Controllers\QuestionController.cs" />
     <Compile Include="Areas\Questions\Controllers\QuestionHeaderController.cs" />
     <Compile Include="Areas\Questions\Controllers\QuestionSetController.cs" />
+    <Compile Include="Areas\Questions\Controllers\QuestionSetsController.cs" />
     <Compile Include="Areas\Questions\Controllers\QuestionSubjectController.cs" />
     <Compile Include="Areas\SetUp\Controllers\FiscalYearController.cs" />
     <Compile Include="Areas\SetUp\Controllers\ProductController.cs" />
@@ -456,6 +457,7 @@
     <Content Include="Areas\Questions\js\Controllers\QuestionController.js" />
     <Content Include="Areas\Questions\js\Controllers\QuestionHeaderController.js" />
     <Content Include="Areas\Questions\js\Controllers\QuestionSetController.js" />
+    <Content Include="Areas\Questions\js\Controllers\QuestionSetsController.js" />
     <Content Include="Areas\Questions\js\Controllers\QuestionSubjectController.js" />
     <Content Include="Areas\SetUp\js\Controller\FiscalYearsController.js" />
     <Content Include="Areas\SetUp\js\Controller\ProductController.js" />
@@ -2612,6 +2614,8 @@
     <Content Include="Areas\Exam\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Exam\Views\web.config" />
     <Content Include="Areas\Exam\Views\Exam\Index.cshtml" />
+    <Content Include="Areas\Questions\Views\QuestionSets\Create.cshtml" />
+    <Content Include="Areas\Questions\Views\QuestionSets\Index.cshtml" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\assets\kendoUI2021\kendo\kendo.all.min.js" />
