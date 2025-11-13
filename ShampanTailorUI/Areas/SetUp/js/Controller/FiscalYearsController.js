@@ -392,7 +392,7 @@
         if (operation == 'add') {
             $('#fiscalYearDetails .card-body').each(function () {
                 var row = $(this);
-                debugger;
+                
                 // Create an object for each row's data
                 var detail = {
                     Id: row.find('input[name$=".Id"]').val(),

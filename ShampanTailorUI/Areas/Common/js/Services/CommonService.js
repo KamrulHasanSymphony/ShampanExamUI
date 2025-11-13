@@ -127,7 +127,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -161,7 +161,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {                
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -200,7 +200,7 @@
 
 
     var ItemMesurementModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -217,7 +217,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -251,7 +251,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -289,7 +289,7 @@
     };
 
     var ItemModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -306,7 +306,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -340,7 +340,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -393,7 +393,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var ItemModalForMakingCharge = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -410,7 +410,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -444,7 +444,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -497,7 +497,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var ItemModalForFacric = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -514,7 +514,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -548,7 +548,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -603,7 +603,7 @@
 
 
     var MesurementModal = function (Id, itemId, OrderMasterId, done, fail, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
 
@@ -642,7 +642,7 @@
         }
 
         function initializeDataTable(Id, itemId, OrderMasterId) {
-            debugger;
+            
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
@@ -655,7 +655,7 @@
                     url: '/Common/Common/GetMesurementForOrderData',
                     type: 'POST',
                     data: function (d) {
-                        debugger;
+                        
                         d.Id = Id;
                         d.ItemIdField = itemId;
                         d.OrderMasterIdField = OrderMasterId;
@@ -703,7 +703,7 @@
     };
 
     var ItemDesignModal = function (Id, itemId, OrderMasterId, done, fail, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
 
@@ -742,7 +742,7 @@
         }
 
         function initializeDataTable(Id, itemId, OrderMasterId) {
-            debugger;
+            
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
@@ -755,7 +755,7 @@
                     url: '/Common/Common/GetItemDesignModalData',
                     type: 'POST',
                     data: function (d) {
-                        debugger;
+                        
                         d.Id = Id;
                         d.ItemIdField = itemId;
                         d.OrderMasterIdField = OrderMasterId;
@@ -790,7 +790,7 @@
 
 
     var OrderMesurementModal = function (itemId, OrderMasterId, done, fail, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
 
@@ -831,7 +831,7 @@
 
         // DataTable initialization with ItemId and OrderMasterId
         function initializeDataTable(itemId, OrderMasterId) {
-            debugger;
+            
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
@@ -875,7 +875,7 @@
 
 
     var ItemDesignCategoryModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -892,7 +892,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -926,7 +926,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -963,7 +963,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var UomModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -980,7 +980,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -1014,7 +1014,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -1051,7 +1051,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var FabricSourceModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -1068,7 +1068,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -1102,7 +1102,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -1138,7 +1138,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var DesignTypeModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -1155,7 +1155,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -1189,7 +1189,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -1225,7 +1225,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var DesignFollowedModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -1242,7 +1242,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -1276,7 +1276,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,
@@ -1312,7 +1312,7 @@
         }).done(onSuccess).fail(onFail);
     };
     var SampleItemModal = function (done, fail, dblCallBack, closeCallback) {
-        debugger;
+        
         var modalId = "#partialModal";
         var dataTableId = "#modalData";
         function showModal(html) {
@@ -1329,7 +1329,7 @@
             if (typeof done === "function") {
                 done(result);
             }
-            debugger;
+            
             bindDoubleClick(dblCallBack);
             bindModalClose(closeCallback);
             initializeDataTable();
@@ -1363,7 +1363,7 @@
             if ($.fn.DataTable.isDataTable(dataTableId)) {
                 $(dataTableId).DataTable().clear().destroy();
             }
-            debugger;
+            
             $(dataTableId).DataTable({
                 orderCellsTop: true,
                 fixedHeader: true,

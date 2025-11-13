@@ -17,7 +17,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
         GetQuestionSetComboBox();
 
         function GetGradeComboBox() {
-            debugger;
+            
             var GradeComboBox = $("#GradeId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
@@ -43,7 +43,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
             }).data("kendoMultiColumnComboBox");
         };
         function GetExamineeGroupComboBox() {
-            debugger;
+            
             var ExamineeGroupComboBox = $("#ExamineeGroupId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
@@ -69,7 +69,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
             }).data("kendoMultiColumnComboBox");
         };
         function GetQuestionSetComboBox() {
-            debugger;
+            
             var QuestionSetComboBox = $("#QuestionSetId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
@@ -98,7 +98,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
 
         // Save button click handler
         $('.btnsave').click('click', function () {
-            debugger;
+            
             var getId = $('#Id').val();
             var status = "Save";
             if (parseInt(getId) > 0) {

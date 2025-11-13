@@ -84,7 +84,7 @@ var GradeController = function (CommonService, CommonAjaxService) {
         });
         // Save button click handler
         $('.btnsave').click('click', function () {
-            debugger;
+            
             var getId = $('#Id').val();
             var status = "Save";
             if (parseInt(getId) > 0) {
@@ -359,7 +359,7 @@ var GradeController = function (CommonService, CommonAjaxService) {
 
         // Save the form data
         function save($table) {
-            debugger;
+            
             var validator = $("#frmEntry").validate();
             if (!validator.form()) {
                 validator.focusInvalid();

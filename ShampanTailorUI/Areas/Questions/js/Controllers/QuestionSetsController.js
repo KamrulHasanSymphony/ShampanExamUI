@@ -364,7 +364,7 @@
                 template: "<div class='text-center p-3'>No questions found for this chapter.</div>"
             },
             dataBound: function () {
-                debugger;
+                
                 $("#kAllQuestions .k-grid-add-question").off("click").on("click", function (e) {
                     e.preventDefault(); 
                     e.stopPropagation(); 
@@ -378,7 +378,7 @@
     }
 
     $("#btnAddQuestion").click(function (e) {
-        debugger;
+        
         e.preventDefault();
         var grid = $("#kAllQuestions").data("kendoGrid");
         var selectedRows = grid.select();
@@ -415,7 +415,7 @@
 
     // ✅ Function: Add Question to "Added" Grid
     function AddQuestionToSet(dataItem) {
-        debugger;
+        
         var addedGrid = $("#kAddedQuestions").data("kendoGrid");
         if (!addedGrid) {
             $("#kAddedQuestions").kendoGrid({
@@ -463,7 +463,7 @@
 
     // Fetch grid data for the list
     function GetGridDataList() {
-        debugger;
+        
         var gridDataSource = new kendo.data.DataSource({
             type: "json",
             serverPaging: true,
@@ -712,7 +712,7 @@
 
     // Save the form data
     function save() {
-        debugger;
+        
         var validator = $("#frmEntry").validate();
         if (!validator.form()) {
             validator.focusInvalid();
@@ -902,7 +902,7 @@ function ReportPreview(id) {
 
 //        // If in create/edit mode
 //        if (getOperation !== '') {
-//            debugger;
+//            
 //            GetQuestionSubjectComboBox();
 //            LoadChaptersBySubject(getQuestionSubjectId);
 //            GetCategoryComboBox();
@@ -981,7 +981,7 @@ function ReportPreview(id) {
 //        });
 //        // ✅ Load Question Subject Dropdown
 //        function GetQuestionSubjectComboBox() {
-//            debugger;
+//            
 //            $("#QuestionSubjectId").kendoMultiColumnComboBox({
 //                dataTextField: "Name",
 //                dataValueField: "Id",
@@ -1002,7 +1002,7 @@ function ReportPreview(id) {
 //                },
 //                placeholder: "Select Question Subject",
 //                change: function (e) {
-//                    debugger;
+//                    
 //                    const subjectId = this.value();
 //                    if (subjectId && subjectId !== "0") {
 //                        LoadChaptersBySubject(subjectId);
@@ -1021,7 +1021,7 @@ function ReportPreview(id) {
 
 //        // ✅ Load Chapter Dropdown based on Subject
 //        function LoadChaptersBySubject(subjectId) {
-//            debugger;
+//            
 //            const combo = $("#QuestionChapterId").data("kendoMultiColumnComboBox");
 
 //            if (combo) {
@@ -1057,7 +1057,7 @@ function ReportPreview(id) {
 //                    },
 //                    placeholder: "Select Question Chapter",
 //                    change: function () {
-//                        debugger;
+//                        
 //                        const chapterId = this.value();
 //                        if (chapterId && chapterId !== "0") {
 //                            LoadQuestionGrids(chapterId);
@@ -1070,7 +1070,7 @@ function ReportPreview(id) {
 
 //        // ✅ Load Question Grids based on Chapter
 //        function LoadQuestionGrids(chapterId) {
-//            debugger;
+//            
 //            // 🔹 Grid for All Questions
 //            $("#kAllQuestions").kendoGrid({
 //                dataSource: {

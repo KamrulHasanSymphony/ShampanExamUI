@@ -3,13 +3,13 @@
 
     //$(this).keypress(function (e) {
     //    if (e.keyCode == '13') {
-    //        debugger;
+    //        
     //        console.log(multiSelect.values());
     //    }
     //});
 
     multiSelect.bind('filtering', function (ev) {
-        debugger;
+        
         var val = ev.filter && ev.filter.value;
         if (!val) return;
         var keyCode = val.charCodeAt(0);
@@ -41,7 +41,7 @@
 
     // cleans input items and also applies an optional value transformation function
     var updateValues = function (ev) {
-        debugger;
+        
         var values = ev.sender.value();
         if (typeof options.valueTransformationFunction === 'function') {
             // for example split comma separated values

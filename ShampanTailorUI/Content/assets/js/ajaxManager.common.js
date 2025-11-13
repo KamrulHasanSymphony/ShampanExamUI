@@ -19,7 +19,7 @@ var AjaxManager = {
     },
 
     isValidDate: function (ctrlId) {
-        debugger;
+        
         var res = false;
         var dateTo = $("#" + ctrlId).val();
         if (!AjaxManager.isDate(dateTo)) {
@@ -43,7 +43,7 @@ var AjaxManager = {
 
     //MVC call
     GetJsonResult: function (serviceUrl, jsonParams, isAsync, isCache, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             type: "GET",
             async: isAsync,
@@ -57,7 +57,7 @@ var AjaxManager = {
         });
     },
     GetJsonResult3: function (serviceUrl, jsonParams, isAsync, isCache, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             type: "POST",
             async: isAsync,
@@ -71,7 +71,7 @@ var AjaxManager = {
         });
     },
     GetJsonResult2: function (serviceUrl, jsonParams, isAsync, isCache, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             type: "GET",
             async: isAsync,
@@ -85,7 +85,7 @@ var AjaxManager = {
         });
     },
     GetJsonResultPOST: function (serviceUrl, jsonParams, isAsync, isCache, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             type: "POST",
             async: isAsync,
@@ -99,7 +99,7 @@ var AjaxManager = {
         });
     },
     GetAPI: function (serviceUrl, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             type: "GET",
             url: serviceUrl,
@@ -109,7 +109,7 @@ var AjaxManager = {
         });
     },
     GetDataSource: function (serviceUrl, jsonParams) {
-        debugger;
+        
         var objResult = new Object();
         $.ajax({
             type: "GET",
@@ -120,7 +120,7 @@ var AjaxManager = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (jsonResult) {
-                debugger;
+                
                 objResult = jsonResult;
             },
             error: function (error) {
@@ -131,7 +131,7 @@ var AjaxManager = {
         return objResult;
     },
     GetJson: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             data: jsonParams,
@@ -144,7 +144,7 @@ var AjaxManager = {
         });
     },
     SendJson: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             data: jsonParams,
@@ -156,7 +156,7 @@ var AjaxManager = {
         });
     },
     SendJson2: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -171,7 +171,7 @@ var AjaxManager = {
 
     //For API
     SendJsonApi: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             url: serviceUrl,
             type: 'POST',
@@ -183,7 +183,7 @@ var AjaxManager = {
         });
     },
     SendJsonApiForImage: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             url: serviceUrl,
             type: 'POST',
@@ -222,7 +222,7 @@ var AjaxManager = {
          */
     },
     PostJsonApi: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             url: serviceUrl,
             type: 'POST',
@@ -235,7 +235,7 @@ var AjaxManager = {
         });
     },
     PutJsonApi: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             url: serviceUrl,
             type: 'PUT',
@@ -248,7 +248,7 @@ var AjaxManager = {
         });
     },
     DeleteJsonApi: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         $.ajax({
             url: serviceUrl,
             type: 'DELETE',
@@ -262,7 +262,7 @@ var AjaxManager = {
     //API END
 
     SendJson3: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: true,
@@ -275,7 +275,7 @@ var AjaxManager = {
         });
     },
     SendJsonWithToken: function (serviceUrl, jsonParams, successCallback, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -293,7 +293,7 @@ var AjaxManager = {
     },
 
     GetReport: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -310,7 +310,7 @@ var AjaxManager = {
         });
     },
     GetReportCR: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -324,7 +324,7 @@ var AjaxManager = {
         });
     },
     GetPayrollReportViewer: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -339,7 +339,7 @@ var AjaxManager = {
     },
 
     PrintReport: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -352,7 +352,7 @@ var AjaxManager = {
 
     },
     GetRdlcReport: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -369,7 +369,7 @@ var AjaxManager = {
 
     },
     GetRdlcReportCommon: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -386,7 +386,7 @@ var AjaxManager = {
         });
     },
     OpenAReport: function (serviceUrl, jsonParams, errorCallback) {
-        debugger;
+        
         jQuery.ajax({
             url: serviceUrl,
             async: false,
@@ -406,7 +406,7 @@ var AjaxManager = {
     //Custome Message Box designed By Ashraful
     //======================================================================================
     MsgBox: function (messageBoxType, displayPosition, messageBoxHeaderText, messageText, buttonsArray) {
-        debugger;
+        
         var n = noty({
             textHeader: messageBoxHeaderText,
             text: messageText,
@@ -421,7 +421,7 @@ var AjaxManager = {
     },
     //======================================================================================
     MsgBox2: function (messageBoxType, displayPosition, messageBoxHeaderText, messageText, buttonsArray) {
-        debugger;
+        
         var n = noty({
             textHeader: messageBoxHeaderText,
             text: messageText,
@@ -436,7 +436,7 @@ var AjaxManager = {
     },
     //never delete , already used this function
     MsgBox3: function (messageBoxType, displayPosition, messageBoxHeaderText, messageText) {
-        debugger;
+        
         var n = noty({
             textHeader: messageBoxHeaderText,
             text: "<b>" + messageText + "</b><br/><br/>",
@@ -460,7 +460,7 @@ var AjaxManager = {
         // $(".btn-primary").focus();
     },
     NotifyMsg: function (identity, msgType, positoin, autoHideTime, message) {
-        debugger;
+        
         //msgType=success,error,warn,info
         $("#" + identity).notify(
             message,
@@ -497,7 +497,7 @@ var AjaxManager = {
     },
 
     getGridConfig: function (opt, urllink, sortColumnName, orderBy) {
-        debugger;
+        
         return $.extend(true, {
             url: urllink,
             datatype: 'json',
@@ -523,19 +523,19 @@ var AjaxManager = {
         }, opt);
     },
     multilineGridColumn: function (el, cellval, opts) {
-        debugger;
+        
         $(el).attr('style', 'white-space: normal;');
         $(el).html(cellval);
         //return 'style="white-space: normal;'
     },
     disablePopup: function (popupDivName, backgroundDivName) {
-        debugger;
+        
         $(popupDivName).fadeOut("slow");
         $(backgroundDivName).fadeOut("slow");
     },
 
     centerPopup: function (popupDivName) {
-        debugger;
+        
         var windowWidth = document.documentElement.clientWidth;
         var windowHeight = document.documentElement.clientHeight;
         var popupHeight = $(popupDivName).height();
@@ -556,7 +556,7 @@ var AjaxManager = {
     },
 
     PopupWindow: function (ctrId, title, width) {
-        debugger;
+        
         $("#" + ctrId).kendoWindow({
             title: title,
             resizeable: false,
@@ -570,7 +570,7 @@ var AjaxManager = {
     },
 
     initPopupWindow: function (ctrId, title, width) {
-        debugger;
+        
         $("#" + ctrId).kendoWindow({
             title: title,
             resizeable: false,
@@ -582,7 +582,7 @@ var AjaxManager = {
     },
 
     showlink: function (el, cellval, opts) {
-        debugger;
+        
         var op = { baseLinkUrl: opts.baseLinkUrl, showAction: opts.showAction, addParam: opts.addParam };
         if (!isUndefined(opts.colModel.formatoptions)) {
             op = $.extend({}, op, opts.colModel.formatoptions);
@@ -595,17 +595,17 @@ var AjaxManager = {
         }
     },
     jqGridDate: function (el, cellval, opts) {
-        debugger;
+        
         if (!isEmpty(cellval) && cellval != "/Date(-62135596800000)/")
             $(el).html(AjaxManager.changeDateFormat(cellval, 0));
     },
     jqGridDateTime: function (el, cellval, opts) {
-        debugger;
+        
         if (!isEmpty(cellval) && cellval != "/Date(-62135596800000)/")
             $(el).html(AjaxManager.changeDateFormat(cellval, 1));
     },
     changeDateFormat: function (value, isTime) {
-        debugger;
+        
         var time = value.replace(/\/Date\(([0-9]*)\)\//, '$1');
         var date = new Date();
         date.setTime(time);
@@ -617,7 +617,7 @@ var AjaxManager = {
         }
     },
     getCurrentDateTime: function () {
-        debugger;
+        
         var date = new Date();
         var day = (date.getDate().toString().length == 2 ? date.getDate() : '0' + date.getDate()).toString();
         var month = ((date.getMonth() + 1).toString().length == 2 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)).toString();
@@ -641,7 +641,7 @@ var AjaxManager = {
         return CurrentDateTime;
     },
     changeToSQLDateFormat: function (value, isTime) {
-        debugger;
+        
         if (value != "/Date(-62135596800000)/") {
             var time = value.replace(/\/Date\(([0-9]*)\)\//, '$1');
             var date = new Date();
@@ -661,7 +661,7 @@ var AjaxManager = {
 
     },
     changeReverseDateFormat: function (value) {
-        debugger;
+        
         dtvalue = value.split('-');
         var datetime = dtvalue[1] + "/" + dtvalue[0] + "/" + dtvalue[2];
         return datetime;
@@ -676,7 +676,7 @@ var AjaxManager = {
         }
     },
     getDayDifference: function (date1, date2) {
-        debugger;
+        
         // The number of milliseconds in one day
         var ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -692,7 +692,7 @@ var AjaxManager = {
 
     },
     hideMasterDetailsForPrint: function () {
-        debugger;
+        
         $("#header").hide();
         $("#dynamicmenu").hide();
         $("#divWelcome").hide();
@@ -706,7 +706,7 @@ var AjaxManager = {
         $("#footer").hide();
     },
     showMasterDetailsForPrint: function () {
-        debugger;
+        
         $("#header").show();
         $("#dynamicmenu").show();
         $("#divWelcome").show();
@@ -720,7 +720,7 @@ var AjaxManager = {
         $("#footer").show();
     },
     daysBetween: function (date1, date2) {
-        debugger;
+        
         // The number of milliseconds in one day
         var ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -755,7 +755,7 @@ var AjaxManager = {
         return !((s != null) && /^\s*(\S+(\s+\S+)*)\s*$/.test(s));
     },
     checkSpecialCharacters: function (id) {
-        debugger;
+        
         var checkString = $("#" + id).val();
         var regex = /[^\w\s&]/gi;
         if (checkString != "") {
@@ -779,7 +779,7 @@ var AjaxManager = {
 
     },
     replaceSingleQoute: function (id) {
-        debugger;
+        
         var checkString = $("#" + id).val();
         checkString = checkString.replace(/'/g, "''");
         return checkString;
@@ -788,7 +788,7 @@ var AjaxManager = {
 
 
     validator: function (divId) {
-        debugger;
+        
         var validator = divId.kendoValidator().data("kendoValidator"),
             status = $(".status");
 
@@ -806,7 +806,7 @@ var AjaxManager = {
         return (s.replace(/\s+/g, ' ')).trim();
     },
     isValidItem: function (ctrlId, isClear) {
-        debugger;
+        
         var cmbBox = $("#" + ctrlId).data("kendoComboBox");
 
         if (cmbBox.value() != "" && cmbBox.value() == cmbBox.text()) {
@@ -837,7 +837,7 @@ var AjaxManager = {
     //}
 
     Error: function (message) {
-        debugger;
+        
         message = $.trim(message) === "" ? "Error Found" : message;
         Swal.fire({
             position: 'top-end',
@@ -848,7 +848,7 @@ var AjaxManager = {
         });
     },
     Warning: function (message) {
-        debugger;
+        
         message = $.trim(message) === "" ? "Warning !!!" : message;
         Swal.fire({
             position: 'top-end',
@@ -859,7 +859,7 @@ var AjaxManager = {
         });
     },
     Success: function (message) {
-        debugger;
+        
         message = $.trim(message) === "" ? "Successfully Saved" : message;
         Swal.fire({
             position: 'top-end',
@@ -870,7 +870,7 @@ var AjaxManager = {
         });
     },
     Info: function (message) {
-        debugger;
+        
         message = $.trim(message) === "" ? "Information" : message;
         Swal.fire({
             position: 'top-end',
@@ -881,7 +881,7 @@ var AjaxManager = {
         })
     },
     Missing: function (message) {
-        debugger;
+        
         message = $.trim(message) === "" ? "Missing Something" : message;
         Swal.fire({
             position: 'top-end',
@@ -1018,7 +1018,7 @@ var currencyConverter = {
     },
 
     digitToWordConverter: function (junkVal) {
-        debugger;
+        
         junkVal = Math.floor(junkVal);
         var obStr = new String(junkVal);
         numReversed = obStr.split("");

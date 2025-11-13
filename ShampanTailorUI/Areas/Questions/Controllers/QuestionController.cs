@@ -50,6 +50,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     model.CreatedOn = DateTime.Now.ToString();
                     model.CreatedFrom = Ordinary.GetLocalIpAddress();
 
+
                     resultVM = _repo.Insert(model);
 
                     if (resultVM.Status == "Success")

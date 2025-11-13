@@ -50,7 +50,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
         });
 
         function GetExamineeGroupComboBox() {
-            debugger;
+            
             var ExamineeGroupComboBox = $("#ExamineeGroupId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",

@@ -11,13 +11,19 @@ var QuestionController = function (CommonService, CommonAjaxService) {
         if (parseInt(getId) == 0 && getOperation == '') {
             GetGridDataList();
         }
-
+        $("#OptionDetails").hide();
+        $("#ShortDetails").hide();
+        if (getOperation === 'update') {
+                var qType = $("#QuestionType").val() || '';
+                OptionDetailsAndShortDetailsControll(qType)
+        }
+ 
         GetQuestionSubjectComboBox();
         GetQuestionChapterComboBox();
         GetQuestionCategoryComboBox();
 
         function GetQuestionSubjectComboBox() {
-            debugger;
+
             var QuestionSubjectComboBox = $("#QuestionSubjectId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
@@ -43,7 +49,7 @@ var QuestionController = function (CommonService, CommonAjaxService) {
             }).data("kendoMultiColumnComboBox");
         };
         function GetQuestionChapterComboBox() {
-            debugger;
+
             var QuestionChapterComboBox = $("#QuestionChapterId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
@@ -69,7 +75,7 @@ var QuestionController = function (CommonService, CommonAjaxService) {
             }).data("kendoMultiColumnComboBox");
         };
         function GetQuestionCategoryComboBox() {
-            debugger;
+
             var QuestionCategoryComboBox = $("#QuestionCategorieId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
@@ -151,7 +157,18 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                 }
             ]
         });
-
+        $('#btnPrevious').click('click', function () {
+            var getId = $('#Id').val();
+            if (parseInt(getId) > 0) {
+                window.location.href = "/Questions/Question/NextPrevious?id=" + getId + "&status=Previous";
+            }
+        });
+        $('#btnNext').click('click', function () {
+            var getId = $('#Id').val();
+            if (parseInt(getId) > 0) {
+                window.location.href = "/Questions/Question/NextPrevious?id=" + getId + "&status=Next";
+            }
+        });
         // Initialize the question short answer details grid
         var $tableShort = $('#questionShortDetails');
         var tableShort = initEditTable($tableShort, { searchHandleAfterEdit: false });
@@ -205,6 +222,11 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                     width: 35
                 }
             ]
+        });
+
+        $("#QuestionType").change(function () {
+            var qType = $(this).val();
+            OptionDetailsAndShortDetailsControll(qType);
         });
 
         // Save button click handler
@@ -329,7 +351,7 @@ var QuestionController = function (CommonService, CommonAjaxService) {
 
         // Save the form data
         function save() {
-            debugger;
+
             var validator = $("#frmEntry").validate();
             if (!validator.form()) {
                 validator.focusInvalid();
@@ -389,12 +411,21 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                 }
             });
 
+
             CommonAjaxService.finalImageSave("/Questions/Question/CreateEdit", formData, saveDone, saveFail);
         }
 
         // Save done handler
         function saveDone(result) {
             if (result.Status == 200) {
+                if (result.Data.Operation == "add") {
+
+                    $("#Code").val(result.Data.Code);
+                    $("#Id").val(result.Data.Id);
+                    $("#Operation").val("update");
+                    $(".divUpdate").show();
+                }
+
                 ShowNotification(1, result.Message);
             } else if (result.Status == 400) {
                 ShowNotification(3, result.Message);
@@ -407,12 +438,22 @@ var QuestionController = function (CommonService, CommonAjaxService) {
         function saveFail(result) {
             ShowNotification(3, "Error during save!");
         }
+        function OptionDetailsAndShortDetailsControll(qType) {
 
-        return {
-            init: init
+            if (qType === "SingleOption" || qType === "MultiOption") {
+                $("#OptionDetails").show();
+                $("#ShortDetails").hide();
+            }
+            else if (qType === "SingleLine" || qType === "MultiLine") {
+                $("#OptionDetails").hide();
+                $("#ShortDetails").show();
+            }
+            else {
+                // Hide both for other types or empty selection
+                $("#OptionDetails, #ShortDetails").hide();
+            }
         };
-    };
-
+    }
     return {
         init: init
     };

@@ -42,7 +42,7 @@
             }).data("kendoMultiColumnComboBox");
         }
         function LoadChaptersBySubject(subjectId) {
-            debugger;
+            
             var chapterDropdown = $("#QuestionChapterId").data("kendoMultiColumnComboBox");
             if (chapterDropdown) {
                 chapterDropdown.setDataSource(new kendo.data.DataSource({
@@ -231,7 +231,7 @@
 
         // Initialize editable grid
         function questionSelectorEditor(container, options) {
-            debugger;
+            
             var wrapper = $('<div class="input-group input-group-sm full-width">').appendTo(container);
 
             // Create input (you can bind value if needed)
@@ -423,7 +423,7 @@
 
         // Save button click handler
         $('.btnsave').click('click', function () {
-            debugger;
+            
             var getId = $('#Id').val();
             var status = "Save";
             if (parseInt(getId) > 0) {
@@ -504,7 +504,7 @@
 
         // Fetch grid data for the list
         function GetGridDataList() {
-            debugger;
+            
             var gridDataSource = new kendo.data.DataSource({
                 type: "json",
                 serverPaging: true,
@@ -700,7 +700,7 @@
 
         // Save the form data
         function save() {
-            debugger;
+            
             var validator = $("#frmEntry").validate();
             if (!validator.form()) {
                 validator.focusInvalid();
