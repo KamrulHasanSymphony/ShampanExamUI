@@ -1,0 +1,222 @@
+﻿@model List<ShampanExam.Models.Exam.QuestionVM>
+
+@{
+    ViewBag.Title = "Exam ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool isSubmitted = Model.FirstOrDefault()?.IsExamSubmitted ?? false;
+
+    // -------------------------------
+    // TOTAL GIVEN MARKS (AUTO SUM)
+    // -------------------------------
+    decimal totalGivenMarks = 0;
+
+}
+
+<div id="tabs">
+    <div class="container-fluid">
+        <div class="mt-3">
+            <div id="tabs-1">
+                <form id="frmEntry">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Exam</h3>
+                        </div>
+
+                        <input type="hidden" id="actionType" name="actionType" />
+
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            var question = Model[i];
+                            totalGivenMarks += question.ExaminerMarks??0;
+                            decimal autoMarks = 0;
+                            if (question.QuestionType.ToLower() == "singleoption")
+                            {
+                                var correct = question.Options.FirstOrDefault(x => x.IsCorrect);
+                                bool isRight = question.SelectedOptionIds?.Contains(correct?.Id ?? 0) == true;
+                                autoMarks = isRight ? question.QuestionMark : 0;
+                            }
+                            else if (question.QuestionType.ToLower() == "multioption")
+                            {
+                                var correctIds = question.Options.Where(x => x.IsCorrect).Select(x => x.Id).ToList();
+                                if (question.SelectedOptionIds != null)
+                                {
+                                    bool allCorrect = correctIds.All(id => question.SelectedOptionIds.Contains(id))
+                                                      && question.SelectedOptionIds.All(id => correctIds.Contains(id));
+                                    autoMarks = allCorrect ? question.QuestionMark : 0;
+                                }
+                            }
+                            else if (question.QuestionType.ToLower() == "singleline")
+                            {
+                                bool isRight = !string.IsNullOrEmpty(question.UserAnswer) &&
+                                               question.UserAnswer.Trim().ToLower() ==
+                                               question.CorrectAnswer?.Trim().ToLower();
+                                autoMarks = isRight ? question.QuestionMark : 0;
+                            }
+
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">
+                                        Question @(i + 1)
+                                        <span class="badge bg-light text-dark float-end">@question.QuestionMark Marks</span>
+                                    </h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <input type="hidden" name="[@i].Id" value="@question.Id" />
+                                        <input type="hidden" name="[@i].ExamId" value="@question.ExamId" />
+                                        <input type="hidden" name="[@i].ExamineeId" value="@question.ExamineeId" />
+                                        <input type="hidden" name="[@i].QuestionType" value="@question.QuestionType" />
+                                        <input type="hidden" name="[@i].QuestionText" value="@question.QuestionText" />
+                                        <input type="hidden" name="[@i].QuestionMark" value="@question.QuestionMark" />
+                                        <input type="hidden" name="[@i].CorrectAnswer" value="@question.CorrectAnswer" />
+                                        <input type="hidden" name="[@i].UserAnswer" value="@question.UserAnswer" />
+
+                                        @if (question.SelectedOptionIds != null)
+                                        {
+                                            for (int k = 0; k < question.SelectedOptionIds.Count; k++)
+                                            {
+                                                <input type="hidden" name="[@i].SelectedOptionIds[@k]" value="@question.SelectedOptionIds[k]" />
+                                            }
+                                        }
+
+                                        <!-- USER ANSWER COLUMN -->
+                                        <div class="col-md-5 border-end" style="font-size:1.2rem;">
+                                            <p class="question-text mb-3"><strong>@question.QuestionText</strong></p>
+
+                                            @if (question.QuestionType.ToLower() == "singleoption" || question.QuestionType.ToLower() == "multioption")
+                                            {
+                                                for (int j = 0; j < question.Options.Count; j++)
+                                                {
+                                                    var option = question.Options[j];
+                                                    bool isSelected = question.SelectedOptionIds?.Contains(option.Id) == true;
+
+                                                    <div class="form-check mb-1">
+                                                        <input class="form-check-input"
+                                                               type="@(question.QuestionType.ToLower() == "singleoption" ? "radio" : "checkbox")"
+                                                               disabled
+                                                               value="@option.Id"
+                                                               @(isSelected ? "checked" : "") />
+                                                        <label class="form-check-label" style="font-size:1.2rem;">@option.QuestionOption</label>
+                                                    </div>
+                                                }
+                                            }
+                                            else if (question.QuestionType.ToLower() == "singleline")
+                                            {
+                                                <input type="text" class="form-control" disabled style="font-size:1.2rem;"
+                                                       value="@question.UserAnswer" />
+                                            }
+                                            else if (question.QuestionType.ToLower() == "multiline")
+                                            {
+                                                <textarea class="form-control" disabled rows="3" style="font-size:1.2rem;">@question.UserAnswer</textarea>
+                                            }
+                                        </div>
+
+                                        <!-- CORRECT ANSWER COLUMN -->
+                                        <div class="col-md-3 border-end" style="font-size:1.2rem;">
+                                            <label><strong>Correct Answer</strong></label>
+                                            <div class="mt-2">
+                                                @if (question.QuestionType.ToLower() == "singleoption" || question.QuestionType.ToLower() == "multioption")
+                                                {
+                                                    foreach (var option in question.Options)
+                                                    {
+                                                        <div class="form-check mb-1">
+                                                            <input class="form-check-input" type="radio" disabled @(option.IsCorrect ? "checked" : "") />
+                                                            <label class="form-check-label @(option.IsCorrect ? "text-success fw-bold" : "")"
+                                                                   style="font-size:1.2rem;">
+                                                                @option.QuestionOption
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                }
+                                                else if (question.QuestionType.ToLower() == "singleline")
+                                                {
+                                                    <input type="text" class="form-control" disabled value="@question.CorrectAnswer" />
+                                                }
+                                                else if (question.QuestionType.ToLower() == "multiline")
+                                                {
+                                                    <textarea class="form-control" disabled rows="3">@question.CorrectAnswer</textarea>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- RESULT COLUMN -->
+                                        <div class="col-md-2 border-end" style="font-size:1.2rem;">
+                                            <label><strong>Result</strong></label>
+                                            <div class="mt-2">
+                                                @if (question.QuestionType.ToLower() == "singleoption")
+                                                {
+                                                    var correct = question.Options.FirstOrDefault(x => x.IsCorrect);
+                                                    bool isRight = question.SelectedOptionIds?.Contains(correct?.Id ?? 0) == true;
+                                                    string status = isRight ? "Right ✔" : "Wrong ✖";
+                                                    <span class="@(isRight ? "text-success" : "text-danger") fw-bold">@status</span>
+                                                }
+                                                else if (question.QuestionType.ToLower() == "multioption")
+                                                {
+                                                    var correctIds = question.Options.Where(x => x.IsCorrect).Select(x => x.Id).ToList();
+                                                    bool allCorrect = question.SelectedOptionIds != null &&
+                                                                      correctIds.All(id => question.SelectedOptionIds.Contains(id)) &&
+                                                                      question.SelectedOptionIds.All(id => correctIds.Contains(id));
+
+                                                    string status = allCorrect ? "Right ✔" : "Wrong ✖";
+                                                    <span class="@(allCorrect ? "text-success" : "text-danger") fw-bold">@status</span>
+                                                }
+                                                else
+                                                {
+                                                    bool isRight = !string.IsNullOrEmpty(question.UserAnswer) &&
+                                                                   question.UserAnswer.Trim().ToLower() == question.CorrectAnswer?.Trim().ToLower();
+
+                                                    string status = isRight ? "Right ✔" : "Wrong ✖";
+                                                    <span class="@(isRight ? "text-success" : "text-danger") fw-bold">@status</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- GIVEN MARKS -->
+                                        <div class="col-md-1">
+                                            <label><strong>Given Marks</strong></label>
+                                            <input type="text"
+                                                   class="form-control mt-2"
+                                                   value="@(question.ExaminerMarks ?? 0)"
+                                                   style="background-color: #e9ecef; pointer-events: none;"
+                                                   tabindex="-1"
+                                                   readonly />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                    <!-- ================================ -->
+                    <!--      TOTAL GIVEN MARKS SECTION    -->
+                    <!-- ================================ -->
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-end">
+                                Total Given Marks:
+                                <span class="text-primary fw-bold">@totalGivenMarks</span>
+                            </h4>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Areas/Common/js/Services/CommonService.js"></script>
+    <script src="~/Areas/Common/js/Services/CommonAjaxService.js"></script>
+    <script src="~/Areas/Examiner/js/Controllers/ExaminerController.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            ExaminerController.init();
+        });
+    </script>
+}

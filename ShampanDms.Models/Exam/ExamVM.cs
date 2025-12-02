@@ -14,7 +14,8 @@ namespace ShampanExam.Models.Exam
     public class QuestionVM
     {
         public int Id { get; set; }
-
+        public int ExamId { get; set; }
+        public int ExamineeId { get; set; }
         [Required]
         public string QuestionText { get; set; }
 
@@ -31,6 +32,9 @@ namespace ShampanExam.Models.Exam
 
         // User's selected answer(s)
         public string UserAnswer { get; set; }
+        public bool IsExamSubmitted { get; set; }
+        public int? QuestionHeaderId { get; set; }
+        public decimal? ExaminerMarks { get; set; }
         public List<int> SelectedOptionIds { get; set; } = new List<int>();
     }
 
@@ -38,6 +42,8 @@ namespace ShampanExam.Models.Exam
     public class QuestionOptionVM
     {
         public int Id { get; set; }
+        public int ExamId { get; set; }
+        public int ExamQuestionHeaderId { get; set; }
         public int QuestionHeaderId { get; set; }
         public string QuestionOption { get; set; }
         public string QuestionAnswer { get; set; } // "True" or "False"

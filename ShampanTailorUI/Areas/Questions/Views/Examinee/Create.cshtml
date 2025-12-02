@@ -132,59 +132,14 @@
                                     @Html.ValidationMessageFor(model => model.Name)
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     @Html.LabelFor(model => model.MobileNo)
                                     <div class="input-group">
                                         @Html.TextBoxFor(model => model.MobileNo, new { placeholder = "Enter Mobile No", @class = "form-control form-control-sm" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.MobileNo)
                                 </div>
-
-                                <div class="col-sm-3">
-                                    @Html.LabelFor(model => model.LogInId)
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(model => model.LogInId, new { placeholder = "Enter Login ID", @class = "form-control form-control-sm" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.LogInId)
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-sm-3">
-                                    @Html.LabelFor(model => model.Password)
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(model => model.Password, new { placeholder = "Enter Password", @class = "form-control form-control-sm" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Password)
-                                </div>
-
-                                @*<div class="col-sm-3">
-                                        @Html.LabelFor(model => model.IsChangePassword)
-                                        <div class="input-group">
-                                            @Html.CheckBoxFor(model => model.IsChangePassword, new { @class = "form-control form-control-sm" })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.IsChangePassword)
-                                    </div>*@
-
-                                <div class="col-sm-3">
-                                    @Html.LabelFor(model => model.IsChangePassword)
-                                    <div class="Onoffbtn">
-                                        <div class="input-group" style="margin-bottom: -26px; width: 78%;">
-                                            <input id="IsChangePassword"
-                                                   value="@Model.IsChangePassword"
-                                                   type="checkbox"
-                                                   name="my-checkbox"
-                                                   @(Model.IsChangePassword ? "checked" : "")
-                                                   data-bootstrap-switch
-                                                   data-off-color="danger"
-                                                   data-on-color="success"
-                                                   data-on-text="Yes"
-                                                   data-off-text="No">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     @Html.LabelFor(model => model.IsActive)
                                     <div class="Onoffbtn">
                                         <div class="input-group" style="margin-bottom: -26px; width: 78%;">
@@ -201,6 +156,19 @@
                                         </div>
                                     </div>
                                 </div>
+
+                            </div>
+
+
+                                @*<div class="col-sm-3">
+                                        @Html.LabelFor(model => model.IsChangePassword)
+                                        <div class="input-group">
+                                            @Html.CheckBoxFor(model => model.IsChangePassword, new { @class = "form-control form-control-sm" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.IsChangePassword)
+                                    </div>*@
+
+
 
                                 @*<div class="col-sm-3">
                                         @Html.LabelFor(model => model.IsArchive)

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonRepo\AuthRepo.cs" />
+    <Compile Include="Examiner\ExaminerRepo.cs" />
     <Compile Include="Exam\ExamRepo.cs" />
     <Compile Include="QuestionRepo\ExamineeGroupRepo.cs" />
     <Compile Include="QuestionRepo\ExamineeRepo.cs" />

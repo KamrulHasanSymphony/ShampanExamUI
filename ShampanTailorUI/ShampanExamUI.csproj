@@ -411,6 +411,8 @@
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Common\Controllers\CommonController.cs" />
     <Compile Include="Areas\Common\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Examiner\Controllers\ExaminerController.cs" />
+    <Compile Include="Areas\Examiner\ExaminerAreaRegistration.cs" />
     <Compile Include="Areas\Exam\Controllers\ExamController.cs" />
     <Compile Include="Areas\Exam\ExamAreaRegistration.cs" />
     <Compile Include="Areas\Questions\Controllers\ExamController.cs" />
@@ -448,6 +450,8 @@
     <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Areas\Common\js\Services\CommonAjaxService.js" />
     <Content Include="Areas\Common\js\Services\CommonService.js" />
+    <Content Include="Areas\Examiner\js\Controllers\ExaminerController.js" />
+    <Content Include="Areas\Exam\js\Controllers\ExamsController.js" />
     <Content Include="Areas\Questions\js\Controllers\ExamController.js" />
     <Content Include="Areas\Questions\js\Controllers\ExamineeController.js" />
     <Content Include="Areas\Questions\js\Controllers\ExamineeGroupController.js" />
@@ -2616,6 +2620,14 @@
     <Content Include="Areas\Exam\Views\Exam\Index.cshtml" />
     <Content Include="Areas\Questions\Views\QuestionSets\Create.cshtml" />
     <Content Include="Areas\Questions\Views\QuestionSets\Index.cshtml" />
+    <Content Include="Areas\Exam\Views\Exam\Create.cshtml" />
+    <Content Include="Areas\Examiner\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Examiner\Views\Examiner\Create.cshtml" />
+    <Content Include="Areas\Examiner\Views\Examiner\Index.cshtml" />
+    <Content Include="Areas\Examiner\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Examiner\Views\web.config" />
+    <Content Include="Areas\Examiner\Views\Examiner\Result.cshtml" />
+    <Content Include="Areas\Exam\Views\Exam\Result.cshtml" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\assets\kendoUI2021\kendo\kendo.all.min.js" />
@@ -3877,8 +3889,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Common\Data\" />
     <Folder Include="Areas\Common\js\Controllers\" />
+    <Folder Include="Areas\Examiner\Data\" />
     <Folder Include="Areas\Exam\Data\" />
-    <Folder Include="Areas\Exam\js\Controllers\" />
     <Folder Include="Areas\Questions\Data\" />
     <Folder Include="Areas\SetUp\Data\" />
     <Folder Include="Models\" />

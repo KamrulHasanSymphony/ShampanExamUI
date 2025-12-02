@@ -65,6 +65,7 @@ namespace ShampanExam.Models
         public int? BranchID { get; set; }
         public string BranchCode { get; set; }
         public string BranchName { get; set; }
+        public string UserName { get; set; }
 
     }
 

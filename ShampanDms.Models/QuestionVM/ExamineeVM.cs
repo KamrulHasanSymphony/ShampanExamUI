@@ -7,12 +7,14 @@ namespace ShampanExam.Models.QuestionVM
     {
         [Display(Name = "Examinee")]
         public long Id { get; set; }
+        [Required]
 
         [Display(Name = "Examinee Group")]
         public int? ExamineeGroupId { get; set; }
-
+        [Required]
         [Display(Name = "Examinee Name")]
         public string? Name { get; set; }
+        [Required]
 
         [Display(Name = "Mobile Number")]
         public string? MobileNo { get; set; }
@@ -24,7 +26,7 @@ namespace ShampanExam.Models.QuestionVM
         public string? Password { get; set; }
 
         [Display(Name = "Change Password")]
-        public bool IsChangePassword { get; set; }
+        public bool? IsChangePassword { get; set; }
 
         public PeramModel PeramModel { get; set; }
 

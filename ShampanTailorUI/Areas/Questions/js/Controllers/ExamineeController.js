@@ -2,6 +2,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
 
     var init = function () {
         var getId = $("#Id").val() || 0;
+        var getName = $("#Name").val() || "";
         var getOperation = $("#Operation").val() || '';
         var getExamineeGroupId = $("#ExamineeGroupId").val() || 0;
 
@@ -10,6 +11,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
             GetGridDataList();
         }
         GetExamineeGroupComboBox();
+        GetExamineeComboBox();
         // Save button click handler
         $('.btnsave').click('click', function () {
             var getId = $('#Id').val();
@@ -76,7 +78,40 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
             }).data("kendoMultiColumnComboBox");
         };
 
+        function GetExamineeComboBox() {
 
+            var ExamineeComboBox = $("#Name").kendoMultiColumnComboBox({
+                dataTextField: "UserName",
+                dataValueField: "UserName",
+                height: 400,
+                columns: [
+                    { field: "UserName", title: "User Name", width: 150 },
+                    { field: "FullName", title: "Full Name", width: 150 },
+                    { field: "PhoneNumber", title: "Phone Number", width: 150 },
+                    { field: "Email", title: "Email", width: 150 }
+                ],
+                filter: "contains",
+                filterFields: ["UserName"],
+                dataSource: {
+                    transport: {
+                        read: "/SetUp/UserProfile/Dropdown"
+                    }
+                },
+                placeholder: "Select Examinee",
+                value: "",
+                dataBound: function (e) {
+                    if (getName) {
+                        this.value((getName));
+                    }
+                },
+                change: function () {
+                    var dataItem = this.dataItem();
+                    if (dataItem) {
+                        $("#MobileNo").val(dataItem.PhoneNumber);  // ? assign PhoneNumber
+                    }
+                }
+            }).data("kendoMultiColumnComboBox");
+        };
     };
 
     // Select data for delete
@@ -133,9 +168,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
                             if (param.field === "MobileNo") {
                                 param.field = "H.MobileNo";
                             }
-                            if (param.field === "LogInId") {
-                                param.field = "H.LogInId";
-                            }
+                          
                             if (param.field === "Status") {
                                 let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
                                 if (statusValue.startsWith("a")) {
@@ -162,9 +195,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
                             if (param.field === "MobileNo") {
                                 param.field = "H.MobileNo";
                             }
-                            if (param.field === "LogInId") {
-                                param.field = "H.LogInId";
-                            }
+                           
                             if (param.field === "Status") {
                                 let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
 
@@ -275,7 +306,6 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
                 { field: "Id", width: 50, hidden: true, sortable: true },
                 { field: "Name", title: "Name", sortable: true, width: 200 },
                 { field: "MobileNo", title: "Mobile Number", sortable: true, width: 200 },
-                { field: "LogInId", title: "Log In ID", sortable: true, width: 200 },
                 { field: "Status", title: "Status", sortable: true, width: 100 },
             ],
             editable: false,

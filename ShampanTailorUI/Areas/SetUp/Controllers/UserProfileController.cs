@@ -1,11 +1,14 @@
 ﻿using Newtonsoft.Json;
 using ShampanExam.Models;
 using ShampanExam.Models.KendoCommon;
+using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo;
 using ShampanExamUI.Persistence;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace ShampanExamUI.Areas.SetUp.Controllers
@@ -14,6 +17,7 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
     [RouteArea("SetUp")]
     public class UserProfileController : Controller
     {
+        private readonly ApplicationDbContext _applicationDb;
         UserProfileRepo _repo = new UserProfileRepo();
 
         // GET: SetUp/UserProfile
@@ -32,7 +36,7 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
         }        
 
         [HttpPost]
-        public ActionResult CreateEdit(UserProfileVM model)
+        public ActionResult CreateEdit(UserProfileVM model, HttpPostedFileBase file)
         {
             _repo = new UserProfileRepo();
             ResultModel<UserProfileVM> result = new ResultModel<UserProfileVM>();
@@ -41,7 +45,32 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {                    
+                { // Handle Image Upload
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        string uploadsFolder = Server.MapPath("~/Content/UserProfile");
+
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        string fileExtension = Path.GetExtension(file.FileName).ToLower();
+                        string[] validImageTypes = { ".jpg", ".jpeg", ".png", ".gif" };
+
+                        if (!validImageTypes.Contains(fileExtension))
+                        {
+                            result.Message = "Invalid image file type.";
+                            return Json(result);
+                        }
+
+                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string filePath = Path.Combine(uploadsFolder, fileName);
+
+                        file.SaveAs(filePath);
+
+                        //model.ImagePath = "/Content/UserProfile/" + fileName;
+                    }
                     if (model.Operation.ToLower() == "add")
                     {                      
 						resultVM = _repo.Insert(model);
@@ -50,6 +79,7 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
                         {
                             model = JsonConvert.DeserializeObject<UserProfileVM>(resultVM.DataVM.ToString());
                             model.Operation = "add";
+                            model.Id = resultVM.Id;
                             Session["result"] = resultVM.Status + "~" + resultVM.Message;
                             result =  new ResultModel<UserProfileVM>()
                             {
@@ -232,6 +262,60 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
             }
         }
 
-        
+        //[HttpPost]
+        //public ActionResult Delete(UserProfileVM vm)
+        //{
+        //    ResultModel<UserProfileVM> result = new ResultModel<UserProfileVM>();
+
+        //    try
+        //    {
+        //        _repo = new UserProfileRepo();
+        //        CommonVM param = new CommonVM();
+        //        param.IDs = vm.IDs;
+        //        param.ModifyBy = Session["UserId"].ToString();
+        //        param.ModifyFrom = Ordinary.GetLocalIpAddress();
+
+        //        ResultVM resultData = _repo.Delete(param);
+
+        //        Session["result"] = resultData.Status + "~" + resultData.Message;
+
+        //        result = new ResultModel<UserProfileVM>()
+        //        {
+        //            Success = true,
+        //            Status = Status.Success,
+        //            Message = resultData.Message,
+        //            Data = null
+        //        };
+
+        //        return Json(result);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return RedirectToAction("Index");
+        //    }
+        //}
+
+        [HttpGet]
+        public ActionResult Dropdown()
+        {
+            try
+            {
+                List<UserProfileVM> lst = new List<UserProfileVM>();
+                CommonVM param = new CommonVM();
+                ResultVM result = _repo.Dropdown();
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    lst = JsonConvert.DeserializeObject<List<UserProfileVM>>(result.DataVM.ToString());
+                }
+                return Json(lst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
