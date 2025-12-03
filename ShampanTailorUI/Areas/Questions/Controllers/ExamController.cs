@@ -163,12 +163,12 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         }
         // GET: Questions/Exam/GetProcessedData
         [HttpGet]
-        public ActionResult GetProcessedData(string id)
+        public ActionResult GetProcessedData(string id,string groupId, string setId)
         {
             try
             {
                 _repo = new ExamRepo();
-                CommonVM param = new CommonVM { Id = id };
+                CommonVM param = new CommonVM { Id = id, Group=groupId,Value=setId};
 
                 ResultVM result = _repo.GetProcessedData(param);
 
