@@ -26,6 +26,9 @@ namespace ShampanExam.Models.QuestionVM
 
         [Display(Name = "Total Marks")]
         public int TotalMark { get; set; }
+        public int MarkObtain { get; set; }
+        public bool IsExamMarksSubmitted { get; set; }
+
 
         [Display(Name = "Grade")]
         public int? GradeId { get; set; }
@@ -41,7 +44,8 @@ namespace ShampanExam.Models.QuestionVM
 
         [Display(Name = "Examinee Group")]
         public int? ExamineeGroupId { get; set; }
-
+        public int? ExamineeId { get; set; }
+        public string? ExamineeName { get; set; }
         public List<ExamExamineeVM> examExamineeList { get; set; }
         public List<ExamQuestionHeaderVM> examQuestionHeaderList { get; set; }
         public List<ExamQuestionOptionDetailVM> examQuestionOptionDetailList { get; set; }

@@ -397,7 +397,7 @@
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                                  <a style='background-color: darkgreen;' href='#' onclick='ReportPreview(${dataItem.Id})' class='btn btn-success btn-sm mr-2 edit' title='Report Preview'>
-                                    <i class='fas fa-eye'></i>
+                                    <i class='fas fa-print'></i>
                                 </a>
                                 `;
                     }
@@ -546,6 +546,30 @@
 
 
 }(CommonAjaxService);
+document.addEventListener("DOMContentLoaded", function () {
+    var container = document.querySelector(".sslPrintC");
+    if (container) {
+        var id = container.getAttribute("data-id");
+        if (id) {
+            var btn = document.createElement("a");
+            btn.href = ".";
+            btn.style.backgroundColor = "skyblue";
+
+            btn.style.marginLeft = "10px";
+            btn.style.border = "none";
+            /*btn.style.borderRadius = "10px"; */
+            btn.className = "btn btn-success btn-sm mr-2 edit";
+            btn.title = "Report Preview";
+            btn.innerHTML = "<i class='fas fa-print'></i>";
+            btn.onclick = function (e) {
+                e.preventDefault();
+                ReportPreview(id);
+            };
+            container.appendChild(btn);
+        }
+    }
+});
+
 
 function ReportPreview(id) {
     

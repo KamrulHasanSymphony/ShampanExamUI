@@ -11,7 +11,7 @@
         };
 
         $('.btnsave').click('click', function () {
-            debugger;
+            
             var getId = $('#Id').val();
             var status = "Save";
             if (parseInt(getId) > 0) {
@@ -357,7 +357,7 @@
 
 
     function save() {       
-        debugger;
+        
         var validator = $("#frmEntry").validate();
         var formData = new FormData();
 

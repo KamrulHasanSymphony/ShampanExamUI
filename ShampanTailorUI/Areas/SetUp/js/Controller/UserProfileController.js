@@ -1,31 +1,19 @@
 ﻿var UserProfileController = function (CommonAjaxService) {
 
-    var getSalePersonId = 0;
+    var getTypeId = 0;
 
     var init = function () {
 
-        getSalePersonId = $("#SalePersonId").val() || 0;
+        getTypeId = $("#TypeId").val() || 0;
 
         var getId = $("#Id").val() || 0;
         var getOperation = $("#Operation").val() || '';
         if (parseInt(getId) == 0 && getOperation == '') {
             GetGridDataList();
         }
-        else
-        {
-            GetSalePersonComboBox();
-        }  
+      
+        GetUserTypeComboBox();
 
-        $("#IsSalePerson").on('switchChange.bootstrapSwitch', function (event, state) {
-            if (state)
-            {
-                $('.salePerson').show();                
-            }
-            else
-            {
-                $('.salePerson').hide();
-            }
-        });
 
 
 
@@ -46,35 +34,28 @@
 
     };
 
-    function GetSalePersonComboBox() {
-        if ($('#IsSalePerson').prop('checked')) {
-            $('.salePerson').show();
-        }
-        var SalePersonComboBox = $("#SalePersonId").kendoMultiColumnComboBox({
-            dataTextField: "Name",
+    function GetUserTypeComboBox() {
+
+        var UserTypeComboBox = $("#TypeId").kendoMultiColumnComboBox({
+            dataTextField: "RoleName",
             dataValueField: "Id",
             height: 400,
             columns: [
-                { field: "Code", title: "Code", width: 100 },
-                { field: "Name", title: "Name", width: 150 },
-                { field: "BanglaName", title: "BanglaName", width: 200 },
+                { field: "RoleName", title: "Type", width: 150 },
             ],
             filter: "contains",
-            filterFields: ["Code", "Name", "BanglaName"],
+            filterFields: ["RoleName"],
             dataSource: {
                 transport: {
-                    read: "/Common/Common/GetSalePersonList"
+                    read: "/SetUp/MenuAuthorization/GetRoleData"
                 }
             },
-            placeholder: "Select Person",
+            placeholder: "Select TypeId",
             value: "",
             dataBound: function (e) {
-                if (getSalePersonId) {
-                    this.value(parseInt(getSalePersonId));
+                if (getTypeId) {
+                    this.value(parseInt(getTypeId));
                 }
-            },
-            change: function (e) {
-                
             }
         }).data("kendoMultiColumnComboBox");
     };
@@ -152,14 +133,15 @@
             columns: [
                 {
                     title: "Action",
-                    width: 50,
+                    width: "60",
                     template: function (dataItem) {
-                        return "<a href='/SetUp/UserProfile/Edit?id="+ dataItem.Id +"&mode=profileupdate' class='btn btn-primary btn-sm mr-2 edit' title='profile update'>" +
+                        return "<a href='/SetUp/UserProfile/Edit?id=" + dataItem.Id + "&mode=profileupdate' class='btn btn-primary btn-sm mr-2 edit' title='profile update'>" +
                             "<i class='fas fa-pencil-alt'></i>" +
                             "</a>" +
-                            "<a href='/SetUp/UserProfile/Edit?id=" + dataItem.Id +"&mode=passwordchange' class='btn btn-secondary btn-sm mr-2 edit' title='password change'>" +
+                            "<a href='/SetUp/UserProfile/Edit?id=" + dataItem.Id + "&mode=passwordchange' class='btn btn-secondary btn-sm mr-2 edit' title='password change'>" +
                             "<i class='fas fa-key'></i>" +
-                            "</a>" +
+                            "</a>"
+                            +
                             "<a href='/SetUp/UserBranchProfile/Index/" + dataItem.Id + " ' class='btn btn-success btn-sm mr-2 edit' title='branch mapping'>" +
                             "<i class='fas fa-building'></i>" +
                             "</a>";
@@ -174,6 +156,10 @@
                 },
                 {
                     field: "FullName", title: "Full Name", sortable: true, width: 250
+                } 
+                ,
+                {
+                    field: "Type", title: "User Type", sortable: true, width: 250
                 } 
             ],
             editable: false,
@@ -195,9 +181,7 @@
             return;
         }
 
-        if ($('#IsSalePerson').prop('checked')) {
-            model.IsSalePerson = true;
-        }
+        
         if ($('#IsHeadOffice').prop('checked')) {
             model.IsHeadOffice = true;
         }

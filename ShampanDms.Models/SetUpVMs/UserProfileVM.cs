@@ -40,18 +40,24 @@ namespace ShampanExam.Models
         public string? Mode { get; set; }
         public bool IsAdmin { get; set; }
 
-        [Display(Name = "Sale Person")]
-        public int? SalePersonId { get; set; }
 
         [Display(Name = "Is Head Office")]
         public bool IsHeadOffice { get; set; }
+        [Display(Name = "Bangla Name")]
+        public string? BanglaName { get; set; }
+        [Required]
 
+        [Display(Name = "NID No.")]
+        public string? NIDNo { get; set; }
+        public string? Type { get; set; }
+        [Required]
+        [Display(Name = "Type")]
+        public int? TypeId { get; set; }
+        [Display(Name = "Alternative Mobile No.")]
+        public string? PhoneNumber2 { get; set; }
+        public int? ApplicationUserId { get; set; }
 
-        [Display(Name = "Is Sale Person")]
-        public bool IsSalePerson { get; set; }
-        public string? SalePersonName { get; set; }
-        public string? SalePersonCode { get; set; }
-
+ 
         [Display(Name = "Created By")]
         public string? CreatedBy { get; set; }
         public string? CreatedFrom { get; set; }

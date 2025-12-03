@@ -120,6 +120,14 @@
 
                             <div class="form-group row">
                                 <!-- Question Subject -->
+                                <div class="col-sm-2 codeWidth">
+                                    @Html.LabelFor(model => model.Code)
+                                    <div style="display: flex; align-items: center;">
+                                        <span id="btnPrevious" class="fa fa-backward" style="color: darkseagreen;"></span>&nbsp;
+                                        @Html.TextBoxFor(model => model.Code, new { placeholder = "Code Auto Generate", @class = " csCode  form-control form-control-sm", @readonly = "readonly", @style = "width:140px;" }) &nbsp;
+                                        <span id="btnNext" class="fa fa-forward" style="color: darkseagreen;"></span>
+                                    </div>
+                                </div>
                                 <div class="col-sm-3">
                                     @Html.LabelFor(model => model.QuestionSubjectId)
                                     <div class="input-group">
@@ -149,16 +157,16 @@
 
                             <div class="form-group row">
                                 <!-- Question Text -->
-                                <div class="col-sm-3">
+                                <div class="col-sm-6">
                                     @Html.LabelFor(model => model.QuestionText)
                                     <div class="input-group">
-                                        @Html.TextBoxFor(model => model.QuestionText, new { placeholder = "Enter Question Text", @class = "form-control form-control-sm" })
+                                        @Html.TextAreaFor(model => model.QuestionText, new { placeholder = "Enter Question Text", @class = "form-control form-control-sm" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.QuestionText)
                                 </div>
 
                                 <!-- Question Type -->
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     @Html.LabelFor(model => model.QuestionType)
                                     <div class="input-group">
                                         @Html.DropDownListFor(model => model.QuestionType,
@@ -170,10 +178,10 @@
                                 </div>
 
                                 <!-- Question Mark -->
-                                <div class="col-sm-3">
+                                <div class="col-sm-1">
                                     @Html.LabelFor(model => model.QuestionMark)
                                     <div class="input-group">
-                                        @Html.TextBoxFor(model => model.QuestionMark, new { placeholder = "Enter Question Mark", @class = "form-control form-control-sm" })
+                                        @Html.TextBoxFor(model => model.QuestionMark, new { placeholder = "Enter Mark", @class = "form-control form-control-sm" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.QuestionMark)
                                 </div>
@@ -182,7 +190,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row"id="OptionDetails">
                         <div class="col-md-12">
                             <div class="card card-secondary">
                                 <div class="card-header">
@@ -195,7 +203,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row " id="ShortDetails">
                         <div class="col-md-12">
                             <div class="card card-secondary">
                                 <div class="card-header">

@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ShampanExam.Models;
 using ShampanExam.Repo;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -15,9 +17,8 @@ namespace ShampanExamUI.Areas.Common.Controllers
     public class HomeController : Controller
     {
         CommonRepo _repo = new CommonRepo();
-
         // GET: Common/Home
-        public ActionResult Index(bool branchChange)
+        public ActionResult Index(bool branchChange=false)
         {
             try
             {
@@ -25,8 +26,11 @@ namespace ShampanExamUI.Areas.Common.Controllers
                 {
                     List<BranchProfileVM> branchProfiles = new List<BranchProfileVM>();
 
+                    Session["BranchChanged"] = branchChange ? "1" : "0";
+
                     if (branchChange)
                     {
+                        TempData["BranchChanged"] = true;
                         return View(branchProfiles);
                     }
 
@@ -49,6 +53,8 @@ namespace ShampanExamUI.Areas.Common.Controllers
 
                     return View(branchProfiles);
                 }
+
+
                 else
                 {
                     return RedirectToAction("Index", "Login", new { area = (string)null });
@@ -71,7 +77,7 @@ namespace ShampanExamUI.Areas.Common.Controllers
                 CommonVM vm = new CommonVM();
                 List<BranchProfileVM> lst = new List<BranchProfileVM>();
 
-                if(Session["UserId"] != null && Session["UserId"].ToString().ToLower() == "erp")
+                if (Session["UserId"] != null && Session["UserId"].ToString().ToLower() == "erp")
                 {
 
                     vm.UserId = Session["UserId"].ToString();
@@ -83,12 +89,18 @@ namespace ShampanExamUI.Areas.Common.Controllers
                     vm.UserId = Session["UserId"].ToString();
                     resultVM = userBranchProfileRepo.List(vm);
                 }
-                
+
 
                 if (resultVM.Status == ResultStatus.Success.ToString())
                 {
                     lst = JsonConvert.DeserializeObject<List<BranchProfileVM>>(resultVM.DataVM.ToString());
                     lst = lst.Where(b => b.IsActive == true).ToList();
+                    foreach (var item in lst)
+                    {
+                        item.Code = item.BranchCode?? item.Code;
+                        item.Name = item.BranchName?? item.Name;
+                        item.UserId = item.UserName ?? item.UserId;
+                    }
                 }
 
                 return Json(new
@@ -135,6 +147,7 @@ namespace ShampanExamUI.Areas.Common.Controllers
                     branch.BranchID = lst.FirstOrDefault(x => x.Code == branch.BranchCode).Id;
                     branch.BranchName = lst.FirstOrDefault(x => x.Code == branch.BranchCode).Name;
                 }
+                //var tt = Session["UserId"].ToString(); // Username
 
                 if (branch.BranchID == 0) return RedirectToAction("Index");
 
@@ -142,7 +155,7 @@ namespace ShampanExamUI.Areas.Common.Controllers
                 identity.AddClaim(new Claim(ClaimNames.CurrentBranch, branch.BranchID.ToString()));
                 identity.AddClaim(new Claim(ClaimNames.CurrentBranchCode, branch.BranchCode.ToString()));
                 identity.AddClaim(new Claim(ClaimNames.CurrentBranchName, branch.BranchName.ToString().Trim()));
-          
+
                 var principal = new ClaimsPrincipal(identity);
 
                 var ticket = new FormsAuthenticationTicket(
@@ -179,6 +192,359 @@ namespace ShampanExamUI.Areas.Common.Controllers
             return RedirectToAction("Index", "Home", new { area = "Common", branchChange = false });
         }
 
+
+
+        //[HttpGet]
+        //public ActionResult GetTop10Customers(string value)
+        //{
+        //    try
+        //    {
+        //        List<CustomerSalesModel> lst = new List<CustomerSalesModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetTop10Customers(param);
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<CustomerSalesModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetBottom10Customers(string value)
+        //{
+        //    try
+        //    {
+        //        List<CustomerSalesModel> lst = new List<CustomerSalesModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetBottom10Customers(param);
+
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<CustomerSalesModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetTop10Products(string value)
+        //{
+        //    try
+        //    {
+        //        List<ProductSaleModel> lst = new List<ProductSaleModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetTop10Products(param);
+
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<ProductSaleModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetBottom10Products(string value)
+        //{
+        //    try
+        //    {
+        //        List<ProductSaleModel> lst = new List<ProductSaleModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetBottom10Products(param);
+
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<ProductSaleModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetTop10SalePersons(string value)
+        //{
+        //    try
+        //    {
+        //        List<SalePersonDataModel> lst = new List<SalePersonDataModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetTop10SalePersons(param);
+
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<SalePersonDataModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetBottom10SalePersons(string value)
+        //{
+        //    try
+        //    {
+        //        List<SalePersonDataModel> lst = new List<SalePersonDataModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetBottom10SalePersons(param);
+
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<SalePersonDataModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetOrderPurchasePOReturnData(string value)
+        //{
+        //    try
+        //    {
+        //        List<PurchaseDataModel> lst = new List<PurchaseDataModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetOrderPurchasePOReturnData(param);
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+        //            lst = JsonConvert.DeserializeObject<List<PurchaseDataModel>>(result.DataVM.ToString());
+        //        }
+
+        //        if (lst.Count > 0)
+        //        {
+        //            return Json(lst[0], JsonRequestBehavior.AllowGet); // ✅ Return a single object
+        //        }
+
+        //        return Json(new { Ordered = 0, Purchase = 0, POReturn = 0 }, JsonRequestBehavior.AllowGet); // Return default object if empty
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetSalesData(string value)
+        //{
+        //    try
+        //    {
+        //        List<SalesDataModel> lst = new List<SalesDataModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetSalesData(param);
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+        //            lst = JsonConvert.DeserializeObject<List<SalesDataModel>>(result.DataVM.ToString());
+        //        }
+
+        //        if (lst.Count > 0)
+        //        {
+        //            return Json(lst[0], JsonRequestBehavior.AllowGet); // ✅ Return a single object
+        //        }
+
+        //        return Json(new { Ordered = 0, Purchase = 0, POReturn = 0 }, JsonRequestBehavior.AllowGet); // Return default object if empty
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+        //[HttpGet]
+        //public ActionResult GetPendingSalesData(string value)
+        //{
+        //    try
+        //    {
+        //        List<PendingSalesDataModel> lst = new List<PendingSalesDataModel>();
+        //        CommonVM param = new CommonVM
+        //        {
+        //            BranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0",
+        //            Value = value
+        //        };
+
+        //        ResultVM result = _repo.GetPendingSales(param);
+
+
+        //        if (result.Status == "Success" && result.DataVM != null)
+        //        {
+
+        //            lst = JsonConvert.DeserializeObject<List<PendingSalesDataModel>>(result.DataVM.ToString());
+
+        //        }
+
+        //        return Json(lst, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+
+        //[HttpGet]
+        //public ActionResult HasDayEndData(string branchId)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(branchId))
+        //            return Json(new { Success = false, Message = "Branch ID is required.", Dates = new string[0] }, JsonRequestBehavior.AllowGet);
+
+        //        var result = _repo.HasDayEndData(branchId);
+
+        //        var dates = new List<string>();
+
+        //        if (result != null && result.Status == "Success" && result.DataVM != null)
+        //        {
+        //            // Convert DataVM to JArray
+        //            JArray arr = result.DataVM as JArray;
+        //            if (arr == null)
+        //            {
+        //                // Maybe it's a JSON string
+        //                arr = JArray.Parse(result.DataVM.ToString());
+        //            }
+
+        //            foreach (var item in arr)
+        //            {
+        //                string dateStr = item["dateValue"]?.ToString(); // lowercase as in your repo
+        //                if (!string.IsNullOrEmpty(dateStr))
+        //                    dates.Add(dateStr);
+        //            }
+        //        }
+
+        //        return Json(new { Success = true, Dates = dates }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Success = false, Message = e.Message, Dates = new string[0] }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
+
+
+
+
+
+        //[HttpGet]
+        //public ActionResult HasDayEndData(string branchId)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(branchId))
+        //            return Json(new { Success = false, Message = "Branch ID is required." }, JsonRequestBehavior.AllowGet);
+
+        //        // Call async repo method
+        //        ResultVM result = _repo.HasDayEndData(branchId);
+
+        //        bool hasData = false;
+        //        if (result != null && result.Status == "Success" && result.DataVM != null)
+        //        {
+        //            hasData = ((List<dynamic>)result.DataVM).Any(d => !(bool)d.ExistsInDayEnd);
+        //        }
+
+        //        return Json(new { Success = true, HasData = hasData }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+        //        return Json(new { Success = false, Message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
     }
 }

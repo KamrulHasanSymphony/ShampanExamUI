@@ -17,7 +17,7 @@ namespace ShampanExam.Repo
                 AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
 
                 #region Invoke API
-                var data = httpRequestHelper.PostData("/api/UserProfile/Dropdown", authModel, JsonConvert.SerializeObject(authModel));
+                var data = httpRequestHelper.PostData("api/UserProfile/Dropdown", authModel, "");
                 ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
                 #endregion
 

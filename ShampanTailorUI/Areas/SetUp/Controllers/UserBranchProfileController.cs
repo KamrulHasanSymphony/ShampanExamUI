@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+
 using ShampanExam.Models;
+using ShampanExam.Models.Helper;
 using ShampanExam.Models.KendoCommon;
 using ShampanExam.Repo;
-using ShampanExam.Repo.Helper;
 using ShampanExamUI.Persistence;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
     [RouteArea("SetUp")]
     public class UserBranchProfileController : Controller
     {
-
+        private readonly ApplicationDbContext _applicationDb;
         UserBranchProfileRepo _repo = new UserBranchProfileRepo();
 
         // GET: SetUp/UserBranchProfile

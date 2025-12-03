@@ -14,7 +14,7 @@
     };
 
     var finalImageSave = function (url, masterObj, done, fail) {
-        debugger;
+
         $.ajax({
             url: url,
             method: 'post',
@@ -39,6 +39,7 @@
             .fail(fail);
 
     };
+
 
     var multiplePost = function (url, masterObj, done, fail) {
         $.ajax({

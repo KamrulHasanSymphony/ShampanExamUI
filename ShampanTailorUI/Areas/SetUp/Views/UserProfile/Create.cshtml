@@ -78,6 +78,17 @@
                             @Html.TextBoxFor(model => model.FullName, new { @class = "form-control form-control-sm", autocomplete = "off" })
                             @Html.ValidationMessageFor(model => model.FullName)
                         </div>
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.BanglaName)
+                            @Html.TextBoxFor(model => model.BanglaName, new { @class = "form-control form-control-sm", autocomplete = "off" })
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.TypeId)
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.TypeId, new { placeholder = "Enter User Type", @class = "form-control form-control-sm" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.TypeId)
+                        </div>
 
                         <div class="col-sm-3">
                             @Html.LabelFor(model => model.Email)
@@ -95,7 +106,11 @@
                             @Html.TextBoxFor(model => model.FullName, new { @class = "form-control form-control-sm", autocomplete = "off" })
                             @Html.ValidationMessageFor(model => model.FullName)
                         </div>
-
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.BanglaName)
+                            @Html.TextBoxFor(model => model.BanglaName, new { @class = "form-control form-control-sm", autocomplete = "off" })
+                        </div>
+                      
                         <div class="col-sm-2">
                             @Html.LabelFor(model => model.Password)
                             @Html.TextBoxFor(model => model.Password, new { @type = "password", @class = "form-control form-control-sm", autocomplete = "off" })
@@ -108,11 +123,7 @@
                             @Html.ValidationMessageFor(model => model.ConfirmPassword)
                         </div>
 
-                        <div class="col-sm-3">
-                            @Html.LabelFor(model => model.Email)
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-sm", autocomplete = "off" })
-                            @Html.ValidationMessageFor(model => model.Email)
-                        </div>
+
 
                     }
 
@@ -122,30 +133,52 @@
                 {
                     <div class="form-group row">
                         <div class="col-sm-2">
+                            @Html.LabelFor(model => model.TypeId)
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.TypeId, new { placeholder = "Enter User Type", @class = "form-control form-control-sm" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.TypeId)
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.LabelFor(model => model.Email)
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-sm", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.NIDNo)
+                            @Html.TextBoxFor(model => model.NIDNo, new { @class = "form-control form-control-sm", autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.NIDNo)
+                        </div>
+                        <div class="col-sm-2">
                             @Html.LabelFor(model => model.PhoneNumber)
                             @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control form-control-sm", autocomplete = "off" })
                             @Html.ValidationMessageFor(model => model.PhoneNumber)
                         </div>
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.PhoneNumber2)
+                            @Html.TextBoxFor(model => model.PhoneNumber2, new { @class = "form-control form-control-sm", autocomplete = "off" })
 
-                        <div class="col-sm-1">
-                            @Html.LabelFor(model => model.IsHeadOffice)
-                            <div class="Onoffbtn">
-                                <div class="input-group" style="margin-bottom: -26px; width: 78%;">
-                                    <input id="IsHeadOffice"
-                                           value="@Model.IsHeadOffice"
-                                           type="checkbox"
-                                           name="my-checkbox"
-                                           @(Model.IsHeadOffice ? "checked" : "")
-                                           data-bootstrap-switch
-                                           data-off-color="danger"
-                                           data-on-color="success"
-                                           data-on-text="Yes"
-                                           data-off-text="No">
-                                </div>
-                            </div>
                         </div>
+                        @*<div class="col-sm-1">
+            @Html.LabelFor(model => model.IsHeadOffice)
+            <div class="Onoffbtn">
+                <div class="input-group" style="margin-bottom: -26px; width: 78%;">
+                    <input id="IsHeadOffice"
+                           value="@Model.IsHeadOffice"
+                           type="checkbox"
+                           name="my-checkbox"
+                           @(Model.IsHeadOffice ? "checked" : "")
+                           data-bootstrap-switch
+                           data-off-color="danger"
+                           data-on-color="success"
+                           data-on-text="Yes"
+                           data-off-text="No">
+                </div>
+            </div>
+        </div>*@
 
                     </div>
+
                 }
 
 

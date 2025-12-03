@@ -1,13 +1,14 @@
 ﻿var MenuAuthorizationController = function (MenuAuthorizationService) {
-
+    var getRoleId = 0;
     var init = function () {
-
+        getRoleId = $("#RoleId").val() || 0;
         if ($('.UserRoleId').is(':hidden')) {
             console.log('The field is hidden.');
         }
         else
         {
             if ($("#RoleId").length) {
+             
                 var RoleComboBox = $("#RoleId").kendoMultiColumnComboBox({
                     dataTextField: "RoleName",
                     dataValueField: "Id",
@@ -22,29 +23,17 @@
                             read: "/SetUp/MenuAuthorization/GetRoleData"
                         }
                     },
+                    dataBound: function (e) {
+                        if (getRoleId) {
+                            this.value(parseInt(getRoleId));
+                        }
+                    },
                     change: function (e) {
                         
                     }
                 }).data("kendoMultiColumnComboBox");
 
-                //var UserGroupComboBox = $("#RoleId").kendoMultiColumnComboBox({
-                //    dataTextField: "GroupName",
-                //    dataValueField: "Id",
-                //    height: 400,
-                //    columns: [
-                //        { field: "GroupName", title: "Group Name", width: 100 },
-                //    ],
-                //    filter: "contains",
-                //    filterFields: ["GroupName"],
-                //    dataSource: {
-                //        transport: {
-                //            read: "/SetUp/MenuAuthorization/GetUserGroupData"
-                //        }
-                //    },
-                //    change: function (e) {
-                //        
-                //    }
-                //}).data("kendoMultiColumnComboBox");
+              
             }
         }
 
@@ -574,9 +563,10 @@
                     width: 20,
                     template: function (dataItem) {
                         return `
-                                <a href="/SetUp/MenuAuthorization/RoleMenuEdit/${dataItem.Id}" class="btn btn-primary btn-sm mr-2 edit">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>`;
+                               <a href="/SetUp/MenuAuthorization/RoleMenuEdit/${dataItem.Id}?roleName=${encodeURIComponent(dataItem.Name)}" 
+           class="btn btn-primary btn-sm mr-2 edit">
+            <i class="fas fa-pencil-alt"></i>
+        </a>`;
                     }
                 },
                 { field: "Id", width: 50, hidden: true, sortable: true },
@@ -675,13 +665,15 @@
                     title: "Action",
                     width: 20,
                     template: function (dataItem) {
+                        
                         const roleId = dataItem.RoleId || '';  // Use an empty string if RoleId is undefined
                         const userId = dataItem.UserId || '';
+                     
                         return `
-                        <a href="/SetUp/MenuAuthorization/UserMenuEdit?roleId=${roleId}&userId=${userId}" 
-                           class="btn btn-primary btn-sm mr-2 edit">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>`;
+        <a href="/SetUp/MenuAuthorization/UserMenuEdit?roleId=${roleId}&userId=${userId}" 
+           class="btn btn-primary btn-sm mr-2 edit">
+            <i class="fas fa-pencil-alt"></i>
+        </a>`;
                     }
                 },
                 { field: "Id", width: 50, hidden: true, sortable: true },
@@ -741,7 +733,7 @@
     };
 
     function roleMenuSave($table) {
-        
+     
         var validator = $("#frm_UserAccess").validate();
         var model = serializeInputs("frm_UserAccess");
 

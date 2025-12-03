@@ -10,6 +10,7 @@ namespace ShampanExam.Models.QuestionVM
     public class QuestionHeaderVM : Audit
     {
         public int Id { get; set; }
+        public string? Code { get; set; }
 
         [Required(ErrorMessage = "Question Subject is required")]
         [Display(Name = "Question Subject")]
@@ -33,7 +34,7 @@ namespace ShampanExam.Models.QuestionVM
 
         [Required(ErrorMessage = "Question Mark is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Question Mark must be a positive integer")]
-        [Display(Name = "Question Mark")]
+        [Display(Name = "Mark")]
         public int? QuestionMark { get; set; }
 
         public List<QuestionOptionDetailVM> QuestionOptionDetails { get; set; }

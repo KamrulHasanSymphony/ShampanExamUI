@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using Newtonsoft.Json;
 using ShampanExam.Models;
 using ShampanExam.Models.Helper;
 using ShampanExam.Repo;
 using ShampanExamUI.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
 
 namespace ShampanExamUI.Areas.SetUp.Controllers
 {
@@ -13,7 +15,7 @@ namespace ShampanExamUI.Areas.SetUp.Controllers
     [RouteArea("SetUp")]
     public class SettingsController : Controller
     {
-
+        private readonly ApplicationDbContext _applicationDb;
         SettingsRepo _repo = new SettingsRepo();
 
         // GET: SetUp/Settings
