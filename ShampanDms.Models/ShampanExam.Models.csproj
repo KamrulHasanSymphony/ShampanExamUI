@@ -89,6 +89,8 @@
     <Compile Include="CommonVMs\Audit.cs" />
     <Compile Include="AccountVMs\AspNetUsersVM.cs" />
     <Compile Include="CommonVMs\DashboardData.cs" />
+    <Compile Include="Exam\ExamReportDetailVM.cs" />
+    <Compile Include="Exam\ExamReportHeaderVM.cs" />
     <Compile Include="Exam\ExamVM.cs" />
     <Compile Include="Helper\Ordinary.cs" />
     <Compile Include="QuestionVM\ExamExamineeVM.cs" />
