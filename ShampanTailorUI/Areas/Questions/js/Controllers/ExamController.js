@@ -274,14 +274,33 @@ var ExamController = function (CommonService, CommonAjaxService) {
                 columns: [
                     {
                         title: "Action",
-                        width: 40,
+                        width: 60,
                         template: function (dataItem) {
                             return `
-                                <a href="/Questions/Exam/Edit/${dataItem.Id}" class="btn btn-primary btn-sm mr-2 edit">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>`;
+        <a href="/Questions/Exam/Edit/${dataItem.Id}"
+           class="btn btn-primary btn-sm mr-2 edit" 
+           title="Edit">
+            <i class="fas fa-pencil-alt"></i>
+        </a>
+        <a href="/Questions/Exam/getReport/${dataItem.Id}" 
+           class="btn btn-success btn-sm mr-2 getReport" 
+           title="Result">
+            <i class="fas fa-file-alt"></i>
+        </a>
+    `;
                         }
                     },
+
+                    //{
+                    //    title: "Action",
+                    //    width: 40,
+                    //    template: function (dataItem) {
+                    //        return `
+                    //            <a href="/Questions/Exam/Edit/${dataItem.Id}" class="btn btn-primary btn-sm mr-2 edit">
+                    //                <i class="fas fa-pencil-alt"></i>
+                    //            </a>`;
+                    //    }
+                    //},
                     { field: "Id", width: 50, hidden: true, sortable: true },
                     { field: "Name", title: "Name", sortable: true, width: 200 },
                     { field: "Date", title: "Exam Date", sortable: true, width: 200 },

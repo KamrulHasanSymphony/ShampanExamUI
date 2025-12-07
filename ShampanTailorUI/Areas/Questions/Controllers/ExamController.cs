@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ShampanExam.Models;
+using ShampanExam.Models.Exam;
 using ShampanExam.Models.KendoCommon;
 using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using ExamVM = ShampanExam.Models.QuestionVM.ExamVM;
 
 namespace ShampanExamUI.Areas.Questions.Controllers
 {
@@ -161,14 +163,73 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                 return RedirectToAction("Index");
             }
         }
-        // GET: Questions/Exam/GetProcessedData
+
+
+        
+
         [HttpGet]
-        public ActionResult GetProcessedData(string id)
+        public ActionResult getReport(string id)
         {
             try
             {
                 _repo = new ExamRepo();
-                CommonVM param = new CommonVM { Id = id };
+
+                ExamReportHeaderVM vm = new ExamReportHeaderVM();
+                CommonVM param = new CommonVM();
+                param.Id = id;
+                ResultVM result = _repo.GetExamInfoReport(param);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    vm = JsonConvert.DeserializeObject<List<ExamReportHeaderVM>>(result.DataVM.ToString()).FirstOrDefault();
+                }
+                else
+                {
+                    vm = null;
+                }
+
+
+                return View("ExamInfoReport", vm);
+            }
+            catch (Exception e)
+            {
+                Session["result"] = "Fail" + "~" + e.Message;
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult ExamInfoReport()
+        {
+            ExamVM vm = new ExamVM();
+            vm.Operation = "add";
+
+            var currentBranchId = Session["CurrentBranch"] != null ? Session["CurrentBranch"].ToString() : "0";
+
+            #region DecimalPlace (optional, adapt if needed)
+            CommonVM commonVM = new CommonVM();
+            commonVM.Group = "SaleDecimalPlace";
+            commonVM.Name = "SaleDecimalPlace";
+            var settingsValue = _commonRepo.GetSettingsValue(commonVM);
+
+            if (settingsValue.Status == "Success" && settingsValue.DataVM != null)
+            {
+                var data = JsonConvert.DeserializeObject<List<CommonVM>>(settingsValue.DataVM.ToString()).FirstOrDefault();
+            }
+            #endregion
+
+            return View("ExamInfoReport", vm);
+        }
+
+
+        // GET: Questions/Exam/GetProcessedData
+        [HttpGet]
+        public ActionResult GetProcessedData(string id,string groupId, string setId)
+        {
+            try
+            {
+                _repo = new ExamRepo();
+                CommonVM param = new CommonVM { Id = id, Group=groupId,Value=setId};
 
                 ResultVM result = _repo.GetProcessedData(param);
 

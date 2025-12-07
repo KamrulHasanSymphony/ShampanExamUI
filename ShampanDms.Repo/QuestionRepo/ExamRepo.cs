@@ -94,6 +94,29 @@ namespace ShampanExam.Repo.QuestionRepo
                 throw e;
             }
         }
+
+
+        public ResultVM GetExamInfoReport(CommonVM model)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = new AuthModel { token = ClaimNames.token };
+                #region Invoke API
+                var data = httpRequestHelper.PostData("api/Exam/ExamInfoReport", authModel, JsonConvert.SerializeObject(model));
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+                #endregion
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+
         public ResultVM GetProcessedData(CommonVM model)
         {
             try

@@ -352,6 +352,8 @@
     <script>
         $(document).on("click", "#btnProcess", function () {
             var examId = $("#Id").val();
+            var examineeGroupId = $("#ExamineeGroupId").val();
+            var questionSetId = $("#QuestionSetId").val();
             if (!examId || examId == "0") {
                 alert("Please save the exam first before processing!");
                 return;
@@ -360,7 +362,7 @@
             $.ajax({
                 url: '/Questions/Exam/GetProcessedData',
                 type: 'GET',
-                data: { id: examId },
+                data: { id: examId, groupId: examineeGroupId, setId: questionSetId },
                 beforeSend: function () {
                     $("#btnProcess").prop("disabled", true).text("Processing...");
                 },

@@ -1,0 +1,201 @@
+﻿@model ShampanExam.Models.Exam.ExamReportHeaderVM
+@using Newtonsoft.Json
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Exam Report";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI',Tahoma;
+        background: #f5f6fa;
+        font-size: 14px;
+    }
+
+    .sslPrint {
+        background-color: #17a2b8 !important;
+        color: #fff;
+        padding: 8px 18px;
+        border: none;
+        border-radius: 4px;
+        background-image: url(/Content/css/ButtonsIcons/icons8-print-30.png);
+        background-repeat: no-repeat;
+        background-position: left 10px center;
+        background-size: 20px;
+        padding-left: 40px;
+        cursor: pointer;
+    }
+
+    .report-container {
+        background: #fff;
+        margin: 30px auto;
+        padding: 25px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        max-width: 900px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        page-break-after: always;
+    }
+
+    .details-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
+
+        .details-table th, .details-table td {
+            border: 1px solid #999;
+            padding: 6px 8px;
+        }
+
+        .details-table th {
+            font-weight: 600;
+            background: #f7f7f7;
+        }
+
+    footer {
+        border-top: 1px solid #000;
+        margin-top: 15px;
+        padding-top: 6px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    @@media print {
+        body {
+            background: #fff !important;
+            visibility: hidden;
+            -webkit-print-color-adjust: exact !important;
+        }
+
+        .sslPrint {
+            display: none !important;
+        }
+
+        #reportHtml, #reportHtml * {
+            visibility: visible !important;
+        }
+
+        #reportHtml {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-5">
+    <button class="button sslPrint" style="display:block; margin-left:auto;" onclick="window.print()">Print</button>
+
+    <div id="reportHtml" style="margin-top:25px;">
+        @{
+            int rowsPerPage = 20;
+            var details = Model.examReportDetailList ?? new List<ShampanExam.Models.Exam.ExamReportDetailVM>();
+            int totalRows = details.Count;
+            int totalPages = (int)Math.Ceiling((decimal)totalRows / rowsPerPage);
+            decimal grandPrice = 0, grandTransport = 0, grandOther = 0;
+        }
+
+        @if (totalRows == 0)
+        {
+            <p class="text-center text-danger">No Exam Data Available.</p>
+        }
+        else
+        {
+            for (int p = 0; p < totalPages; p++)
+            {
+                var pageDetails = details.Skip(p * rowsPerPage).Take(rowsPerPage).ToList();
+                int startSL = p * rowsPerPage + 1;
+                decimal pageQty = 0, pageUnitPrice = 0, pageSubTotal = 0;
+                <div class="report-container">
+
+                    <!-- HEADER -->
+                    @*<div style="display:flex; justify-content:space-between; border-bottom:1px solid #ccc; padding-bottom:10px;">
+                        <img src="@Model.ComImage" width="120" height="80" style="object-fit:contain;" />
+                        <div style="text-align:right;">
+                            <b>@Model.CompanyName</b><br />
+                            @Model.Address1<br />
+                            @Model.City<br />
+                            📞 @Model.TelephoneNo<br />
+                            ✉ @Model.Email
+                        </div>
+                    </div>*@
+
+                    <hr />
+
+                    <!-- TITLE -->
+                    <div class="text-center mb-3">
+                        <h2><span style="border-bottom:1px solid #000;">Exam Result Report</span></h2>
+                    </div>
+
+                    @if (p == 0)
+                    {
+                        <table class="details-table">
+                            <tr><th>Exam Name</th><td>@Model.ExamName</td><th>Total Mark</th><td>@Model.TotalMark</td></tr>
+                            <tr><th>Exam Code</th><td>@Model.ExamCode</td><th>Exam Date</th><td>@Model.ExamDate</td></tr>
+                            <tr><th>Duration</th><td>@Model.Duration</td>
+                        </table>
+                    }
+
+                    <!-- DETAILS -->
+                    <h5 style="border-bottom: 1px solid #000; margin-bottom: 10px; padding-bottom: 5px;">
+                        Examinees Info
+                    </h5>
+                    <table class="details-table">
+
+
+                        <thead>
+
+                            <tr>
+                                <th>SL</th>
+                                <th>Examinee Name</th>
+                                <th>Examinee Mobile No</th>
+                                <th>Mark Obtain</th>
+                                <th>Grade</th>
+                                <th>Percentage</th>
+                                <th>Total Mark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int sl = 1;
+
+                            }
+                            @foreach (var item in Model.examReportDetailList)
+                            {
+                               
+                                <tr>
+                                    <td>@sl</td>
+                                    <td>@item.ExamineeName</td>
+                                    <td>@item.ExamineeMobileNo</td>
+                                    <td>@item.MarkObtain</td>
+                                    <td>@item.Grade</td>
+                                    <td>@item.Percentage</td>
+                                    <td>@item.TotalMark</td>
+                                </tr>
+                                sl++;
+                            }
+                            
+                        </tbody>
+                    </table>
+
+                    <footer style="margin-top: 20px; padding-top: 10px; font-size: 12px; text-align: left;">
+                        <div>@(p == totalPages - 1 ? "Checked by:" : "Prepared by:")</div>
+                        <div>Page @(p + 1) of @totalPages</div>
+                        <div>@(p == totalPages - 1 ? "Approved by:" : "Signature:")</div>
+                    </footer>
+
+
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Areas/Common/js/Services/CommonService.js"></script>
+    <script src="~/Areas/Common/js/Services/CommonAjaxService.js"></script>
+
+}
