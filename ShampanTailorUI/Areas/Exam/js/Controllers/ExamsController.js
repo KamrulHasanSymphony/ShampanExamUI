@@ -1,6 +1,50 @@
-var ExamsController = function (CommonService, CommonAjaxService) {
+﻿var ExamsController = function (CommonService, CommonAjaxService) {
 
     var init = function () {
+
+
+        // ===================== REAL-TIME EXAM TIMER =====================
+
+        // RemainingSeconds must come from MVC Model
+        let remaining = parseInt($("#RemainingSeconds").val());
+        if (remaining != 0) {
+            if (document.getElementById("time")) {
+
+                function updateTimer() {
+
+                    if (remaining < 0) remaining = 0;
+
+                    // Convert seconds to H:M:S
+                    let hrs = Math.floor(remaining / 3600);
+                    let mins = Math.floor((remaining % 3600) / 60);
+                    let secs = remaining % 60;
+
+                    // Display timer on screen
+                    document.getElementById("time").innerHTML =
+                        `${hrs.toString().padStart(2, '0')}:` +
+                        `${mins.toString().padStart(2, '0')}:` +
+                        `${secs.toString().padStart(2, '0')}`;
+
+                    // When time ends → auto submit
+                    if (remaining <= 0) {
+                        clearInterval(timerInterval);
+
+                        $("#actionType").val("Final");
+                        save();
+                    }
+
+                    remaining--;
+                }
+
+                // Run timer every second
+                let timerInterval = setInterval(updateTimer, 1000);
+                updateTimer();
+            }
+        }
+        // If timer container is missing, skip timer
+    
+
+        // ===============================================================
         //var getOperation = $("#Operation").val() || '';
         var getId = $("#ExamineeId").val() || 0;
         //var getExamineeGroupId = $("#ExamineeGroupId").val() || 0;

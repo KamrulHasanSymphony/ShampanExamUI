@@ -4,6 +4,7 @@
     ViewBag.Title = "Exam ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool isSubmitted = Model.FirstOrDefault()?.IsExamSubmitted ?? false;
+    bool isExamover = Model.FirstOrDefault()?.IsExamover ?? false;
 }
 
 
@@ -96,8 +97,12 @@
             <div id="tabs-1">
                 <form id="frmEntry">
                     <div class="card card-secondary">
+                        <div class="alert alert-info">
+                            Time Remaining: <span id="time"></span>
+                        </div>
                         <div class="card-header">
                             <h3 class="card-title">Exam</h3>
+
                         </div>
                         <input type="hidden" id="actionType" name="actionType" />
                         @*<div class="card-body">
@@ -105,7 +110,7 @@
 
 
         </div>*@
-
+                    <input type="hidden" id="RemainingSeconds" value="@Model.First().RemainingSeconds" />
                         @for (int i = 0; i < Model.Count; i++)
                         {
                             var question = Model[i];
@@ -121,6 +126,7 @@
                                     <p class="question-text mb-3"><strong>@question.QuestionText</strong></p>
 
                                     <!-- Hidden fields for question -->
+
                                     <input type="hidden" name="[@i].Id" value="@question.Id" />
                                     <input type="hidden" name="[@i].ExamId" value="@question.ExamId" />
                                     <input type="hidden" name="[@i].ExamineeId" value="@question.ExamineeId" />
@@ -151,14 +157,14 @@
                                         }
                                         else if (question.QuestionType.ToLower() == "multioption")
                                         {
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           name="[@i].SelectedOptionIds[@j]"
-                                           value="@option.Id"
-                                           @(question.SelectedOptionIds.Contains(option.Id) ? "checked" : "") />
-                                    <label class="form-check-label">@option.QuestionOption</label>
-                                </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input"
+                                                       type="checkbox"
+                                                       name="[@i].SelectedOptionIds[@j]"
+                                                       value="@option.Id"
+                                                       @(question.SelectedOptionIds.Contains(option.Id) ? "checked" : "") />
+                                                <label class="form-check-label">@option.QuestionOption</label>
+                                            </div>
                                         }
                                     }
 
@@ -187,16 +193,24 @@
                     <div class="card" style="flex-direction: row; justify-content: space-between; align-items: center;">
                         <div class="card-header p-2">
 
-                            @if (!isSubmitted)
+                            @if (!isExamover)
                             {
-                                <button type="button" class="button btnsave sslUpdate" name="actionType" value="Draft">Save (Draft)</button>
-                                <button type="button" class="button btnPost sslPost" name="actionType" value="Final">Submit</button>
+                                if (!isSubmitted)
+                                {
+                                    <button type="button" class="button btnsave sslUpdate" name="actionType" value="Draft">Save (Draft)</button>
+                                    <button type="button" class="button btnPost sslPost" name="actionType" value="Final">Submit</button>
+                                }
+                                else
+                                {
+                                    <span class="text-success"><strong>Exam already submitted</strong></span>
+                                }
                             }
                             else
                             {
-                                <span class="text-success"><strong>Exam already submitted</strong></span>
+                                <span class="text-success"><strong>Exam already Over</strong></span>
+
                             }
-                            
+
                         </div>
                     </div>
 

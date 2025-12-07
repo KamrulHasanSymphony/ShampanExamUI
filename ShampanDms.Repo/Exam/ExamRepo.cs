@@ -62,7 +62,7 @@ namespace ShampanExam.Repo.Exam
                 AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
 
                 #region Invoke API
-                var data = httpRequestHelper.PostData("api/Exam/ExamSubmit", authModel, JsonConvert.SerializeObject(Answers));
+                var data = httpRequestHelper.PostData("api/Exams/ExamSubmit", authModel, JsonConvert.SerializeObject(Answers));
                 ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
                 #endregion
 
@@ -82,7 +82,7 @@ namespace ShampanExam.Repo.Exam
                 AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
 
                 #region Invoke API
-                var data = httpRequestHelper.PostData("api/Examinee/GetExameeAlllistGridData", authModel, JsonConvert.SerializeObject(options));
+                var data = httpRequestHelper.PostData("api/Examinee/GetExameelistGridData", authModel, JsonConvert.SerializeObject(options));
 
                 ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
                 #endregion

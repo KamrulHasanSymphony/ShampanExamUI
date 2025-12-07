@@ -145,10 +145,59 @@ namespace ShampanExamUI.Areas.Exam.Controllers
                
                     param.Id = id;
                 ResultVM result = _examRepo.List(param);
-
                 if (result.Status == "Success" && result.DataVM != null)
                 {
                     vms = JsonConvert.DeserializeObject<List<QuestionVM>>(result.DataVM.ToString());
+                    if (vms != null && vms.Count > 0)
+                    {
+                        ShampanExam.Repo.QuestionRepo.ExamRepo _repo = new ShampanExam.Repo.QuestionRepo.ExamRepo();
+
+                        CommonVM paramm = new CommonVM();
+                        paramm.Id = vms.FirstOrDefault().ExamId.ToString();
+                        ResultVM resultt = _repo.List(paramm);
+                        ShampanExam.Models.QuestionVM.ExamVM vm = new ShampanExam.Models.QuestionVM.ExamVM();
+
+                        if (resultt.Status == "Success" && resultt.DataVM != null)
+                        {
+                            vm = JsonConvert.DeserializeObject<List<ShampanExam.Models.QuestionVM.ExamVM>>(resultt.DataVM.ToString()).FirstOrDefault();
+                        }
+                        int i = 0;
+                        foreach (var q in vms)
+                        {
+                            if (i == 0)
+                            {
+                                // 1. Date check
+                                if (vm.Date != DateTime.Now.ToString("yyyy-MM-dd"))
+                                {
+                                    q.IsExamover = true;
+                                    q.RemainingSeconds = 0;
+                                }
+                                else
+                                {
+                                    // Build full DateTime from Date + Time
+                                    DateTime examDate = DateTime.Parse(vm.Date);      // yyyy-MM-dd
+                                    TimeSpan examTime = vm.Time.Value;                    // TimeSpan HH:mm:ss
+
+                                    DateTime examStart = examDate.Add(examTime);      // Full start datetime
+                                    DateTime examEnd = examStart.AddMinutes(vm.Duration);
+
+                                    // 2. Time check
+                                    if (DateTime.Now >= examEnd)
+                                    {
+                                        q.IsExamover = true;
+                                        q.RemainingSeconds = 0;
+                                    }
+                                    else
+                                    {
+                                        q.IsExamover = false;
+                                        q.RemainingSeconds = (int)(examEnd - DateTime.Now).TotalSeconds;
+                                    }
+                                }
+                            }
+                            i++;
+
+                        }
+                    }
                 }
                 else
                 {
