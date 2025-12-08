@@ -14,14 +14,16 @@ namespace ShampanExam.Models.QuestionVM
 
         [Display(Name = "Exam Name")]
         public string? Name { get; set; }
-
+        [Display(Name = "Exam Subject")]
+        public int? SubjectId { get; set; }
         [Display(Name = "Exam Date")]
         public string? Date { get; set; }
 
         [Display(Name = "Exam Time")]
         public TimeSpan? Time { get; set; }
 
-        [Display(Name = "Duration (in minutes)")]
+
+        [Display(Name = "Duration(mins)")]
         public int Duration { get; set; }
 
         [Display(Name = "Total Marks")]

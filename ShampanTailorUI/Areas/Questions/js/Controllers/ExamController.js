@@ -6,7 +6,8 @@ var ExamController = function (CommonService, CommonAjaxService) {
         var getGradeId = $("#GradeId").val() || 0;
         var getExamineeGroupId = $("#ExamineeGroupId").val() || 0;
         var getQuestionSetId = $("#QuestionSetId").val() || 0;
-
+        // Initial load
+        toggleQuestionSet();
         // If it's a new page (getId == 0 && getOperation == ''), load the grid data
         if (parseInt(getId) == 0 && getOperation == '') {
             GetGridDataList();
@@ -94,8 +95,24 @@ var ExamController = function (CommonService, CommonAjaxService) {
                 }
             }).data("kendoMultiColumnComboBox");
         };
+        function toggleQuestionSet() {
+            if ($('#IsExamByQuestionSet').is(':checked')) {
+                $('#questionSetContainer').show();
+                $('#ExampolicysectionContainer').hide();
+            } else {
+                $('#questionSetContainer').hide();
+                $('#ExampolicysectionContainer').show();
+                
+            }
+        }
 
 
+
+        // On change event
+        // Correct event for Bootstrap Switch
+        $('#IsExamByQuestionSet').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleQuestionSet();
+        });
         // Save button click handler
         $('.btnsave').click('click', function () {
             
@@ -274,7 +291,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
                 columns: [
                     {
                         title: "Action",
-                        width: 60,
+                        width: 80,
                         template: function (dataItem) {
                             return `
         <a href="/Questions/Exam/Edit/${dataItem.Id}"

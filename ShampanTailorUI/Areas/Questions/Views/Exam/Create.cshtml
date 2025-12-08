@@ -154,10 +154,10 @@
                             @Html.HiddenFor(model => model.Operation)
 
                             <div class="form-group row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-1">
                                     @Html.LabelFor(model => model.Code)
                                     <div class="input-group">
-                                        @Html.TextBoxFor(model => model.Code, new { placeholder = "Enter Exam Code", @class = "form-control form-control-sm" })
+                                        @Html.TextBoxFor(model => model.Code, new { placeholder = "Enter Exam Code", @class = "form-control form-control-sm", @readonly = "readonly" })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Code)
                                 </div>
@@ -170,7 +170,7 @@
                                     @Html.ValidationMessageFor(model => model.Name)
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     @Html.LabelFor(model => model.Date)
                                     <div class="input-group">
                                         @Html.TextBoxFor(model => model.Date, new { placeholder = "Enter Exam Date", @class = "form-control form-control-sm", type = "date" })
@@ -178,7 +178,7 @@
                                     @Html.ValidationMessageFor(model => model.Date)
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     @Html.LabelFor(model => model.Time)
                                     <div class="input-group">
                                         @Html.TextBoxFor(model => model.Time, new { placeholder = "Enter Exam Time", @class = "form-control form-control-sm", type = "time" })
@@ -186,7 +186,7 @@
                                     @Html.ValidationMessageFor(model => model.Time)
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-1">
                                     @Html.LabelFor(model => model.Duration)
                                     <div class="input-group">
                                         @Html.TextBoxFor(model => model.Duration, new { placeholder = "Enter Duration (in minutes)", @class = "form-control form-control-sm" })
@@ -194,7 +194,7 @@
                                     @Html.ValidationMessageFor(model => model.Duration)
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-1">
                                     @Html.LabelFor(model => model.TotalMark)
                                     <div class="input-group">
                                         @Html.TextBoxFor(model => model.TotalMark, new { placeholder = "Enter Total Marks", @class = "form-control form-control-sm" })
@@ -263,7 +263,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-3" id="questionSetContainer">
                                     @Html.LabelFor(model => model.QuestionSetId)
                                     <div class="input-group">
                                         @Html.TextBoxFor(model => model.QuestionSetId, new { placeholder = "Enter Question Set", @class = "form-control form-control-sm" })
@@ -271,11 +271,22 @@
                                     @Html.ValidationMessageFor(model => model.QuestionSetId)
                                 </div>
 
+
+
                             </div>
 
                         </div>
                     </div>
-
+                    <div class="col-md-12" id="ExampolicysectionContainer">
+                        <div class="card card-secondary">
+                            <div class="card-header" id="ExampolicyToggle">
+                                <h3 class="card-title"> Exam policy </h3>
+                            </div>
+                            <div class="card-body" id="Exampolicysection">
+                                <div id="kAddedQuestions"></div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
                 <div class="card">
                     <div class="card-header p-2">
