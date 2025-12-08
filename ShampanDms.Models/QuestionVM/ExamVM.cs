@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShampanTailor.Models.QuestionVM;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -49,6 +50,7 @@ namespace ShampanExam.Models.QuestionVM
         public int? ExamineeId { get; set; }
         public string? ExamineeName { get; set; }
         public List<ExamExamineeVM> examExamineeList { get; set; }
+        public List<AutomatedExamDetailsVM> automatedExamDetailList { get; set; }
         public List<ExamQuestionHeaderVM> examQuestionHeaderList { get; set; }
         public List<ExamQuestionOptionDetailVM> examQuestionOptionDetailList { get; set; }
         public List<ExamQuestionShortDetailVM> examQuestionShortDetailList { get; set; }
@@ -58,6 +60,7 @@ namespace ShampanExam.Models.QuestionVM
         public ExamVM()
         {
             examExamineeList = new List<ExamExamineeVM>();
+            automatedExamDetailList = new List<AutomatedExamDetailsVM>();
             examQuestionHeaderList = new List<ExamQuestionHeaderVM>();
             examQuestionOptionDetailList = new List<ExamQuestionOptionDetailVM>();
             examQuestionShortDetailList = new List<ExamQuestionShortDetailVM>();

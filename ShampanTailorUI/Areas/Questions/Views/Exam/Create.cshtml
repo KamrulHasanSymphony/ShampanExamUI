@@ -1,4 +1,5 @@
-﻿@model ShampanExam.Models.QuestionVM.ExamVM
+﻿@using Newtonsoft.Json
+@model ShampanExam.Models.QuestionVM.ExamVM
 
 @{
     ViewBag.Title = "Exam Create";
@@ -152,6 +153,8 @@
                         <div class="card-body">
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
+                            @Html.Hidden("automatedExamDetailListJson", JsonConvert.SerializeObject(Model.automatedExamDetailList ?? new List<ShampanTailor.Models.QuestionVM.AutomatedExamDetailsVM>()))
+
 
                             <div class="form-group row">
                                 <div class="col-sm-1">

@@ -17,7 +17,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
         GetExamineeGroupComboBox();
         GetQuestionSetComboBox();
 
-        var examDetailList = JSON.parse($("#kAddedQuestionsJson").val() || "[]");
+        var examDetailList = JSON.parse($("#automatedExamDetailListJson").val() || "[]");
 
         var kAddedQuestions = new kendo.data.DataSource({
             data: examDetailList,
@@ -471,7 +471,7 @@ var ExamController = function (CommonService, CommonAjaxService) {
         // Save the form data
         function save() {
             var validator = $("#frmEntry").validate();
-            var formData = new FormData();
+            //var formData = new FormData();
             var model = serializeInputs("frmEntry");
 
             var result = validator.form();
@@ -483,16 +483,36 @@ var ExamController = function (CommonService, CommonAjaxService) {
                 return;
             }
 
-            for (var key in model) {
-                formData.append(key, model[key]);
+
+            var examDetails = [];
+            var automatedExamGrid = $("#kAddedQuestions").data("kendoGrid");
+            if (automatedExamGrid) {
+                var cardItems = automatedExamGrid.dataSource.view();
+                for (var i = 0; i < cardItems.length; i++) {
+                    var cardItem = cardItems[i];
+                    examDetails.push({
+                        Id: cardItem.Id,
+                        AutomatedExamId: cardItem.AutomatedExamId,
+                        SubjectId: cardItem.SubjectId,
+                        NumberOfQuestion: cardItem.NumberOfQuestion,
+                        QuestionType: cardItem.QuestionType,
+                        QuestionMark: cardItem.QuestionMark
+                    });
+                }
             }
 
-            formData.append("IsActive", $('#IsActive').prop('checked'));
-            formData.append("IsExamByQuestionSet", $('#IsExamByQuestionSet').prop('checked'));
-            formData.append("IsExamByQuestionSet", $('#IsExamByQuestionSet').prop('checked'));
+
+            model.automatedExamDetailList = examDetails;
+
+            //for (var key in model) {
+            //    formData.append(key, model[key]);
+            //}
+
+            model.IsActive = $('#IsActive').prop('checked');
+            model.IsExamByQuestionSet = $('#IsExamByQuestionSet').prop('checked');
 
             var url = "/Questions/Exam/CreateEdit";
-            CommonAjaxService.finalImageSave(url, formData, saveDone, saveFail);
+            CommonAjaxService.finalSave(url, model, saveDone, saveFail);
         }
 
         // Handle success

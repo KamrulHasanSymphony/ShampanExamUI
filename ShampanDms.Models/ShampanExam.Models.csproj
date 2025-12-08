@@ -93,6 +93,7 @@
     <Compile Include="Exam\ExamReportHeaderVM.cs" />
     <Compile Include="Exam\ExamVM.cs" />
     <Compile Include="Helper\Ordinary.cs" />
+    <Compile Include="QuestionVM\AutomatedExamDetailsVM.cs" />
     <Compile Include="QuestionVM\ExamExamineeVM.cs" />
     <Compile Include="QuestionVM\ExamineeGroupVM.cs" />
     <Compile Include="QuestionVM\ExamineeVM.cs" />
