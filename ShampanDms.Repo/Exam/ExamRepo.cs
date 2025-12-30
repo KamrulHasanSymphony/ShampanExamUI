@@ -42,7 +42,7 @@ namespace ShampanExam.Repo.Exam
                 AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
 
                 #region Invoke API
-                var data = httpRequestHelper.PostData("api/Exam/Insert", authModel, JsonConvert.SerializeObject(Answers));
+                var data = httpRequestHelper.PostData("api/Exams/Insert", authModel, JsonConvert.SerializeObject(Answers));
                 ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
                 #endregion
 

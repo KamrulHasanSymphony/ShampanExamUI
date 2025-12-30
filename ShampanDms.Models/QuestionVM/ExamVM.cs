@@ -24,7 +24,7 @@ namespace ShampanExam.Models.QuestionVM
         public TimeSpan? Time { get; set; }
 
 
-        [Display(Name = "Duration(mins)")]
+        [Display(Name = "Duration(M)")]
         public int Duration { get; set; }
 
         [Display(Name = "Total Marks")]
@@ -49,6 +49,8 @@ namespace ShampanExam.Models.QuestionVM
         public int? ExamineeGroupId { get; set; }
         public int? ExamineeId { get; set; }
         public string? ExamineeName { get; set; }
+        public int? BranchId { get; set; }
+
         public List<ExamExamineeVM> examExamineeList { get; set; }
         public List<AutomatedExamDetailsVM> automatedExamDetailList { get; set; }
         public List<ExamQuestionHeaderVM> examQuestionHeaderList { get; set; }

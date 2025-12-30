@@ -1,4 +1,4 @@
-var ExamController = function (CommonService, CommonAjaxService) {
+﻿var ExamController = function (CommonService, CommonAjaxService) {
 
     var init = function () {
         var getId = $("#Id").val() || 0;
@@ -483,25 +483,37 @@ var ExamController = function (CommonService, CommonAjaxService) {
                 return;
             }
 
+            var totalMarkInput = $("#TotalMark").val();   // MVC TextBoxFor → id="TotalMark"
+            var totalMark = parseFloat(totalMarkInput) || 0;
 
+            var sumQuestionMarks = 0;
             var examDetails = [];
-            var automatedExamGrid = $("#kAddedQuestions").data("kendoGrid");
-            if (automatedExamGrid) {
-                var cardItems = automatedExamGrid.dataSource.view();
-                for (var i = 0; i < cardItems.length; i++) {
-                    var cardItem = cardItems[i];
-                    examDetails.push({
-                        Id: cardItem.Id,
-                        AutomatedExamId: cardItem.AutomatedExamId,
-                        SubjectId: cardItem.SubjectId,
-                        NumberOfQuestion: cardItem.NumberOfQuestion,
-                        QuestionType: cardItem.QuestionType,
-                        QuestionMark: cardItem.QuestionMark
-                    });
+            if ($('#IsExamByQuestionSet').is(':not(:checked)')) {
+                var automatedExamGrid = $("#kAddedQuestions").data("kendoGrid");
+                if (automatedExamGrid) {
+                    var cardItems = automatedExamGrid.dataSource.view();
+                    for (var i = 0; i < cardItems.length; i++) {
+                        var cardItem = cardItems[i];
+                        var mark = parseFloat(cardItems[i].QuestionMark) || 0;
+                        sumQuestionMarks += mark;
+                        examDetails.push({
+                            Id: cardItem.Id,
+                            AutomatedExamId: cardItem.AutomatedExamId,
+                            SubjectId: cardItem.SubjectId,
+                            NumberOfQuestion: cardItem.NumberOfQuestion,
+                            QuestionType: cardItem.QuestionType,
+                            QuestionMark: cardItem.QuestionMark
+                        });
+                    }
+                }
+                if (automatedExamGrid) {
+                    if (sumQuestionMarks !== totalMark) {
+
+                        ShowNotification(3, "Total Mark and Exam Policy Mark Not same!");
+                        return;
+                    }
                 }
             }
-
-
             model.automatedExamDetailList = examDetails;
 
             //for (var key in model) {
@@ -517,15 +529,23 @@ var ExamController = function (CommonService, CommonAjaxService) {
 
         // Handle success
         function saveDone(result) {
-            if (result.Status == 200) {
+            if (result.Data.Operation == "add") {
+                if (result.Status == 200) {
+                    ShowNotification(1, result.Message);
+                    $(".divSave").hide();
+                    $(".divUpdate").show();
+                    $("#Id").val(result.Data.Id);
+                    $("#Code").val(result.Data.Code);
+                    $("#Operation").val("update");
+                }
+            }
+            else
+            {
                 ShowNotification(1, result.Message);
-                $(".divSave").hide();
-                $(".divUpdate").show();
-                $("#Id").val(result.Data.Id);
-                $("#Operation").val("update");
+
             }
         }
-
+        
         // Handle fail
         function saveFail(result) {
             ShowNotification(3, "Query Exception!");

@@ -52,8 +52,9 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                         model.CreatedBy = Session["UserId"].ToString();
                         model.CreatedOn = DateTime.Now.ToString();
                         model.CreatedFrom = Ordinary.GetLocalIpAddress();
+                    //model.BranchId = Session["BranchId"].ToString();
 
-                        resultVM = _repo.Insert(model);
+                    resultVM = _repo.Insert(model);
 
                         if (resultVM.Status == "Success")
                         {
