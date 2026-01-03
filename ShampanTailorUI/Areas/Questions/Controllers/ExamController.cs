@@ -323,5 +323,35 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         //        return RedirectToAction("Index", "Exam", new { area = "Exam", message = TempData["Message"] });
         //    }
         //}
+        // GET: Questions/Exam/GetRandomProcessedData
+        [HttpGet]
+        public ActionResult GetRandomProcessedData(string id, string groupId, string setId,string questionSubjectId,string questionType,string noOfQuestion)
+        {
+            try
+            {
+                _repo = new ExamRepo();
+                CommonVM param = new CommonVM { Id = id, Group = groupId, Value = setId,QuestionSubjectId = questionSubjectId,QuestionType = questionType,NoOfQuestion = noOfQuestion };
+
+                ResultVM result = _repo.GetRandomProcessedData(param);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = result.Message,
+                        data = result.DataVM
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, message = result.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

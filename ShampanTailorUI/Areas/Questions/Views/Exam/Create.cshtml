@@ -124,6 +124,11 @@
         text-align: center;
         vertical-align: middle;
     }
+
+    #btnProcess,
+    #btnRandomProcess {
+        display: none;
+    }
 </style>
 
 <div id="tabs">
@@ -293,28 +298,59 @@
                 </form>
                 <div class="card">
                     <div class="card-header p-2">
-                        @if (Model.Operation.Equals("update", StringComparison.OrdinalIgnoreCase))
+                        @if (Model.Operation == "update")
                         {
                             <button type="button" class="button btnsave sslUpdate">Update</button>
-                            <button @*style="float:right;"*@ type="button" title="Add New" data-url="/Questions/Exam/Create" onclick="GoTo(this)" class="button NewButton addNewButton">New</button>
-                            <!-- ✅ New Process Button -->
-                            <button id="btnProcess" type="button" class="button btnProcess" style="background-color:#1790D2;color:white;margin-left:10px;">
+                            <button type="button"
+                                    title="Add New"
+                                    data-url="/Questions/Exam/Create"
+                                    onclick="GoTo(this)"
+                                    class="button NewButton addNewButton">
+                                New
+                            </button>
+                            <!-- Always render both buttons -->
+                            <button id="btnProcess"
+                                    type="button"
+                                    class="button btnProcess"
+                                    style="background-color:#1790D2;color:white;margin-left:10px; display:none;">
                                 Process
                             </button>
-                            <div style="float:right;" class="auditshow"> <img src="~/Content/Images/audit.png" title="Click for Audit" /> </div>
+
+                            <button id="btnRandomProcess"
+                                    type="button"
+                                    class="button btnRandomProcess"
+                                    style="background-color:#1790D2;color:white;margin-left:10px; display:none;">
+                                Random Process
+                            </button>
+                            <div class="auditshow">
+                                <img src="~/Content/Images/audit.png" title="Click for Audit" />
+                            </div>
                         }
                         else
                         {
                             <div style="display:none;" class="divUpdate">
                                 <button type="button" class="button btnsave sslUpdate">Update</button>
-                                <button style="float:right;" type="button" title="Add New" data-url="/Questions/Exam/Create" onclick="GoTo(this)" class="button NewButton addNewButton">New</button>
+                                <button style="float: right; margin-left: 5px;" type="button" title="Add New" data-url="/Questions/Exam/Create" onclick="GoTo(this)" class="button NewButton addNewButton">
+                                    New
+                                </button>
                             </div>
+
                             <div class="divSave">
-                                <button class="button btnsave sslSave" type="button">Save</button>
+                                <button class="button btnsave sslSave" type="button" id="">Save</button>
+                                <button type="button"
+                                        title="Add New"
+                                        data-url="/Questions/Exam/Create"
+                                        onclick="GoTo(this)"
+                                        class="button NewButton addNewButton">
+                                    New
+                                </button>
                             </div>
                         }
+
                     </div>
                 </div>
+
+
                 <!-- ✅ Div to show the result of AJAX call -->
                 <div id="processResult" class="card mt-3" style="display:none;">
                     <div class="card-header"><h3 class="card-title">Processed Result</h3></div>
@@ -354,15 +390,34 @@
     <script>
         $(document).ready(function () {
             ExamController.init();
+            // bootstrapSwitch initialize
+            $("[data-bootstrap-switch]").each(function () {
+                $(this).bootstrapSwitch('state', $(this).prop('checked'));
+            });
+            // initial toggle on page load
+            toggleProcessButtons($('#IsExamByQuestionSet').is(':checked'));
+
+            // change event
+            $('#IsExamByQuestionSet').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleProcessButtons(state);
+            });
+
+            function toggleProcessButtons(isQuestionSet) {
+                debugger;
+                if (isQuestionSet) {
+                    $('#btnProcess').show();
+                    $('#btnRandomProcess').hide();
+                } else {
+                    $('#btnProcess').hide();
+                    $('#btnRandomProcess').show();
+                }
+            }
         });
 
     </script>
-    <script>
-        // bootstrapSwitch initialize
-        $("[data-bootstrap-switch]").each(function () {
-            $(this).bootstrapSwitch('state', $(this).prop('checked'));
-        });
-    </script>
+    @*<script>
+
+        </script>*@
     <script>
         $(document).on("click", "#btnProcess", function () {
             var examId = $("#Id").val();
@@ -427,6 +482,104 @@
 
 
 
+            function buildTable(list) {
+                if (!list || list.length === 0) return "<p>No data available.</p>";
+
+                let html = "<div class='table-responsive'><table class='table table-bordered table-sm'>";
+                const columns = Object.keys(list[0]);
+
+                // Table Header
+                html += "<thead><tr>";
+                columns.forEach(col => {
+                    html += `<th>${col}</th>`;
+                });
+                html += "</tr></thead><tbody>";
+
+                // Table Rows
+                list.forEach(row => {
+                    html += "<tr>";
+                    columns.forEach(col => {
+                        html += `<td>${row[col] != null ? row[col] : ""}</td>`;
+                    });
+                    html += "</tr>";
+                });
+
+                html += "</tbody></table></div>";
+                return html;
+            }
+        });
+
+        $(document).on("click", "#btnRandomProcess", function () {
+            var examId = $("#Id").val();
+            var examineeGroupId = $("#ExamineeGroupId").val();
+            var questionSetId = $("#QuestionSetId").val();
+            if (!examId || examId == "0") {
+                alert("Please save the exam first before processing!");
+                return;
+            }
+
+            var grid = $("#kAddedQuestions").data("kendoGrid");
+
+            var data = grid.dataSource.view();
+
+            data.forEach(function (item) {
+                var questionSubjectId = item.SubjectId;
+                var questionType = item.QuestionType;
+                var noOfQuestion = item.NumberOfQuestion;
+                debugger;
+                $.ajax({
+                    url: '/Questions/Exam/GetRandomProcessedData',
+                    type: 'GET',
+                    data: { id: examId, groupId: examineeGroupId, setId: questionSetId, questionSubjectId: questionSubjectId, questionType: questionType, noOfQuestion: noOfQuestion },
+                    beforeSend: function () {
+                        $("#btnRandomProcess").prop("disabled", true).text("Processing...");
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            const data = response.data;
+                            let html = `<h5 class="text-success">${response.message}</h5>`;
+
+                            // ✅ 1️⃣ Exam Question Headers
+                            if (data.examQuestionHeaderList && data.examQuestionHeaderList.length > 0) {
+                                html += "<h6>Exam Question Headers</h6>";
+                                html += buildTable(data.examQuestionHeaderList);
+                            }
+
+                            // ✅ 2️⃣ Exam Question Option Details
+                            if (data.examQuestionOptionDetailList && data.examQuestionOptionDetailList.length > 0) {
+                                html += "<h6 class='mt-3 text-primary'>Exam Question Option Details</h6>";
+                                html += buildTable(data.examQuestionOptionDetailList);
+                            }
+
+                            // ✅ 3️⃣ Exam Question Short Details
+                            if (data.examQuestionShortDetailList && data.examQuestionShortDetailList.length > 0) {
+                                html += "<h6 class='mt-3 text-primary'>Exam Question Short Details</h6>";
+                                html += buildTable(data.examQuestionShortDetailList);
+                            }
+
+                            // ✅ 4️⃣ Exam Examinees
+                            if (data.examExamineeList && data.examExamineeList.length > 0) {
+                                html += "<h6 class='mt-3 text-primary'>Exam Examinees</h6>";
+                                html += buildTable(data.examExamineeList);
+                            }
+
+                            $("#processDataContainer").html(html);
+                            $("#processResult").show();
+                        } else {
+                            $("#processDataContainer").html(`<p class='text-danger'>${response.message}</p>`);
+                            $("#processResult").show();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $("#processDataContainer").html(`<p class='text-danger'>Error: ${error}</p>`);
+                        $("#processResult").show();
+                    },
+                    complete: function () {
+                        $("#btnRandomProcess").prop("disabled", false).text("Random Process");
+                    }
+                });
+
+            });
             function buildTable(list) {
                 if (!list || list.length === 0) return "<p>No data available.</p>";
 

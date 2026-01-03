@@ -72,8 +72,7 @@
                     title: "Subject",
                     width: 150,
                     editor: function (container, options) {
-
-                        $('<input required id="cmbCard" data-bind="value:' + options.field + '" />')
+                        $('<input required data-bind="value:' + options.field + '" />')
                             .appendTo(container)
                             .kendoComboBox({
                                 dataTextField: "Name",
@@ -85,18 +84,43 @@
                                 },
                                 filter: "contains",
                                 placeholder: "Select Subject",
-
+                                value: options.model.SubjectId, // <-- pre-select the value based on SubjectId
                                 change: function (e) {
                                     var selected = this.dataItem();
-
                                     if (selected) {
                                         options.model.SubjectName = selected.Name;
-
                                         options.model.SubjectId = selected.Id;
                                     }
                                 }
                             });
                     }
+
+                    //editor: function (container, options) {
+
+                    //    $('<input required id="cmbCard" data-bind="value:' + options.field + '" />')
+                    //        .appendTo(container)
+                    //        .kendoComboBox({
+                    //            dataTextField: "Name",
+                    //            dataValueField: "Id",
+                    //            dataSource: {
+                    //                transport: {
+                    //                    read: "/Common/Common/GetSubjectList"
+                    //                }
+                    //            },
+                    //            filter: "contains",
+                    //            placeholder: "Select Subject",
+
+                    //            change: function (e) {
+                    //                var selected = this.dataItem();
+
+                    //                if (selected) {
+                    //                    options.model.SubjectName = selected.Name;
+
+                    //                    options.model.SubjectId = selected.Id;
+                    //                }
+                    //            }
+                    //        });
+                    //}
                 },
                 
                 {
@@ -529,11 +553,22 @@
 
         // Handle success
         function saveDone(result) {
+            debugger;
             if (result.Data.Operation == "add") {
                 if (result.Status == 200) {
                     ShowNotification(1, result.Message);
                     $(".divSave").hide();
                     $(".divUpdate").show();
+                    if (result.Data.IsExamByQuestionSet == false) {
+                        $("#btnRandomProcess").show();
+                        $('#btnProcess').hide();
+                    }
+                    else {
+                        $('#btnProcess').show();
+                        $("#btnRandomProcess").hide();
+
+                    }
+                    
                     $("#Id").val(result.Data.Id);
                     $("#Code").val(result.Data.Code);
                     $("#Operation").val("update");
