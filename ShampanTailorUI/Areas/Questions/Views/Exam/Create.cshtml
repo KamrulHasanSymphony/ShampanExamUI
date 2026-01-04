@@ -129,6 +129,9 @@
     #btnRandomProcess {
         display: none;
     }
+    .auditshow {
+        float: right !important;
+    }
 </style>
 
 <div id="tabs">
@@ -530,7 +533,7 @@
                 $.ajax({
                     url: '/Questions/Exam/GetRandomProcessedData',
                     type: 'GET',
-                    data: { id: examId, groupId: examineeGroupId, setId: questionSetId, questionSubjectId: questionSubjectId, questionType: questionType, noOfQuestion: noOfQuestion },
+                    data: { id: examId, groupId: examineeGroupId, questionSubjectId: questionSubjectId, questionType: questionType, noOfQuestion: noOfQuestion },
                     beforeSend: function () {
                         $("#btnRandomProcess").prop("disabled", true).text("Processing...");
                     },

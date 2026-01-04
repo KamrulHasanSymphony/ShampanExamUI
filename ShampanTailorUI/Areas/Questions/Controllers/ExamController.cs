@@ -325,12 +325,12 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         //}
         // GET: Questions/Exam/GetRandomProcessedData
         [HttpGet]
-        public ActionResult GetRandomProcessedData(string id, string groupId, string setId,string questionSubjectId,string questionType,string noOfQuestion)
+        public ActionResult GetRandomProcessedData(string id, string groupId,string questionSubjectId,string questionType,string noOfQuestion)
         {
             try
             {
                 _repo = new ExamRepo();
-                CommonVM param = new CommonVM { Id = id, Group = groupId, Value = setId,QuestionSubjectId = questionSubjectId,QuestionType = questionType,NoOfQuestion = noOfQuestion };
+                CommonVM param = new CommonVM { Id = id, Group = groupId,QuestionSubjectId = questionSubjectId,QuestionType = questionType,NoOfQuestion = noOfQuestion };
 
                 ResultVM result = _repo.GetRandomProcessedData(param);
 
