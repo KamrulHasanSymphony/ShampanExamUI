@@ -553,7 +553,7 @@
 
         // Handle success
         function saveDone(result) {
-            debugger;
+            
             if (result.Data.Operation == "add") {
                 if (result.Status == 200) {
                     ShowNotification(1, result.Message);
@@ -572,6 +572,9 @@
                     $("#Id").val(result.Data.Id);
                     $("#Code").val(result.Data.Code);
                     $("#Operation").val("update");
+                    debugger;
+                    window.location.href = '/Questions/Exam/Edit?id=' + result.Data.Id;
+
                 }
             }
             else
