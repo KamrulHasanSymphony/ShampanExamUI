@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShampanExam.Models.QuestionVM;
+using System;
 
 namespace ShampanExam.Models
 {
@@ -26,6 +27,7 @@ namespace ShampanExam.Models
         public string? QuestionSubjectId { get; set; }
         public string? QuestionType { get; set; }
         public string? NoOfQuestion { get; set; }
+        public string? ExamineeId { get; set; }
         public string[] ConditionalFields { get; set; } = Array.Empty<string>();
         public string[] ConditionalValues { get; set; } = Array.Empty<string>();
 

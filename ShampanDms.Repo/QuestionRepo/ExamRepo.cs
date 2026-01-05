@@ -236,6 +236,33 @@ namespace ShampanExam.Repo.QuestionRepo
             }
         }
 
+        public ResultVM GetUserRandomProcessedData(CommonVM model)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
+
+                var data = httpRequestHelper.PostData("api/Exam/GetUserRandomProcessedData", authModel, JsonConvert.SerializeObject(model));
+
+                // Deserialize the first-level ResultVM
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+
+                // ✅ Step 2: Deserialize the nested DataVM into ExamVM
+                if (result != null && result.Status == "Success" && result.DataVM != null)
+                {
+                    var examVm = JsonConvert.DeserializeObject<ExamVM>(result.DataVM.ToString());
+                    result.DataVM = examVm;
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         //// ReportPreview Method
         //public Stream ReportPreview(CommonVM model)
         //{

@@ -46,8 +46,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
             ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
             _repo = new ExamineeRepo();
 
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
                     if (model.Operation.ToLower() == "add")
@@ -129,18 +128,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                     return View("Create", model);
                 }
-            }
-            else
-            {
-                result = new ResultModel<ExamineeVM>()
-                {
-                    Success = false,
-                    Status = Status.Fail,
-                    Message = "Model State Error!",
-                    Data = model
-                };
-                return Json(result);
-            }
+            
         }
 
         // GET: Questions/Examinee/Edit

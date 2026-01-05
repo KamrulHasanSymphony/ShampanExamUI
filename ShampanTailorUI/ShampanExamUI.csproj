@@ -452,6 +452,7 @@
     <Content Include="Areas\Common\js\Services\CommonService.js" />
     <Content Include="Areas\Examiner\js\Controllers\ExaminerController.js" />
     <Content Include="Areas\Exam\js\Controllers\ExamsController.js" />
+    <Content Include="Areas\Questions\js\Controllers\RandomExamController.js" />
     <Content Include="Areas\Questions\js\Controllers\ExamController.js" />
     <Content Include="Areas\Questions\js\Controllers\ExamineeController.js" />
     <Content Include="Areas\Questions\js\Controllers\ExamineeGroupController.js" />
@@ -2629,6 +2630,8 @@
     <Content Include="Areas\Examiner\Views\Examiner\Result.cshtml" />
     <Content Include="Areas\Exam\Views\Exam\Result.cshtml" />
     <Content Include="Areas\Questions\Views\Exam\ExamInfoReport.cshtml" />
+    <Content Include="Areas\Questions\Views\Exam\RandomIndex.cshtml" />
+    <Content Include="Areas\Questions\Views\Exam\RandomCreate.cshtml" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\assets\kendoUI2021\kendo\kendo.all.min.js" />
