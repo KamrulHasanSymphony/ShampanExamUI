@@ -14,7 +14,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
         GetExamineeComboBox();
         // Save button click handler
         $('.btnsave').click('click', function () {
-            debugger;
+            
             var getId = $('#Id').val();
             var status = "Save";
             if (parseInt(getId) > 0) {
@@ -319,7 +319,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
 
     // Save the form data
     function save() {
-        debugger;
+        
         var validator = $("#frmEntry").validate();
         var combo = $("#Name").data("kendoMultiColumnComboBox");
 

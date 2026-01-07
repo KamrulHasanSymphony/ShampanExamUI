@@ -2,7 +2,7 @@
 @model ShampanExam.Models.QuestionVM.ExamVM
 
 @{
-    ViewBag.Title = "Exam Create";
+    ViewBag.Title = "Self Exam Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -135,7 +135,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Exam Create</h1>
+                    <h1 class="m-0">Self Exam Create</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -153,140 +153,7 @@
                     @Html.HiddenFor(model => model.Id)
                     @Html.HiddenFor(model => model.Operation)
                     @Html.Hidden("automatedExamDetailListJson", JsonConvert.SerializeObject(Model.automatedExamDetailList ?? new List<ShampanTailor.Models.QuestionVM.AutomatedExamDetailsVM>()))
-                    @*<div class="card card-secondary">
-            <div class="card-header">
-                <h3 class="card-title">Exam Info</h3>
-            </div>
-            <div class="card-body">
-                @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.Operation)
-                @Html.Hidden("automatedExamDetailListJson", JsonConvert.SerializeObject(Model.automatedExamDetailList ?? new List<ShampanTailor.Models.QuestionVM.AutomatedExamDetailsVM>()))
-
-
-                <div class="form-group row">
-                    <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Code)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.Code, new { placeholder = "Enter Exam Code", @class = "form-control form-control-sm", @readonly = "readonly" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Code)
-                    </div>
-
-                    <div class="col-sm-3">
-                        @Html.LabelFor(model => model.Name)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.Name, new { placeholder = "Enter Exam Name", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Name)
-                    </div>
-
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.Date)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.Date, new { placeholder = "Enter Exam Date", @class = "form-control form-control-sm", type = "date" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Date)
-                    </div>
-
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.Time)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.Time, new { placeholder = "Enter Exam Time", @class = "form-control form-control-sm", type = "time" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Time)
-                    </div>
-
-                    <div class="col-sm-1">
-                        @Html.LabelFor(model => model.Duration)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.Duration, new { placeholder = "Enter Duration (in minutes)", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Duration)
-                    </div>
-
-                    <div class="col-sm-1">
-                        @Html.LabelFor(model => model.TotalMark)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.TotalMark, new { placeholder = "Enter Total Marks", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.TotalMark)
-                    </div>
-
-                    <div class="col-sm-3">
-                        @Html.LabelFor(model => model.GradeId)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.GradeId, new { placeholder = "Enter Grade", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.GradeId)
-                    </div>
-
-
-                    <div class="col-sm-3">
-                        @Html.LabelFor(model => model.ExamineeGroupId)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.ExamineeGroupId, new { placeholder = "Enter Examinee Group", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.ExamineeGroupId)
-                    </div>
-
-                    <div class="col-sm-3">
-                        @Html.LabelFor(model => model.Remarks)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.Remarks, new { placeholder = "Enter Remarks", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Remarks)
-                    </div>
-
-                    <div class="col-sm-1.5">
-                        @Html.LabelFor(model => model.IsActive)
-                        <div class="Onoffbtn">
-                            <div class="input-group" style="margin-bottom: -26px; width: 78%;">
-                                <input id="IsActive"
-                                       value="@Model.IsActive"
-                                       type="checkbox"
-                                       name="my-checkbox"
-                                       @(Model.IsActive ? "checked" : "")
-                                       data-bootstrap-switch
-                                       data-off-color="danger"
-                                       data-on-color="success"
-                                       data-on-text="Yes"
-                                       data-off-text="No">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-1.5">
-                        @Html.LabelFor(model => model.IsExamByQuestionSet)
-                        <div class="Onoffbtn">
-                            <div class="input-group" style="margin-bottom: -26px; width: 78%;">
-                                <input id="IsExamByQuestionSet"
-                                       value="@Model.IsExamByQuestionSet"
-                                       type="checkbox"
-                                       name="my-checkbox"
-                                       @(Model.IsExamByQuestionSet ? "checked" : "")
-                                       data-bootstrap-switch
-                                       data-off-color="danger"
-                                       data-on-color="success"
-                                       data-on-text="Yes"
-                                       data-off-text="No">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3" id="questionSetContainer">
-                        @Html.LabelFor(model => model.QuestionSetId)
-                        <div class="input-group">
-                            @Html.TextBoxFor(model => model.QuestionSetId, new { placeholder = "Enter Question Set", @class = "form-control form-control-sm" })
-                        </div>
-                        @Html.ValidationMessageFor(model => model.QuestionSetId)
-                    </div>
-
-
-
-                </div>
-
-            </div>
-        </div>*@
+                    
                     <div class="col-md-12" id="ExampolicysectionContainer">
                         <div class="card card-secondary">
                             <div class="card-header" id="ExampolicyToggle">

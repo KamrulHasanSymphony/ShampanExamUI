@@ -498,7 +498,8 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     Group = model.ExamineeGroupId.ToString(),
                     QuestionSubjectId = questionSubjectId,
                     QuestionType = questionType,
-                    NoOfQuestion = noOfQuestion
+                    NoOfQuestion = noOfQuestion,
+                    UserId = Session["UserId"].ToString()
                 };
 
                 _repo = new ExamRepo();

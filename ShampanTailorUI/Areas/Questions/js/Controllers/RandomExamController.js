@@ -200,7 +200,7 @@
 
         // Fetch grid data
         function GetGridDataList() {
-            debugger;
+            
             var gridDataSource = new kendo.data.DataSource({
                 type: "json",
                 serverPaging: true,
@@ -451,7 +451,7 @@
                     $("#Id").val(result.Data.Id);
                     $("#Code").val(result.Data.Code);
                     $("#Operation").val("update");
-                    debugger;
+                    
                     window.location.href = '/Questions/Exam/Edit?id=' + result.Data.Id;
 
                 }
