@@ -8,6 +8,7 @@ using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo;
 using ShampanExam.Repo.Helper;
 using ShampanExam.Repo.QuestionRepo;
+using ShampanTailor.Models.QuestionVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -181,7 +182,39 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         }
 
 
-        
+        // GET: Questions/Exam/RandomEdit
+        [HttpGet]
+        public ActionResult RandomEdit(string id)
+        {
+            try
+            {
+                _repo = new ExamRepo();
+
+                ExamVM vm = new ExamVM();
+                CommonVM param = new CommonVM();
+                param.Id = id;
+                ResultVM result = _repo.List(param);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    vm = JsonConvert.DeserializeObject<List<ExamVM>>(result.DataVM.ToString()).FirstOrDefault();
+                }
+                else
+                {
+                    vm = null;
+                }
+
+                vm.Operation = "update";
+
+                return View("RandomCreate", vm);
+            }
+            catch (Exception e)
+            {
+                Session["result"] = "Fail" + "~" + e.Message;
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return RedirectToAction("Index");
+            }
+        }
 
         [HttpGet]
         public ActionResult getReport(string id)
@@ -378,11 +411,13 @@ namespace ShampanExamUI.Areas.Questions.Controllers
 
             try
             {
-                result = _repo.GetGridData(options);
+                var user = Session["UserId"].ToString();
+                options.vm.UserId = user;
+                result = _repo.GetRandomGridData(options);
 
                 if (result.Status == "Success" && result.DataVM != null)
                 {
-                    var gridData = JsonConvert.DeserializeObject<GridEntity<ExamVM>>(result.DataVM.ToString());
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<AutomatedExamDetailsVM>>(result.DataVM.ToString());
 
                     return Json(new
                     {
@@ -401,7 +436,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetUserRandomProcessedData(string questionSubjectId,string questionType,string noOfQuestion)
+        public ActionResult GetUserRandomProcessedData(string questionSubjectId,string questionType,string noOfQuestion,string questionMark)
         {
             try
             {
@@ -426,11 +461,22 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     IsExamByQuestionSet = false,
                     QuestionSetId = 0,
                     ExamineeGroupId = 0,
-                    IsActive = false,
+                    IsActive = true,
                     IsArchive = false,
                     CreatedBy = Session["UserId"].ToString(),
                     CreatedOn = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                    CreatedFrom = Ordinary.GetLocalIpAddress()
+                    CreatedFrom = Ordinary.GetLocalIpAddress(),
+                    automatedExamDetailList = new List<AutomatedExamDetailsVM>
+                    {
+                        new AutomatedExamDetailsVM
+                        {
+                            SubjectId =Convert.ToInt32(questionSubjectId),
+                            NumberOfQuestion = Convert.ToInt32(noOfQuestion),
+                            QuestionType = questionType,
+                            QuestionMark = Convert.ToInt32(questionMark)
+                        }
+                    }
+
                 };
 
                 ResultVM insertResult = _repo.Insert(model);

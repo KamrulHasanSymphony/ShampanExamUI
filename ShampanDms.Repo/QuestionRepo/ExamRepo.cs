@@ -279,5 +279,25 @@ namespace ShampanExam.Repo.QuestionRepo
         //        throw e;
         //    }
         //}
+        public ResultVM GetRandomGridData(GridOptions options)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
+
+                #region Invoke API
+                var data = httpRequestHelper.PostData("api/Exam/GetRandomGridData", authModel, JsonConvert.SerializeObject(options));
+
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+                #endregion
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

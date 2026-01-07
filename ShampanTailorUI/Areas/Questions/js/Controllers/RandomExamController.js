@@ -7,15 +7,14 @@
         var getExamineeGroupId = $("#ExamineeGroupId").val() || 0;
         var getQuestionSetId = $("#QuestionSetId").val() || 0;
         // Initial load
-        toggleQuestionSet();
         // If it's a new page (getId == 0 && getOperation == ''), load the grid data
         if (parseInt(getId) == 0 && getOperation == '') {
             GetGridDataList();
         }
         // Initialize Kendo UI components
-        GetGradeComboBox();
-        GetExamineeGroupComboBox();
-        GetQuestionSetComboBox();
+        //GetGradeComboBox();
+        //GetExamineeGroupComboBox();
+        //GetQuestionSetComboBox();
 
         var examDetailList = JSON.parse($("#automatedExamDetailListJson").val() || "[]");
 
@@ -175,104 +174,6 @@
             ]
         });
 
-
-
-        function GetGradeComboBox() {
-            
-            var GradeComboBox = $("#GradeId").kendoMultiColumnComboBox({
-                dataTextField: "Name",
-                dataValueField: "Id",
-                height: 400,
-                columns: [
-                    { field: "Code", title: "Code", width: 150 },
-                    { field: "Name", title: "Name", width: 150 }
-                ],
-                filter: "contains",
-                filterFields: ["Name"],
-                dataSource: {
-                    transport: {
-                        read: "/Questions/Grade/Dropdown"
-                    }
-                },
-                placeholder: "Select Grade",
-                value: "",
-                dataBound: function (e) {
-                    if (getGradeId) {
-                        this.value(parseInt(getGradeId));
-                    }
-                }
-            }).data("kendoMultiColumnComboBox");
-        };
-        function GetExamineeGroupComboBox() {
-            
-            var ExamineeGroupComboBox = $("#ExamineeGroupId").kendoMultiColumnComboBox({
-                dataTextField: "Name",
-                dataValueField: "Id",
-                height: 400,
-                columns: [
-                    { field: "Name", title: "Name", width: 150 },
-                    { field: "Remarks", title: "Remarks", width: 150 }
-                ],
-                filter: "contains",
-                filterFields: ["Name"],
-                dataSource: {
-                    transport: {
-                        read: "/Questions/ExamineeGroup/Dropdown"
-                    }
-                },
-                placeholder: "Select Examinee Group",
-                value: "",
-                dataBound: function (e) {
-                    if (getExamineeGroupId) {
-                        this.value(parseInt(getExamineeGroupId));
-                    }
-                }
-            }).data("kendoMultiColumnComboBox");
-        };
-        function GetQuestionSetComboBox() {
-            
-            var QuestionSetComboBox = $("#QuestionSetId").kendoMultiColumnComboBox({
-                dataTextField: "Name",
-                dataValueField: "Id",
-                height: 400,
-                columns: [
-                    { field: "Name", title: "Name", width: 150 },
-                    { field: "Remarks", title: "Remarks", width: 150 }
-                ],
-                filter: "contains",
-                filterFields: ["Name"],
-                dataSource: {
-                    transport: {
-                        read: "/Questions/QuestionSet/Dropdown"
-                    }
-                },
-                placeholder: "Select Examinee Group",
-                value: "",
-                dataBound: function (e) {
-                    if (getQuestionSetId) {
-                        this.value(parseInt(getQuestionSetId));
-                    }
-                }
-            }).data("kendoMultiColumnComboBox");
-        };
-        function toggleQuestionSet() {
-            if ($('#IsExamByQuestionSet').is(':checked')) {
-                $('#questionSetContainer').show();
-                $('#ExampolicysectionContainer').hide();
-            } else {
-                $('#questionSetContainer').hide();
-                $('#ExampolicysectionContainer').show();
-                
-            }
-        }
-
-
-
-        // On change event
-        // Correct event for Bootstrap Switch
-        $('#IsExamByQuestionSet').on('switchChange.bootstrapSwitch', function (event, state) {
-            toggleQuestionSet();
-        });
         // Save button click handler
         $('.btnsave').click('click', function () {
             
@@ -299,6 +200,7 @@
 
         // Fetch grid data
         function GetGridDataList() {
+            debugger;
             var gridDataSource = new kendo.data.DataSource({
                 type: "json",
                 serverPaging: true,
@@ -320,23 +222,20 @@
                                 if (param.field === "Id") {
                                     param.field = "H.Id";
                                 }
-                                if (param.field === "Name") {
-                                    param.field = "H.Name";
+                                if (param.field === "ExamCode") {
+                                    param.field = "H.Code";
                                 }
-                                if (param.field === "ExamDate") {
-                                    param.field = "H.ExamDate";
+                                if (param.field === "SubjectName") {
+                                    param.field = "S.Name";
                                 }
-                                if (param.field === "Status") {
-                                    let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
-                                    if (statusValue.startsWith("a")) {
-                                        param.value = 1;
-                                    } else if (statusValue.startsWith("i")) {
-                                        param.value = 0;
-                                    } else {
-                                        param.value = null;
-                                    }
-                                    param.field = "H.IsActive";
-                                    param.operator = "eq";
+                                if (param.field === "NumberOfQuestion") {
+                                    param.field = "D.NumberOfQuestion";
+                                }
+                                if (param.field === "QuestionType") {
+                                    param.field = "D.QuestionType";
+                                }
+                                if (param.field === "QuestionMark") {
+                                    param.field = "D.QuestionMark";
                                 }
                             });
                         }
@@ -346,25 +245,20 @@
                                 if (param.field === "Id") {
                                     param.field = "H.Id";
                                 }
-                                if (param.field === "Name") {
-                                    param.field = "H.Name";
+                                if (param.field === "ExamCode") {
+                                    param.field = "H.Code";
                                 }
-                                if (param.field === "ExamDate") {
-                                    param.field = "H.ExamDate";
+                                if (param.field === "SubjectName") {
+                                    param.field = "S.Name";
                                 }
-                                if (param.field === "Status") {
-                                    let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
-
-                                    if (statusValue.startsWith("a")) {
-                                        param.value = 1;
-                                    } else if (statusValue.startsWith("i")) {
-                                        param.value = 0;
-                                    } else {
-                                        param.value = null;
-                                    }
-
-                                    param.field = "H.IsActive";
-                                    param.operator = "eq";
+                                if (param.field === "NumberOfQuestion") {
+                                    param.field = "D.NumberOfQuestion";
+                                }
+                                if (param.field === "QuestionType") {
+                                    param.field = "D.QuestionType";
+                                }
+                                if (param.field === "QuestionMark") {
+                                    param.field = "D.QuestionMark";
                                 }
                             });
                         }
@@ -379,7 +273,8 @@
                 }
             });
 
-            $("#GridDataList").kendoGrid({
+            $("#GridDataListRandom").kendoGrid({
+                
                 dataSource: gridDataSource,
                 pageable: {
                     refresh: true,
@@ -418,7 +313,7 @@
                     filterable: true
                 },
                 pdf: {
-                    fileName: `Exams_${new Date().toISOString().split('T')[0]}_${new Date().toTimeString().split(' ')[0]}.pdf`,
+                    fileName: `RandomExams_${new Date().toISOString().split('T')[0]}_${new Date().toTimeString().split(' ')[0]}.pdf`,
                     allPages: true,
                     avoidLink: true,
                     filterable: true
@@ -454,36 +349,20 @@
                         width: 80,
                         template: function (dataItem) {
                             return `
-        <a href="/Questions/Exam/Edit/${dataItem.Id}"
+        <a href="/Questions/Exam/RandomEdit/${dataItem.Id}"
            class="btn btn-primary btn-sm mr-2 edit" 
            title="Edit">
             <i class="fas fa-pencil-alt"></i>
         </a>
-        <a href="/Questions/Exam/getReport/${dataItem.Id}" 
-           class="btn btn-success btn-sm mr-2 getReport" 
-           title="Result">
-            <i class="fas fa-file-alt"></i>
-        </a>
     `;
                         }
                     },
-
-                    //{
-                    //    title: "Action",
-                    //    width: 40,
-                    //    template: function (dataItem) {
-                    //        return `
-                    //            <a href="/Questions/Exam/Edit/${dataItem.Id}" class="btn btn-primary btn-sm mr-2 edit">
-                    //                <i class="fas fa-pencil-alt"></i>
-                    //            </a>`;
-                    //    }
-                    //},
                     { field: "Id", width: 50, hidden: true, sortable: true },
-                    { field: "Name", title: "Name", sortable: true, width: 200 },
-                    { field: "Date", title: "Exam Date", sortable: true, width: 200 },
-                    { field: "Duration", title: "Duration", sortable: true, width: 150 },
-                    { field: "TotalMark", title: "Total Marks", sortable: true, width: 150 },
-                    { field: "Status", title: "Status", sortable: true, width: 100 },
+                    { field: "ExamCode", title: "Exam Code", sortable: true, width: 200 },
+                    { field: "SubjectName", title: "Subject", sortable: true, width: 200 },
+                    { field: "NumberOfQuestion", title: "Number Of Question", sortable: true, width: 150 },
+                    { field: "QuestionType", title: "Question Type", sortable: true, width: 150 },
+                    { field: "QuestionMark", title: "Question Mark", sortable: true, width: 100 },
                 ],
                 editable: false,
                 selectable: "multiple row",
