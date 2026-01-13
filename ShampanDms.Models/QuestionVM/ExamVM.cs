@@ -50,6 +50,7 @@ namespace ShampanExam.Models.QuestionVM
         public int? ExamineeId { get; set; }
         public string? ExamineeName { get; set; }
         public int? BranchId { get; set; }
+        public string? ExamType { get; set; }
 
         public List<ExamExamineeVM> examExamineeList { get; set; }
         public List<AutomatedExamDetailsVM> automatedExamDetailList { get; set; }

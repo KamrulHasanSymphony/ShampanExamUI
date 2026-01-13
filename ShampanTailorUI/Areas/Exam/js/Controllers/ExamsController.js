@@ -475,12 +475,13 @@
                         title: "Action",
                         width: 100,
                         template: function (dataItem) {
-
+                            console.log(dataItem);
                             let html = `
-                    <a href="/Exam/Exam/Edit/${dataItem.ExamineeId}"
-                       class="btn btn-primary btn-sm mr-2 edit"  title="View Exam">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
+                    <a href="/Exam/Exam/Edit?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
+               class="btn btn-primary btn-sm mr-2 edit"
+               title="View Exam">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
                 `;
 
                             // Add second button only if IsExamMarksSubmitted is true/1/"true"

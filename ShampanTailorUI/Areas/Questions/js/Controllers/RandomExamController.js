@@ -346,17 +346,48 @@
                 columns: [
                     {
                         title: "Action",
-                        width: 80,
+                        width: 100,
                         template: function (dataItem) {
-                            return `
-        <a href="/Questions/Exam/RandomEdit/${dataItem.Id}"
-           class="btn btn-primary btn-sm mr-2 edit" 
-           title="Edit">
-            <i class="fas fa-pencil-alt"></i>
-        </a>
-    `;
+
+                            let html = `
+            <a href="/Exam/Exam/EditSelf?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
+               class="btn btn-primary btn-sm mr-2 edit"
+               title="View Exam">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+        `;
+
+                            if (
+                                dataItem.IsExamMarksSubmitted === true ||
+                                dataItem.IsExamMarksSubmitted === 1 ||
+                                dataItem.IsExamMarksSubmitted === "true"
+                            ) {
+                                html += `
+                <a href="/Exam/Exam/Result/${dataItem.ExamineeId}"
+                   class="btn btn-success btn-sm mr-2 view"
+                   title="View Result">
+                    <i class="fas fa-eye"></i>
+                </a>
+            `;
+                            }
+
+                            return html;
                         }
                     },
+
+    //                {
+    //                    title: "Action",
+    //                    width: 80,
+    //                    template: function (dataItem) {
+    //                        return `
+    //    <a href="/Questions/Exam/RandomEdit/${dataItem.Id}"
+    //       class="btn btn-primary btn-sm mr-2 edit" 
+    //       title="Edit">
+    //        <i class="fas fa-pencil-alt"></i>
+    //    </a>
+    //`;
+    //                    }
+    //                },
                     { field: "Id", width: 50, hidden: true, sortable: true },
                     { field: "ExamCode", title: "Exam Code", sortable: true, width: 200 },
                     { field: "SubjectName", title: "Subject", sortable: true, width: 200 },

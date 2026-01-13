@@ -452,7 +452,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                 var model = new ExamVM
                 {
                     Name = string.Empty,
-                    Date = DateTime.Now.ToString("yyyy-MM-dd"),
+                    Date = DateTime.Now.ToString(),
                     Time = DateTime.Now.TimeOfDay,
                     Duration = 0,
                     TotalMark = 0,
@@ -461,6 +461,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     IsExamByQuestionSet = false,
                     QuestionSetId = 0,
                     ExamineeGroupId = 0,
+                    ExamType = "Mock",
                     IsActive = true,
                     IsArchive = false,
                     CreatedBy = Session["UserId"].ToString(),
