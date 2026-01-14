@@ -136,14 +136,15 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
 
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id,string examId)
         {
             try
             {
                 CommonVM param = new CommonVM();
                 List<QuestionVM> vms = new List<QuestionVM>();
                
-                    param.Id = id;
+                param.Id = id;
+                param.ExamId = examId;
                 ResultVM result = _examRepo.List(param);
 
                 if (result.Status == "Success" && result.DataVM != null)

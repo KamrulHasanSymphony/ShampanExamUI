@@ -448,11 +448,11 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                         message = "Session expired. Please login again."
                     }, JsonRequestBehavior.AllowGet);
                 }
-
+                var user = Session["UserId"].ToString();
                 var model = new ExamVM
                 {
-                    Name = string.Empty,
-                    Date = DateTime.Now.ToString(),
+                    Name = $"{user}_{DateTime.Now:yyyyMMdd_HHmm}",
+                    Date = DateTime.Now.ToString("yyyy-MM-dd"),
                     Time = DateTime.Now.TimeOfDay,
                     Duration = 0,
                     TotalMark = 0,

@@ -291,16 +291,29 @@ var ExaminerController = function (CommonService, CommonAjaxService) {
                     }, 1000);
                 },
                 columns: [
+                    //{
+                    //    title: "Action",
+                    //    width: 40,
+                    //    template: function (dataItem) {
+                    //        return `
+                    //            <a href="/Examiner/Examiner/Edit/${dataItem.ExamineeId}" class="btn btn-primary btn-sm mr-2 edit">
+                    //                <i class="fas fa-pencil-alt"></i>
+                    //            </a>`;
+                    //    }
+                    //},
                     {
                         title: "Action",
                         width: 40,
                         template: function (dataItem) {
+                            console.log(dataItem);
                             return `
-                                <a href="/Examiner/Examiner/Edit/${dataItem.ExamineeId}" class="btn btn-primary btn-sm mr-2 edit">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>`;
+                            <a href="/Examiner/Examiner/Edit?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
+                               class="btn btn-primary btn-sm mr-2 edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>`;
                         }
                     },
+
                     { field: "Id", width: 50, hidden: true, sortable: true },
                     { field: "ExamineeId", width: 50, hidden: true, sortable: true },
                     { field: "Name", title: "Name", sortable: true, width: 200 },
