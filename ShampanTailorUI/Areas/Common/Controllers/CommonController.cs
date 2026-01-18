@@ -419,7 +419,28 @@ namespace ShampanExamUI.Areas.Common.Controllers
                 return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpGet]
+        public ActionResult GetChapterList(string transactionType)
+        {
+            try
+            {
+                List<QuestionChapterVM> lst = new List<QuestionChapterVM>();
+                CommonVM param = new CommonVM();
+                param.Value = transactionType;
+                ResultVM result = _repo.GetChapterList(param);
 
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    lst = JsonConvert.DeserializeObject<List<QuestionChapterVM>>(result.DataVM.ToString());
+                }
+                return Json(lst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         [HttpGet]
         public ActionResult GetQuestionTypeList(string value)

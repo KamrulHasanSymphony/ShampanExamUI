@@ -225,6 +225,45 @@ var QuestionSubjectController = function (CommonService, CommonAjaxService) {
                     window.location.reload();
                 }, 1000);
             },
+            detailInit: function (e) {
+                $("<div/>").appendTo(e.detailCell).kendoGrid({
+                    dataSource: {
+                        serverPaging: true,
+                        serverSorting: true,
+                        serverFiltering: true,
+                        pageSize: 10,
+                        transport: {
+                            read: {
+                                url: "/Questions/QuestionChapter/GetChapterDataById",
+                                type: "GET",
+                                dataType: "json"
+                            },
+                            parameterMap: function (options) {
+                                return {
+                                    skip: options.skip,
+                                    take: options.take,
+                                    sort: options.sort,
+                                    filter: options.filter,
+                                    masterId: e.data.Id
+                                };
+                            }
+                        },
+                        schema: {
+                            data: "Items",
+                            total: "TotalCount"
+                        }
+                    },
+                    pageable: true,
+                    sortable: true,
+                    columns: [
+                        { title: "SL", width: 50 },
+                        { field: "Name", title: "Chapter Name" },
+                        { field: "NameInBangla", title: "Bangla Name" },
+                        { field: "Remarks", title: "Remarks" }
+                    ]
+                });
+            },
+
             columns: [
                 {
                     title: "Action",

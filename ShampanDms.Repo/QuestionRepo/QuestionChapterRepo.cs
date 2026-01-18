@@ -158,6 +158,28 @@ namespace ShampanExam.Repo.QuestionRepo
             }
         }
 
+        // details By Id
+        public ResultVM GetChapterDataById(GridOptions options, int masterId)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                CommonModel.AuthModel auth = new CommonModel.AuthModel
+                {
+                    token = ClaimNames.token
+                };
+                string value = httpRequestHelper.PostData($"api/QuestionChapter/GetChapterDataById?masterId={masterId}", auth, JsonConvert.SerializeObject(options, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                }));
+                return JsonConvert.DeserializeObject<ResultVM>(value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         // ReportPreview Method
         public Stream ReportPreview(CommonVM model)
         {

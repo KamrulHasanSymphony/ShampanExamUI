@@ -16,6 +16,10 @@ namespace ShampanExam.Models.QuestionVM
 
         [Display(Name = "Remarks")]
         public string? Remarks { get; set; }
+        [Display(Name = "Question Subject")]
+        public int? QuestionSubjectId { get; set; }
+        [Display(Name = "Question Subject")]
+        public string? QuestionSubjectName { get; set; }
 
         public PeramModel PeramModel { get; set; }
 

@@ -3,12 +3,14 @@ var QuestionChapterController = function (CommonService, CommonAjaxService) {
     var init = function () {
         var getId = $("#Id").val() || 0;
         var getOperation = $("#Operation").val() || '';
+        var getQuestionSubject = $("#QuestionSubjectId").val() || '';
 
         // If it's a new page (getId == 0 && getOperation == ''), load the grid data
         if (parseInt(getId) == 0 && getOperation == '') {
             GetGridDataList();
         }
-
+        GetSubjectComboBox();
+        LoadChapterGrid(getQuestionSubject);
         // Save button click handler
         $('.btnsave').click('click', function () {
             var getId = $('#Id').val();
@@ -47,6 +49,75 @@ var QuestionChapterController = function (CommonService, CommonAjaxService) {
                 window.location.href = "/Questions/QuestionChapter/NextPrevious?id=" + getId + "&status=Next";
             }
         });
+        function GetSubjectComboBox() {
+            $("#QuestionSubjectId").kendoMultiColumnComboBox({
+                dataTextField: "Name",
+                dataValueField: "Id",
+                height: 400,
+                columns: [
+                    { field: "Name", title: "Name", width: 150 }
+                ],
+                filter: "contains",
+                filterFields: ["Name"],
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/Common/Common/GetSubjectList"
+                            /*,data: { transactionType: getTransactionType }*/
+                        }
+                    }
+                },
+                placeholder: "Select Subject Type",
+                value: "",
+                dataBound: function () {
+                    if (getQuestionSubject) {
+                        this.value(getQuestionSubject);
+                    }
+                },
+                change: function (e) {
+                    var selectedValue = this.value();
+                    if (selectedValue) {
+                        LoadChapterGrid(selectedValue);
+                    }
+                }
+            });
+        }
+        function LoadChapterGrid(selectedValue) {
+            if (selectedValue) {
+
+                $("#chapters").empty();
+
+                $("#chapters").kendoGrid({
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "/Common/Common/GetChapterList",
+                                dataType: "json",
+                                data: { transactionType: selectedValue }
+                            }
+                        },
+                        schema: {
+                            data: function (res) { return res; }, // flat array
+                            total: function (res) { return res.length; }
+                        },
+                        pageSize: 10
+                    },
+                    sortable: true,
+                    filterable: true,
+                    pageable: true,
+                    selectable: "row",
+
+                    columns: [
+                        { field: "Id", hidden: true },
+                        { field: "Name", title: "Name", width: 90 },
+                        { field: "NameInBangla", title: "BanglaName", width: 90 },
+                        { field: "Remarks", title: "Remarks", width: 90 }
+                    ],
+                    columnMenu: true
+                });
+            }
+        }
+
     };
 
     // Select data for delete
@@ -84,6 +155,9 @@ var QuestionChapterController = function (CommonService, CommonAjaxService) {
             allowUnsort: true,
             autoSync: true,
             pageSize: 10,
+            group: [
+                { field: "QuestionSubjectName" } 
+            ],
             transport: {
                 read: {
                     url: "/Questions/QuestionChapter/GetGridData",
@@ -102,6 +176,9 @@ var QuestionChapterController = function (CommonService, CommonAjaxService) {
                             }
                             if (param.field === "Remarks") {
                                 param.field = "H.Remarks";
+                            }
+                            if (param.field === "QuestionSubjectName") {
+                                param.field = "M.Name";
                             }
                             if (param.field === "Status") {
                                 let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
@@ -128,6 +205,9 @@ var QuestionChapterController = function (CommonService, CommonAjaxService) {
                             }
                             if (param.field === "Remarks") {
                                 param.field = "H.Remarks";
+                            }
+                            if (param.field === "QuestionSubjectName") {
+                                param.field = "M.Name";
                             }
                             if (param.field === "Status") {
                                 let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
@@ -239,6 +319,7 @@ var QuestionChapterController = function (CommonService, CommonAjaxService) {
                 { field: "Id", width: 50, hidden: true, sortable: true },
                 { field: "Name", title: "Name", sortable: true, width: 200 },
                 { field: "NameInBangla", title: "Bangla Name", sortable: true, width: 200 },
+                { field: "QuestionSubjectName", title: "Subject Name", sortable: true, width: 200 },
                 { field: "Remarks", title: "Remarks", sortable: true, width: 200 },
                 {
                     field: "Status", title: "Status", sortable: true, width: 100,
