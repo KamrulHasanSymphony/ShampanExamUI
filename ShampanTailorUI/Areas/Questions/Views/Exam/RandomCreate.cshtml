@@ -1,0 +1,368 @@
+﻿@using Newtonsoft.Json
+@model ShampanExam.Models.QuestionVM.ExamVM
+
+@{
+    ViewBag.Title = "Self Exam Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Tab Container */
+    .tab-container {
+        width: 553px;
+        background: #fff;
+        border-radius: 8px 8px 0 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Tab List */
+    .tab-list {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        background-color: #f8f8f8;
+        border-radius: 8px 8px 0 0;
+        border-bottom: 2px solid #ddd;
+    }
+
+    /* Tab Item */
+    .tab-item {
+        margin: 0;
+    }
+
+    /* Tab Link */
+    .tab-link {
+        display: inline-block;
+        padding: 15px 40px;
+        text-decoration: none;
+        color: #777;
+        font-weight: bold;
+        text-align: center;
+        transition: color 0.3s ease, background-color 0.3s ease;
+        border-right: 1px solid #ddd;
+        cursor: pointer;
+        border-radius: 8px 8px 0 0;
+    }
+
+    /* Remove border for the last tab */
+    .tab-item:last-child .tab-link {
+        border-right: none;
+    }
+
+    /* Tab Hover Effect */
+    .tab-link:hover {
+        background-color: #e9e9e9;
+        color: #333;
+    }
+
+    /* Active Tab */
+    .tab-link.active {
+        background-color: #e2f0f7;
+        border-bottom: 2px solid #1790D2;
+    }
+
+    /* Tab Content Wrapper */
+    .tab-content-wrapper {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Tab Content */
+    .tab-content {
+        display: none;
+        text-align: center;
+        color: #888;
+        font-weight: 300;
+        font-size: 15px;
+        opacity: 0;
+        transform: translateY(15px);
+        animation: fadeIn 0.5s ease 1 forwards;
+    }
+
+        /* Show Active Tab Content */
+        .tab-content.active {
+            display: block;
+        }
+
+    #processResult table {
+        width: 100%;
+        margin-top: 10px;
+        border-collapse: collapse;
+    }
+
+    #processResult th {
+        background: #1790D2;
+        color: #fff;
+        text-align: center;
+    }
+
+    #processResult td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #processResult h6 {
+        font-weight: 600;
+        margin-top: 20px;
+        color: #1790D2;
+    }
+
+    #processResult table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #processResult th {
+        background: #000000;
+        text-align: center;
+    }
+
+    #processResult td {
+        text-align: center;
+        vertical-align: middle;
+    }    
+
+    .auditshow {
+        float: right !important;
+    }
+</style>
+
+<div id="tabs">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Self Exam Create</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li id="btnBack"><img src="~/Content/css/ButtonsIcons/back-icon.png" title="Click for Go Back" /></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="mt-3">
+            <div id="tabs-1">
+                <form id="frmEntry">
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Operation)
+                    @Html.Hidden("automatedExamDetailListJson", JsonConvert.SerializeObject(Model.automatedExamDetailList ?? new List<ShampanTailor.Models.QuestionVM.AutomatedExamDetailsVM>()))
+                    
+                    <div class="col-md-12" id="ExampolicysectionContainer">
+                        <div class="card card-secondary">
+                            <div class="card-header" id="ExampolicyToggle">
+                                <h3 class="card-title"> Exam policy </h3>
+                            </div>
+                            <div class="card-body" id="Exampolicysection">
+                                <div id="kAddedQuestions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="card">
+                    <div class="card-header p-2">
+                        @if (Model.Operation == "update")
+                        {
+                            <button id="btnRandomProcess"
+                                    type="button"
+                                    class="button btnRandomProcess"
+                                    style="background-color:#1790D2;color:white;margin-left:10px;">
+                                Process
+                            </button>
+                            <button type="button"
+                                              title="Add New"
+                                              data-url="/Questions/Exam/Create"
+                                              onclick="GoTo(this)"
+                                              class="button NewButton addNewButton">
+                                New
+                            </button>
+                            <div class="auditshow">
+                                <img src="~/Content/Images/audit.png" title="Click for Audit" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="display:none;" class="divUpdate">
+                                <button id="btnRandomProcess"
+                                        type="button"
+                                        class="button btnRandomProcess"
+                                        style="background-color:#1790D2;color:white;margin-left:10px; display:none;">
+                                    Process
+                                </button>
+                                <button style="float: right; margin-left: 5px;" type="button" title="Add New" data-url="/Questions/Exam/Create" onclick="GoTo(this)" class="button NewButton addNewButton">
+                                    New
+                                </button>
+                            </div>
+
+                            <div class="divSave">
+                                <button id="btnRandomProcess"
+                                        type="button"
+                                        class="button btnRandomProcess"
+                                        style="background-color:#1790D2;color:white;margin-left:10px;">
+                                    Process
+                                </button>
+                                <button type="button"
+                                        title="Add New"
+                                        data-url="/Questions/Exam/Create"
+                                        onclick="GoTo(this)"
+                                        class="button NewButton addNewButton">
+                                    New
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+
+                <!-- ✅ Div to show the result of AJAX call -->
+                <div id="processResult" class="card mt-3" style="display:none;">
+                    <div class="card-header"><h3 class="card-title">Processed Result</h3></div>
+                    <div class="card-body" id="processDataContainer">
+                        <!-- AJAX result will appear here -->
+                    </div>
+                </div>
+                <!-- Audit Info -->
+                <div class="card card-secondary auditcard">
+                    <div class="card-header"><h3 class="card-title">Audit Details</h3></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                @Html.Label("Created")
+                                @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.CreatedOn, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.Label("Updated")
+                                @Html.TextBoxFor(m => m.LastModifiedBy, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                                @Html.TextBoxFor(m => m.LastModifiedOn, new { @class = "form-control form-control-sm", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Areas/Common/js/Services/CommonService.js"></script>
+    <script src="~/Areas/Common/js/Services/CommonAjaxService.js"></script>
+    <script src="~/Areas/Questions/js/Controllers/ExamController.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            ExamController.init();
+            
+        });
+
+    </script>
+    @*<script>
+
+        </script>*@
+    <script>
+
+        $(document).on("click", "#btnRandomProcess", function () {
+            var examId = $("#Id").val();
+            var examineeGroupId = $("#ExamineeGroupId").val();
+            var questionSetId = $("#QuestionSetId").val();            
+
+            var grid = $("#kAddedQuestions").data("kendoGrid");
+
+            var data = grid.dataSource.view();
+
+            data.forEach(function (item) {
+                var questionSubjectId = item.SubjectId;
+                var questionType = item.QuestionType;
+                var noOfQuestion = item.NumberOfQuestion;
+                var questionMark = item.QuestionMark;
+                debugger;
+                $.ajax({
+                    url: '/Questions/Exam/GetUserRandomProcessedData',
+                    type: 'GET',
+                    data: { questionSubjectId: questionSubjectId, questionType: questionType, noOfQuestion: noOfQuestion, questionMark: questionMark },
+                    beforeSend: function () {
+                        $("#btnRandomProcess").prop("disabled", true).text("Processing...");
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            const data = response.data;
+                            let html = `<h5 class="text-success">${response.message}</h5>`;
+
+                            // ✅ 1️⃣ Exam Question Headers
+                            if (data.examQuestionHeaderList && data.examQuestionHeaderList.length > 0) {
+                                html += "<h6>Exam Question Headers</h6>";
+                                html += buildTable(data.examQuestionHeaderList);
+                            }
+
+                            // ✅ 2️⃣ Exam Question Option Details
+                            if (data.examQuestionOptionDetailList && data.examQuestionOptionDetailList.length > 0) {
+                                html += "<h6 class='mt-3 text-primary'>Exam Question Option Details</h6>";
+                                html += buildTable(data.examQuestionOptionDetailList);
+                            }
+
+                            // ✅ 3️⃣ Exam Question Short Details
+                            if (data.examQuestionShortDetailList && data.examQuestionShortDetailList.length > 0) {
+                                html += "<h6 class='mt-3 text-primary'>Exam Question Short Details</h6>";
+                                html += buildTable(data.examQuestionShortDetailList);
+                            }
+
+                            // ✅ 4️⃣ Exam Examinees
+                            if (data.examExamineeList && data.examExamineeList.length > 0) {
+                                html += "<h6 class='mt-3 text-primary'>Exam Examinees</h6>";
+                                html += buildTable(data.examExamineeList);
+                            }
+
+                            $("#processDataContainer").html(html);
+                            $("#processResult").show();
+                        } else {
+                            $("#processDataContainer").html(`<p class='text-danger'>${response.message}</p>`);
+                            $("#processResult").show();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $("#processDataContainer").html(`<p class='text-danger'>Error: ${error}</p>`);
+                        $("#processResult").show();
+                    },
+                    complete: function () {
+                        $("#btnRandomProcess").prop("disabled", false).text("Random Process");
+                    }
+                });
+
+            });
+            function buildTable(list) {
+                if (!list || list.length === 0) return "<p>No data available.</p>";
+
+                let html = "<div class='table-responsive'><table class='table table-bordered table-sm'>";
+                const columns = Object.keys(list[0]);
+
+                // Table Header
+                html += "<thead><tr>";
+                columns.forEach(col => {
+                    html += `<th>${col}</th>`;
+                });
+                html += "</tr></thead><tbody>";
+
+                // Table Rows
+                list.forEach(row => {
+                    html += "<tr>";
+                    columns.forEach(col => {
+                        html += `<td>${row[col] != null ? row[col] : ""}</td>`;
+                    });
+                    html += "</tr>";
+                });
+
+                html += "</tbody></table></div>";
+                return html;
+            }
+        });
+    </script>
+
+}

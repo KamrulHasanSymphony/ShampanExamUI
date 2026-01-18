@@ -14,6 +14,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
         GetExamineeComboBox();
         // Save button click handler
         $('.btnsave').click('click', function () {
+            
             var getId = $('#Id').val();
             var status = "Save";
             if (parseInt(getId) > 0) {
@@ -85,6 +86,7 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
                 dataValueField: "UserName",
                 height: 400,
                 columns: [
+                    //{ field: "Id", title: "LogInId", width: 150, hidden: true },
                     { field: "UserName", title: "User Name", width: 150 },
                     { field: "FullName", title: "Full Name", width: 150 },
                     { field: "PhoneNumber", title: "Phone Number", width: 150 },
@@ -317,10 +319,19 @@ var ExamineeController = function (CommonService, CommonAjaxService) {
 
     // Save the form data
     function save() {
+        
         var validator = $("#frmEntry").validate();
+        var combo = $("#Name").data("kendoMultiColumnComboBox");
+
+        var selectedItem = combo.dataItem();
+
+        if (selectedItem) {
+            var loginId = selectedItem.Id;
+        }
+
         var formData = new FormData();
         var model = serializeInputs("frmEntry");
-
+        model.LogInId = loginId;
         var result = validator.form();
 
         if (!result) {

@@ -96,6 +96,7 @@
     <Compile Include="QuestionVM\AutomatedExamDetailsVM.cs" />
     <Compile Include="QuestionVM\ExamExamineeVM.cs" />
     <Compile Include="QuestionVM\ExamineeGroupVM.cs" />
+    <Compile Include="QuestionVM\examineeRequest.cs" />
     <Compile Include="QuestionVM\ExamineeVM.cs" />
     <Compile Include="QuestionVM\ExamQuestionHeaderVM.cs" />
     <Compile Include="QuestionVM\ExamQuestionOptionDetailVM.cs" />

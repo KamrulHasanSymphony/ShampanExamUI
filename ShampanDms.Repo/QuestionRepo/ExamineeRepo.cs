@@ -3,6 +3,7 @@ using ShampanExam.Models;
 using ShampanExam.Models.KendoCommon;
 using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo.Configuration;
+using ShampanTailor.Models.QuestionVM;
 using System;
 using System.IO;
 using static ShampanExam.Models.CommonModel;
@@ -167,6 +168,37 @@ namespace ShampanExam.Repo.ExamineeRepo
                 HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
                 AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
                 var result = httpRequestHelper.PostDataReport("api/Examinee/ReportPreview", authModel, JsonConvert.SerializeObject(model));
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public ResultVM GetExamineeGridData(GridOptions options, string groupId)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
+
+                #region Invoke API 
+                var requestPayload = new examineeRequest
+                {
+                    Options = options,
+                    GroupId = groupId
+                };
+
+                var data = httpRequestHelper.PostData("api/Examinee/GetExamineeGridData", authModel,
+                    JsonConvert.SerializeObject(requestPayload, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    }));
+
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+
+                #endregion
 
                 return result;
             }

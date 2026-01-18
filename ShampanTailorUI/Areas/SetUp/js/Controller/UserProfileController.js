@@ -132,8 +132,7 @@
             },
             columns: [
                 {
-                    title: "Action",
-                    width: "60",
+                    title: "Action",                    
                     template: function (dataItem) {
                         return "<a href='/SetUp/UserProfile/Edit?id=" + dataItem.Id + "&mode=profileupdate' class='btn btn-primary btn-sm mr-2 edit' title='profile update'>" +
                             "<i class='fas fa-pencil-alt'></i>" +
@@ -152,14 +151,14 @@
                     field: "Id", width: 50, hidden: true, sortable: true
                 },
                 {
-                    field: "UserName", title: "User Name", sortable: true, width: 100
+                    field: "UserName", title: "User Name", sortable: true
                 },
                 {
-                    field: "FullName", title: "Full Name", sortable: true, width: 250
+                    field: "FullName", title: "Full Name", sortable: true
                 } 
                 ,
                 {
-                    field: "Type", title: "User Type", sortable: true, width: 250
+                    field: "Type", title: "User Type", sortable: true
                 } 
             ],
             editable: false,

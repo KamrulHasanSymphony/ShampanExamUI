@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using ShampanExam.Models;
+using ShampanExam.Models.Exam;
 using ShampanExam.Models.Helper;
 using ShampanExam.Models.KendoCommon;
 using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo;
+using ShampanExam.Repo.ExamineeRepo;
 using ShampanExam.Repo.QuestionRepo;
 using System;
 using System.Collections.Generic;
@@ -611,6 +613,42 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                 Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                 return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPost]
+        public JsonResult GetQuestionGridData(GridOptions options, string groupId)
+        {
+
+
+            ResultVM result = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+            _repo = new QuestionSetsRepo();
+            try
+            {
+
+                //options.vm.BranchId = branchId == "0" ? "" : branchId;
+                //options.vm.FromDate = fromDate;
+                //options.vm.ToDate = toDate;
+                result = _repo.GetQuestionGridData(options, groupId);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<QuestionVM>>(result.DataVM.ToString());
+
+                    return Json(new
+                    {
+                        Items = gridData.Items,
+                        TotalCount = gridData.TotalCount
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { Error = true, Message = "No data found." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

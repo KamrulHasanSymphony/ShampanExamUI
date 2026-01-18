@@ -46,8 +46,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
             ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
             _repo = new ExamineeRepo();
 
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
                     if (model.Operation.ToLower() == "add")
@@ -129,18 +128,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                     return View("Create", model);
                 }
-            }
-            else
-            {
-                result = new ResultModel<ExamineeVM>()
-                {
-                    Success = false,
-                    Status = Status.Fail,
-                    Message = "Model State Error!",
-                    Data = model
-                };
-                return Json(result);
-            }
+            
         }
 
         // GET: Questions/Examinee/Edit
@@ -245,6 +233,41 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                 TempData["Message"] = e.Message.ToString();
                 return RedirectToAction("Index", "Examinee", new { area = "Examinee", message = TempData["Message"] });
             }
+        }
+        [HttpPost]
+        public JsonResult GetExamineeGridData(GridOptions options, string groupId)
+        {
+
+
+            ResultVM result = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+            _repo = new ExamineeRepo();
+            try
+            {
+
+                //options.vm.BranchId = branchId == "0" ? "" : branchId;
+                //options.vm.FromDate = fromDate;
+                //options.vm.ToDate = toDate;
+                result = _repo.GetExamineeGridData(options, groupId);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<ExamineeVM>>(result.DataVM.ToString());
+
+                    return Json(new
+                    {
+                        Items = gridData.Items,
+                        TotalCount = gridData.TotalCount
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { Error = true, Message = "No data found." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

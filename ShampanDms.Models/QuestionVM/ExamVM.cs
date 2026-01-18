@@ -50,12 +50,14 @@ namespace ShampanExam.Models.QuestionVM
         public int? ExamineeId { get; set; }
         public string? ExamineeName { get; set; }
         public int? BranchId { get; set; }
+        public string? ExamType { get; set; }
 
         public List<ExamExamineeVM> examExamineeList { get; set; }
         public List<AutomatedExamDetailsVM> automatedExamDetailList { get; set; }
         public List<ExamQuestionHeaderVM> examQuestionHeaderList { get; set; }
         public List<ExamQuestionOptionDetailVM> examQuestionOptionDetailList { get; set; }
         public List<ExamQuestionShortDetailVM> examQuestionShortDetailList { get; set; }
+        public List<ExamineeVM> examineeList { get; set; }
 
         public PeramModel PeramModel { get; set; }
 
@@ -66,6 +68,7 @@ namespace ShampanExam.Models.QuestionVM
             examQuestionHeaderList = new List<ExamQuestionHeaderVM>();
             examQuestionOptionDetailList = new List<ExamQuestionOptionDetailVM>();
             examQuestionShortDetailList = new List<ExamQuestionShortDetailVM>();
+            examineeList = new List<ExamineeVM>();
 
             PeramModel = new PeramModel();
         }

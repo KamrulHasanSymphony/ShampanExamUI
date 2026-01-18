@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using DocumentFormat.OpenXml.EMMA;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Newtonsoft.Json;
 using ShampanExam.Models;
 using ShampanExam.Models.Exam;
 using ShampanExam.Models.KendoCommon;
@@ -6,10 +8,12 @@ using ShampanExam.Models.QuestionVM;
 using ShampanExam.Repo;
 using ShampanExam.Repo.Helper;
 using ShampanExam.Repo.QuestionRepo;
+using ShampanTailor.Models.QuestionVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Windows;
 using ExamVM = ShampanExam.Models.QuestionVM.ExamVM;
 
 namespace ShampanExamUI.Areas.Questions.Controllers
@@ -26,7 +30,10 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         {
             return View();
         }
-
+        public ActionResult RandomIndex()
+        {
+            return View();
+        }
         // GET: Questions/Exam/Create
         public ActionResult Create()
         {
@@ -37,8 +44,17 @@ namespace ShampanExamUI.Areas.Questions.Controllers
             return View("Create", vm);
         }
 
+        // GET: Questions/Exam/RandomCreate
+        public ActionResult RandomCreate()
+        {
+            ExamVM vm = new ExamVM();
+            vm.Operation = "add";
+            vm.IsActive = true;
+
+            return View("RandomCreate", vm);
+        }
         [HttpPost]
-        public ActionResult CreateEdit(ExamVM model)
+        public  ActionResult CreateEdit(ExamVM model)
         {
             ResultModel<ExamVM> result = new ResultModel<ExamVM>();
             ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
@@ -54,7 +70,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                         model.CreatedFrom = Ordinary.GetLocalIpAddress();
                     //model.BranchId = Session["BranchId"].ToString();
 
-                    resultVM = _repo.Insert(model);
+                    resultVM =  _repo.Insert(model);
 
                         if (resultVM.Status == "Success")
                         {
@@ -166,7 +182,39 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         }
 
 
-        
+        // GET: Questions/Exam/RandomEdit
+        [HttpGet]
+        public ActionResult RandomEdit(string id)
+        {
+            try
+            {
+                _repo = new ExamRepo();
+
+                ExamVM vm = new ExamVM();
+                CommonVM param = new CommonVM();
+                param.Id = id;
+                ResultVM result = _repo.List(param);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    vm = JsonConvert.DeserializeObject<List<ExamVM>>(result.DataVM.ToString()).FirstOrDefault();
+                }
+                else
+                {
+                    vm = null;
+                }
+
+                vm.Operation = "update";
+
+                return View("RandomCreate", vm);
+            }
+            catch (Exception e)
+            {
+                Session["result"] = "Fail" + "~" + e.Message;
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return RedirectToAction("Index");
+            }
+        }
 
         [HttpGet]
         public ActionResult getReport(string id)
@@ -323,5 +371,157 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         //        return RedirectToAction("Index", "Exam", new { area = "Exam", message = TempData["Message"] });
         //    }
         //}
+        // GET: Questions/Exam/GetRandomProcessedData
+        [HttpGet]
+        public ActionResult GetRandomProcessedData(string id, string groupId,string questionSubjectId,string questionType,string noOfQuestion)
+        {
+            try
+            {
+                _repo = new ExamRepo();
+                CommonVM param = new CommonVM { Id = id, Group = groupId,QuestionSubjectId = questionSubjectId,QuestionType = questionType,NoOfQuestion = noOfQuestion };
+
+                ResultVM result = _repo.GetRandomProcessedData(param);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = result.Message,
+                        data = result.DataVM
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false, message = result.Message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // POST: Questions/Exam/RandomGetGridData
+        [HttpPost]
+        public JsonResult RandomGetGridData(GridOptions options)
+        {
+            ResultVM result = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+            _repo = new ExamRepo();
+
+            try
+            {
+                var user = Session["UserId"].ToString();
+                options.vm.UserId = user;
+                result = _repo.GetRandomGridData(options);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<AutomatedExamDetailsVM>>(result.DataVM.ToString());
+
+                    return Json(new
+                    {
+                        Items = gridData.Items,
+                        TotalCount = gridData.TotalCount
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { Error = true, Message = "No data found." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetUserRandomProcessedData(string questionSubjectId,string questionType,string noOfQuestion,string questionMark)
+        {
+            try
+            {
+                if (Session["UserId"] == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Session expired. Please login again."
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                var user = Session["UserId"].ToString();
+                var model = new ExamVM
+                {
+                    Name = $"{user}_{DateTime.Now:yyyyMMdd_HHmm}",
+                    Date = DateTime.Now.ToString("yyyy-MM-dd"),
+                    Time = DateTime.Now.TimeOfDay,
+                    Duration = 0,
+                    TotalMark = 0,
+                    GradeId = 0,
+                    Remarks = string.Empty,
+                    IsExamByQuestionSet = false,
+                    QuestionSetId = 0,
+                    ExamineeGroupId = 0,
+                    ExamType = "Mock",
+                    IsActive = true,
+                    IsArchive = false,
+                    CreatedBy = Session["UserId"].ToString(),
+                    CreatedOn = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    CreatedFrom = Ordinary.GetLocalIpAddress(),
+                    automatedExamDetailList = new List<AutomatedExamDetailsVM>
+                    {
+                        new AutomatedExamDetailsVM
+                        {
+                            SubjectId =Convert.ToInt32(questionSubjectId),
+                            NumberOfQuestion = Convert.ToInt32(noOfQuestion),
+                            QuestionType = questionType,
+                            QuestionMark = Convert.ToInt32(questionMark)
+                        }
+                    }
+
+                };
+
+                ResultVM insertResult = _repo.Insert(model);
+
+                if (insertResult.Status != "Success" || insertResult.DataVM == null)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = insertResult.Message
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                model = JsonConvert.DeserializeObject<ExamVM>(insertResult.DataVM.ToString());
+
+                var param = new CommonVM
+                {
+                    Id = model.Id.ToString(),
+                    Group = model.ExamineeGroupId.ToString(),
+                    QuestionSubjectId = questionSubjectId,
+                    QuestionType = questionType,
+                    NoOfQuestion = noOfQuestion,
+                    UserId = Session["UserId"].ToString()
+                };
+
+                _repo = new ExamRepo();
+                ResultVM result = _repo.GetUserRandomProcessedData(param);
+
+                return Json(new
+                {
+                    success = result.Status == "Success",
+                    message = result.Message,
+                    data = result.DataVM
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
