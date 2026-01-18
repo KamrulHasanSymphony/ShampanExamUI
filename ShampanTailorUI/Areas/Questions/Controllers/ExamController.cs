@@ -54,7 +54,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
             return View("RandomCreate", vm);
         }
         [HttpPost]
-        public ActionResult CreateEdit(ExamVM model)
+        public  ActionResult CreateEdit(ExamVM model)
         {
             ResultModel<ExamVM> result = new ResultModel<ExamVM>();
             ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
@@ -70,7 +70,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                         model.CreatedFrom = Ordinary.GetLocalIpAddress();
                     //model.BranchId = Session["BranchId"].ToString();
 
-                    resultVM = _repo.Insert(model);
+                    resultVM =  _repo.Insert(model);
 
                         if (resultVM.Status == "Success")
                         {

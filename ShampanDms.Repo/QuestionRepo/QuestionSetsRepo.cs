@@ -176,5 +176,37 @@ namespace ShampanExam.Repo.QuestionRepo
             }
             catch (Exception e) { throw e; }
         }
+
+        public ResultVM GetQuestionGridData(GridOptions options, string groupId)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
+
+                #region Invoke API 
+                var requestPayload = new examineeRequest
+                {
+                    Options = options,
+                    GroupId = groupId
+                };
+
+                var data = httpRequestHelper.PostData("api/QuestionSet/GetQuestionGridData", authModel,
+                    JsonConvert.SerializeObject(requestPayload, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    }));
+
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+
+                #endregion
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

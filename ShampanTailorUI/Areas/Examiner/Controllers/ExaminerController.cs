@@ -27,8 +27,10 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
 
         public ActionResult Index()
         {
-           
-
+            return View();
+        }
+        public ActionResult SelfIndex()
+        {
             return View();
         }
 
@@ -86,11 +88,11 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
 
             try
             {
-               
-                if(actionType == "Draft")
+
+                if (actionType == "Draft")
                 {
                     resultVM = _examRepo.Insert(Answers);
-                   
+
                 }
                 else
                 {
@@ -101,7 +103,7 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
 
                 if (resultVM.Status == "Success")
                 {
-                    
+
                     res = new ResultModel<QuestionVM>()
                     {
                         Success = true,
@@ -136,13 +138,13 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
 
         }
 
-        public ActionResult Edit(string id,string examId)
+        public ActionResult Edit(string id, string examId)
         {
             try
             {
                 CommonVM param = new CommonVM();
                 List<QuestionVM> vms = new List<QuestionVM>();
-               
+
                 param.Id = id;
                 param.ExamId = examId;
                 ResultVM result = _examRepo.List(param);
@@ -165,6 +167,50 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
                 Session["result"] = "Fail" + "~" + e.Message;
                 Elmah.ErrorSignal.FromCurrentContext().Raise(e);
                 return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SelfGetGridData(GridOptions options)
+        {
+            ResultVM result = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+            _examRepo = new ExaminerRepo();
+
+            try
+            {
+
+                //CommonVM param = new CommonVM();
+                //List<QuestionVM> vms = new List<QuestionVM>();
+                //param.Name = Session["UserId"].ToString();
+
+                //ExamineeRepo _examineeRepo = new ExamineeRepo();
+
+                //ResultVM res = _examineeRepo.List(param);
+
+                //if (res.Status == "Success" && res.DataVM != null)
+                //{
+                //    var examee = JsonConvert.DeserializeObject<List<ShampanExam.Models.QuestionVM.ExamineeVM>>(res.DataVM.ToString());
+                //    options.vm.Id = examee.FirstOrDefault().Id.ToString();
+                //}
+                result = _examRepo.SelfGetGridData(options);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<ShampanExam.Models.QuestionVM.ExamVM>>(result.DataVM.ToString());
+
+                    return Json(new
+                    {
+                        Items = gridData.Items,
+                        TotalCount = gridData.TotalCount
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { Error = true, Message = "No data found." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

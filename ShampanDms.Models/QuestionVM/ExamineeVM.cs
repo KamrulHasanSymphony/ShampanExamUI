@@ -7,6 +7,7 @@ namespace ShampanExam.Models.QuestionVM
     {
         [Display(Name = "Examinee")]
         public long Id { get; set; }
+        public long? ExamineeId { get; set; }
         [Required]
 
         [Display(Name = "Examinee Group")]

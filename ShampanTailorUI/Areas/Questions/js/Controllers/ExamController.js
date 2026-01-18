@@ -16,9 +16,10 @@
         GetGradeComboBox();
         GetExamineeGroupComboBox();
         GetQuestionSetComboBox();
+        GenerateGrid();
 
         var examDetailList = JSON.parse($("#automatedExamDetailListJson").val() || "[]");
-
+        
         var kAddedQuestions = new kendo.data.DataSource({
             data: examDetailList,
             schema: {
@@ -176,7 +177,168 @@
         });
 
 
+        function GenerateGrid() {
+            $("#kExaminee").kendoGrid({
+                dataSource: [],
+                toolbar: [
+                    "search",
+                    { name: "addSelected", text: "Add Selected" }
+                ],
+                search: {
+                    fields: ["Name"]
+                },
+                height: 400,
+                sortable: false,
+                pageable: false,
+                selectable: "multiple, row",
+                columns: [
+                    { selectable: true, width: 40 },
+                    { field: "ExamineeId", title: "ID", hidden: true },
+                    { field: "ExamineeGroupId", title: "ExamineeGroupId", hidden: true },
+                    { field: "Name", title: "Name", width: 60 },
+                    { field: "MobileNo", title: "Mobile No", hidden: true, width: 100 },
+                    {
+                        title: "Action",
+                        width: 20,
+                        template: "<button class='btn btn-sm btn-success k-grid-select' title='Replace'><i class='fa fa-arrow-right'></i></button>"
+                    },
 
+                ],
+                noRecords: {
+                    template: "<div class='text-center p-3'>No examineer found.</div>"
+                }
+            });
+            var examineeList = JSON.parse($("#examineeListJson").val() || "[]");
+
+            var addedExamineeDS = new kendo.data.DataSource({
+                data: examineeList,
+                schema: {
+                    model: {
+                        id: "ExamineeId"
+                    }
+                }
+            });
+
+            $("#kAddedExaminee").kendoGrid({
+                dataSource: addedExamineeDS,
+                toolbar: ["search"],
+                search: {
+                    fields: ["Name"]
+                },
+                height: 400,
+                sortable: false,
+                pageable: false,
+                selectable: "multiple, row",
+                persistSelection: true,
+
+                columns: [
+                    { field: "ExamineeId", hidden: true },
+                    { field: "ExamineeGroupId", hidden: true },
+                    { field: "Name", title: "Name", width: 60 },
+                    { field: "MobileNo", hidden: true, width: 100 },
+                    {
+                        title: "Action",
+                        width: 20,
+                        template:
+                            "<button class='btn btn-sm btn-danger k-grid-remove' title='Remove'>" +
+                            "<i class='fa fa-times'></i></button>"
+                    }
+                ],
+
+                noRecords: {
+                    template: "<div class='text-center p-3'>No Data.</div>"
+                }
+            });
+
+
+
+
+            $("#kQuestions").kendoGrid({
+                dataSource: new kendo.data.DataSource({
+                    data: [],
+                    schema: {
+                        model: {
+                            id: "Id"
+                        }
+                    }
+                }),
+                toolbar: [
+                    "search",
+                    { name: "addSelectedQuestions", text: "Add Selected" }
+                ],
+                search: {
+                    fields: ["QuestionText","Name"]
+                },
+                height: 400,
+                pageable: false,
+                sortable: false,
+                selectable: "multiple, row",
+
+                columns: [
+                    { selectable: true, width: 40 },
+                    { field: "Id", hidden: true },
+                    { field: "QuestionSetHeaderId", hidden: true },
+                    { field: "Name", title: "Set", width: 60 },
+                    { field: "QuestionText", title: "Question Text", width: 60 },
+                    { field: "QuestionType", title: "Question Type", width: 60 },
+                    { field: "QuestionMark", title: "Question Mark", width: 60 },
+                    {
+                        title: "Action",
+                        width: 20,
+                        template:
+                            "<button class='btn btn-sm btn-success k-grid-select'>" +
+                            "<i class='fa fa-arrow-right'></i></button>"
+                    }
+                ],
+                noRecords: {
+                    template: "<div class='text-center p-3'>No question found.</div>"
+                }
+            });
+
+            
+            var questionList = JSON.parse($("#questionListJson").val() || "[]");
+            var addedQuestionsDS = new kendo.data.DataSource({
+                data: questionList,
+                schema: {
+                    model: {
+                        id: "QuestionSetHeaderId"
+                    }
+                }
+            });
+
+            $("#kAddQuestions").kendoGrid({
+                dataSource: addedQuestionsDS,
+                toolbar: ["search"],
+                search: {
+                    fields: ["Name", "QuestionText"]
+                },
+                height: 400,
+                pageable: false,
+                sortable: false,
+                selectable: "multiple, row",
+                persistSelection: true,
+
+                columns: [
+                    { field: "QuestionSetHeaderId", hidden: true },
+                    { field: "Name", title: "Set", width: 40 },
+                    { field: "QuestionText", title: "Question Text", width: 80 },
+                    { field: "QuestionType", title: "Question Type", width: 60 },
+                    { field: "QuestionMark", title: "Question Mark", width: 60 },
+                    {
+                        title: "Action",
+                        width: 20,
+                        template:
+                            "<button class='btn btn-sm btn-danger k-grid-remove'>" +
+                            "<i class='fa fa-times'></i></button>"
+                    }
+                ],
+                noRecords: {
+                    template: "<div class='text-center p-3'>No Data.</div>"
+                }
+            });
+
+
+        };
         function GetGradeComboBox() {
             
             var GradeComboBox = $("#GradeId").kendoMultiColumnComboBox({
@@ -226,9 +388,66 @@
                     if (getExamineeGroupId) {
                         this.value(parseInt(getExamineeGroupId));
                     }
+                },
+                change: function (e) {
+                    e.preventDefault();
+                    debugger;
+                    const dataItem = this.dataItem(e.item);
+                    if (dataItem && dataItem.Id && dataItem.Id !== 0) {
+                        LoadExamineeGrid(dataItem.Id);
+                    }
                 }
             }).data("kendoMultiColumnComboBox");
         };
+
+        function LoadExamineeGrid(groupId) {
+            debugger;
+            $("#kExaminee").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/Questions/Examinee/GetExamineeGridData",
+                            data: { groupId: groupId },
+                            dataType: "json",
+                            type: "POST"
+                        }
+                    },
+                    schema: {
+                        data: "Items",
+                        total: "TotalCount"
+                    },
+                    pageSize: 20
+                },
+                toolbar: [
+                    "search",
+                    { name: "addSelected", text: "Add Selected" }
+                ],
+                search: {
+                    fields: ["Name"]
+                },
+                height: 400,
+                sortable: false,
+                pageable: false,
+                selectable: "multiple, row",
+                columns: [
+                    { selectable: true, width: 40 },
+                    { field: "ExamineeId", title: "ID", hidden: true },
+                    { field: "ExamineeGroupId", title: "ExamineeGroupId", hidden: true},
+                    { field: "Name", title: "Name", width: 60 },
+                    { field: "MobileNo", title: "Mobile No", hidden: true, width: 100 },
+                    {
+                        title: "Action",
+                        width: 20,
+                        template: "<button class='btn btn-sm btn-success k-grid-select' title='Replace'><i class='fa fa-arrow-right'></i></button>"
+                    },
+
+                ],
+                noRecords: {
+                    template: "<div class='text-center p-3'>No questions found for this chapter.</div>"
+                }
+            });
+
+        }
         function GetQuestionSetComboBox() {
             
             var QuestionSetComboBox = $("#QuestionSetId").kendoMultiColumnComboBox({
@@ -252,9 +471,75 @@
                     if (getQuestionSetId) {
                         this.value(parseInt(getQuestionSetId));
                     }
+                },
+                change: function (e) {
+                    e.preventDefault();
+                    debugger;
+                    const dataItem = this.dataItem(e.item);
+                    if (dataItem && dataItem.Id && dataItem.Id !== 0) {
+                        LoadQuestionGrid(dataItem.Id);
+                    }
                 }
             }).data("kendoMultiColumnComboBox");
         };
+
+        function LoadQuestionGrid(groupId) {
+
+            $("#divQuestion").show();
+            $("#kQuestions").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/Questions/QuestionSets/GetQuestionGridData",
+                            data: { groupId: groupId },
+                            dataType: "json",
+                            type: "POST"
+                        }
+                    },
+                    schema: {
+                        data: "Items",
+                        total: "TotalCount",
+                        model: {
+                            id: "Id"
+                        }
+                    },
+                    pageSize: 20
+                },
+                toolbar: [
+                    "search",
+                    { name: "addSelectedQuestions", text: "Add Selected" }
+                ],
+                search: {
+                    fields: ["QuestionText", "Name"]
+                },
+                height: 400,
+                pageable: false,
+                sortable: false,
+                selectable: "multiple, row",
+
+                columns: [
+                    { selectable: true, width: 40 },
+                    { field: "QuestionSetHeaderId", hidden: true },
+                    { field: "Name", title: "Set", width: 60 },
+                    { field: "QuestionText", title: "Question Text", width: 60 },
+                    { field: "QuestionType", title: "Question Type", width: 60 },
+                    { field: "QuestionMark", title: "Question Mark", width: 60 },
+                    {
+                        title: "Action",
+                        width: 20,
+                        template:
+                            "<button class='btn btn-sm btn-success k-grid-select'>" +
+                            "<i class='fa fa-arrow-right'></i></button>"
+                    }
+                ],
+                noRecords: {
+                    template: "<div class='text-center p-3'>No question found.</div>"
+                }
+            });
+
+
+        }
+
         function toggleQuestionSet() {
             if ($('#IsExamByQuestionSet').is(':checked')) {
                 $('#questionSetContainer').show();
@@ -265,6 +550,139 @@
                 
             }
         }
+
+        $(document).on("click", "#kExaminee .k-grid-select", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            debugger;
+            var sourceGrid = $("#kExaminee").data("kendoGrid");
+            var targetGrid = $("#kAddedExaminee").data("kendoGrid");
+
+            var dataItem = sourceGrid.dataItem($(this).closest("tr"));
+            if (!dataItem) return;
+
+            //var exists = targetGrid.dataSource.data().some(function (x) {
+            //    return x.ExamineeId === dataItem.ExamineeId;
+            //});
+
+            //if (exists) return;
+
+
+            targetGrid.dataSource.add({
+                ExamineeId: dataItem.ExamineeId,
+                ExamineeGroupId: dataItem.ExamineeGroupId,
+                Name: dataItem.Name,
+                MobileNo: dataItem.MobileNo
+            });
+        });
+
+
+        $(document).on("click", "#kAddedExaminee .k-grid-remove", function (e) {
+            e.preventDefault();
+
+            var grid = $("#kAddedExaminee").data("kendoGrid");
+            var row = $(this).closest("tr");
+            var item = grid.dataItem(row);
+
+            grid.dataSource.remove(item);
+        });
+
+        $(document).on("click", "#kQuestions .k-grid-select", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            var sourceGrid = $("#kQuestions").data("kendoGrid");
+            var targetGrid = $("#kAddQuestions").data("kendoGrid");
+
+            // Get the clicked row's data
+            var dataItem = sourceGrid.dataItem($(this).closest("tr"));
+            if (!dataItem) return;
+            debugger;
+            
+
+            // Add to target grid
+            targetGrid.dataSource.add({
+                QuestionSetHeaderId: dataItem.QuestionSetHeaderId,
+                Name: dataItem.Name,
+                QuestionText: dataItem.QuestionText,
+                QuestionType: dataItem.QuestionType,
+                QuestionMark: dataItem.QuestionMark
+            });
+        });
+
+        $(document).on("click", "#kAddQuestions .k-grid-remove", function (e) {
+            e.preventDefault();
+
+            var grid = $("#kAddQuestions").data("kendoGrid");
+            var row = $(this).closest("tr");
+            var item = grid.dataItem(row);
+
+            grid.dataSource.remove(item);
+        });
+        $(document).on("click", ".k-grid-addSelected", function (e) {
+            e.preventDefault();
+
+            var sourceGrid = $("#kExaminee").data("kendoGrid");
+            var targetGrid = $("#kAddedExaminee").data("kendoGrid");
+
+            var selectedRows = sourceGrid.select();
+
+            if (selectedRows.length === 0) return;
+
+            selectedRows.each(function () {
+                var dataItem = sourceGrid.dataItem(this);
+
+                // Prevent duplicates
+                var exists = targetGrid.dataSource.data().some(function (x) {
+                    return x.ExamineeId === dataItem.ExamineeId;
+                });
+
+                if (!exists) {
+                    targetGrid.dataSource.add({
+                        ExamineeId: dataItem.ExamineeId,
+                        ExamineeGroupId: dataItem.ExamineeGroupId,
+                        Name: dataItem.Name,
+                        MobileNo: dataItem.MobileNo
+                    });
+                }
+            });
+
+            // Optional: clear selection after add
+            sourceGrid.clearSelection();
+        });
+        $(document).on("click", ".k-grid-addSelectedQuestions", function (e) {
+        e.preventDefault();
+
+        var sourceGrid = $("#kQuestions").data("kendoGrid");
+        var targetGrid = $("#kAddQuestions").data("kendoGrid");
+
+        var selectedRows = sourceGrid.select();
+
+        if (selectedRows.length === 0) {
+            alert("Please select at least one question.");
+            return;
+        }
+
+        selectedRows.each(function () {
+            var dataItem = sourceGrid.dataItem(this);
+
+            var exists = targetGrid.dataSource.data().some(function (x) {
+                return x.Id === dataItem.Id;
+            });
+
+            if (!exists) {
+                targetGrid.dataSource.add({
+                    QuestionSetHeaderId: dataItem.QuestionSetHeaderId,
+                    Name: dataItem.Name,
+                    QuestionText: dataItem.QuestionText,
+                    QuestionType: dataItem.QuestionType,
+                    QuestionMark: dataItem.QuestionMark
+                });
+            }
+        });
+
+    sourceGrid.clearSelection(); // optional
+});
 
 
 
@@ -494,62 +912,112 @@
 
         // Save the form data
         function save() {
+            debugger;
             var validator = $("#frmEntry").validate();
-            //var formData = new FormData();
             var model = serializeInputs("frmEntry");
 
-            var result = validator.form();
-
-            if (!result) {
-                if (!result) {
-                    validator.focusInvalid();
-                }
+            if (!validator.form()) {
+                validator.focusInvalid();
                 return;
             }
 
-            var totalMarkInput = $("#TotalMark").val();   // MVC TextBoxFor → id="TotalMark"
-            var totalMark = parseFloat(totalMarkInput) || 0;
+            // ----- Examinees -----
+            var examineeGrid = $("#kAddedExaminee").data("kendoGrid");
+            model.examExamineeList = examineeGrid
+                ? examineeGrid.dataSource.view().map(x => ({
+                    ExamineeId: x.ExamineeId,
+                    ExamineeGroupId: x.ExamineeGroupId,
+                    ExamineeName: x.Name
+                }))
+                : [];
 
-            var sumQuestionMarks = 0;
-            var examDetails = [];
-            if ($('#IsExamByQuestionSet').is(':not(:checked)')) {
-                var automatedExamGrid = $("#kAddedQuestions").data("kendoGrid");
-                if (automatedExamGrid) {
-                    var cardItems = automatedExamGrid.dataSource.view();
-                    for (var i = 0; i < cardItems.length; i++) {
-                        var cardItem = cardItems[i];
-                        var mark = parseFloat(cardItems[i].QuestionMark) || 0;
-                        sumQuestionMarks += mark;
-                        examDetails.push({
-                            Id: cardItem.Id,
-                            AutomatedExamId: cardItem.AutomatedExamId,
-                            SubjectId: cardItem.SubjectId,
-                            NumberOfQuestion: cardItem.NumberOfQuestion,
-                            QuestionType: cardItem.QuestionType,
-                            QuestionMark: cardItem.QuestionMark
-                        });
-                    }
-                }
-                if (automatedExamGrid) {
-                    if (sumQuestionMarks !== totalMark) {
+            // ----- Questions -----
+            var questionGrid = $("#kAddQuestions").data("kendoGrid");
+            model.examQuestionHeaderList = questionGrid
+                ? questionGrid.dataSource.view().map(x => ({
+                    QuestionSetHeaderId: x.QuestionSetHeaderId,
+                    QuestionText: x.QuestionText,
+                    QuestionType: x.QuestionType,
+                    QuestionMark: x.QuestionMark
+                }))
+                : [];
 
-                        ShowNotification(3, "Total Mark and Exam Policy Mark Not same!");
-                        return;
-                    }
-                }
-            }
-            model.automatedExamDetailList = examDetails;
-
-            //for (var key in model) {
-            //    formData.append(key, model[key]);
-            //}
-
+            // ----- Flags -----
             model.IsActive = $('#IsActive').prop('checked');
             model.IsExamByQuestionSet = $('#IsExamByQuestionSet').prop('checked');
 
+            // ----- Validation (marks) -----
+            var totalMark = parseFloat($("#TotalMark").val()) || 0;
+            var sumMarks = model.examQuestionHeaderList
+                .reduce((t, q) => t + (parseFloat(q.QuestionMark) || 0), 0);
+
+            if (!model.IsExamByQuestionSet && sumMarks !== totalMark) {
+                ShowNotification(3, "Total Mark and Question Mark not same!");
+                return;
+            }
+
+            // ----- Save -----
             var url = "/Questions/Exam/CreateEdit";
             CommonAjaxService.finalSave(url, model, saveDone, saveFail);
         }
+
+        //function save() {
+        //    var validator = $("#frmEntry").validate();
+        //    //var formData = new FormData();
+        //    var model = serializeInputs("frmEntry");
+
+        //    var result = validator.form();
+
+        //    if (!result) {
+        //        if (!result) {
+        //            validator.focusInvalid();
+        //        }
+        //        return;
+        //    }
+
+        //    var totalMarkInput = $("#TotalMark").val();   // MVC TextBoxFor → id="TotalMark"
+        //    var totalMark = parseFloat(totalMarkInput) || 0;
+
+        //    var sumQuestionMarks = 0;
+        //    var examDetails = [];
+        //    if ($('#IsExamByQuestionSet').is(':not(:checked)')) {
+        //        var automatedExamGrid = $("#kAddedQuestions").data("kendoGrid");
+        //        if (automatedExamGrid) {
+        //            var cardItems = automatedExamGrid.dataSource.view();
+        //            for (var i = 0; i < cardItems.length; i++) {
+        //                var cardItem = cardItems[i];
+        //                var mark = parseFloat(cardItems[i].QuestionMark) || 0;
+        //                sumQuestionMarks += mark;
+        //                examDetails.push({
+        //                    Id: cardItem.Id,
+        //                    AutomatedExamId: cardItem.AutomatedExamId,
+        //                    SubjectId: cardItem.SubjectId,
+        //                    NumberOfQuestion: cardItem.NumberOfQuestion,
+        //                    QuestionType: cardItem.QuestionType,
+        //                    QuestionMark: cardItem.QuestionMark
+        //                });
+        //            }
+        //        }
+        //        if (automatedExamGrid) {
+        //            if (sumQuestionMarks !== totalMark) {
+
+        //                ShowNotification(3, "Total Mark and Exam Policy Mark Not same!");
+        //                return;
+        //            }
+        //        }
+        //    }
+        //    model.automatedExamDetailList = examDetails;
+
+        //    //for (var key in model) {
+        //    //    formData.append(key, model[key]);
+        //    //}
+
+        //    model.IsActive = $('#IsActive').prop('checked');
+        //    model.IsExamByQuestionSet = $('#IsExamByQuestionSet').prop('checked');
+
+        //    var url = "/Questions/Exam/CreateEdit";
+        //    CommonAjaxService.finalSave(url, model, saveDone, saveFail);
+        //}
 
         // Handle success
         function saveDone(result) {
@@ -572,8 +1040,7 @@
                     $("#Id").val(result.Data.Id);
                     $("#Code").val(result.Data.Code);
                     $("#Operation").val("update");
-                    debugger;
-                    window.location.href = '/Questions/Exam/Edit?id=' + result.Data.Id;
+                    //window.location.href = '/Questions/Exam/Edit?id=' + result.Data.Id;
 
                 }
             }

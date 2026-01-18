@@ -2632,6 +2632,7 @@
     <Content Include="Areas\Questions\Views\Exam\ExamInfoReport.cshtml" />
     <Content Include="Areas\Questions\Views\Exam\RandomIndex.cshtml" />
     <Content Include="Areas\Questions\Views\Exam\RandomCreate.cshtml" />
+    <Content Include="Areas\Examiner\Views\Examiner\SelfIndex.cshtml" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\assets\kendoUI2021\kendo\kendo.all.min.js" />

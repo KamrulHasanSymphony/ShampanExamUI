@@ -17,6 +17,9 @@ namespace ShampanTailor.Models.QuestionVM
         public decimal? QuestionMark { get; set; }
         public string? SubjectName { get; set; }
         public string? ExamCode { get; set; }
+        public string? ExamName { get; set; }
+        public string? ExamType { get; set; }
+
 
 
     }

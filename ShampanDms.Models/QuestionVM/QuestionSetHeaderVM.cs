@@ -9,6 +9,7 @@ namespace ShampanExam.Models.QuestionVM
     {
         [Display(Name = "Question Set Header")]
         public int Id { get; set; }
+        public int? QuestionSetHeaderId { get; set; }
 
         [Display(Name = "Question Set Name")]
         public string? Name { get; set; }

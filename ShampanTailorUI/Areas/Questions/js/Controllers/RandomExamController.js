@@ -348,7 +348,7 @@
                         title: "Action",
                         width: 100,
                         template: function (dataItem) {
-
+                            console.log(dataItem);
                             let html = `
             <a href="/Exam/Exam/EditSelf?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
                class="btn btn-primary btn-sm mr-2 edit"
@@ -389,6 +389,7 @@
     //                    }
     //                },
                     { field: "Id", width: 50, hidden: true, sortable: true },
+                    { field: "ExamName", title: "Exam Name", sortable: true, width: 200 },
                     { field: "ExamCode", title: "Exam Code", sortable: true, width: 200 },
                     { field: "SubjectName", title: "Subject", sortable: true, width: 200 },
                     { field: "NumberOfQuestion", title: "Number Of Question", sortable: true, width: 150 },

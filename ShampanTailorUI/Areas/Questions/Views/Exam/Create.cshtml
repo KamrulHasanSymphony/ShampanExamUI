@@ -129,6 +129,7 @@
     #btnRandomProcess {
         display: none;
     }
+
     .auditshow {
         float: right !important;
     }
@@ -162,7 +163,8 @@
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
                             @Html.Hidden("automatedExamDetailListJson", JsonConvert.SerializeObject(Model.automatedExamDetailList ?? new List<ShampanTailor.Models.QuestionVM.AutomatedExamDetailsVM>()))
-
+                            @Html.Hidden("examineeListJson", JsonConvert.SerializeObject(Model.examExamineeList ?? new List<ShampanExam.Models.QuestionVM.ExamExamineeVM>()))
+                            @Html.Hidden("questionListJson", JsonConvert.SerializeObject(Model.examQuestionHeaderList ?? new List<ShampanExam.Models.QuestionVM.ExamQuestionHeaderVM>()))
 
                             <div class="form-group row">
                                 <div class="col-sm-1">
@@ -288,16 +290,56 @@
 
                         </div>
                     </div>
-                    <div class="col-md-12" id="ExampolicysectionContainer">
-                        <div class="card card-secondary">
-                            <div class="card-header" id="ExampolicyToggle">
-                                <h3 class="card-title"> Exam policy </h3>
-                            </div>
-                            <div class="card-body" id="Exampolicysection">
-                                <div id="kAddedQuestions"></div>
+                    <div class="row">
+                        <div class="col-md-12" id="ExampolicysectionContainer">
+                            <div class="card card-secondary">
+                                <div class="card-header" id="ExampolicyToggle">
+                                    <h3 class="card-title"> Exam policy </h3>
+                                </div>
+                                <div class="card-body" id="Exampolicysection">
+                                    <div id="kAddedQuestions"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="card card-secondary">
+                        <div class="card-header" id="ExamineeToggle">
+                            <h3 class="card-title"> Examinee </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <div id="kExaminee"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <div id="kAddedExaminee"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-secondary" id="divQuestion" style="display:none;">
+                        <div class="card-header" id="QuestionToggle">
+                            <h3 class="card-title"> Questions </h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <div id="kQuestions"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <div id="kAddQuestions"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </form>
                 <div class="card">
                     <div class="card-header p-2">

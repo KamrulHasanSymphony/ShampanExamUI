@@ -37,6 +37,8 @@ namespace ShampanExam.Models.Exam
         public decimal? ExaminerMarks { get; set; }
         public int? RemainingSeconds { get; set; }
         public bool IsExamover { get; set; }
+        public string? Name { get; set; }
+        public int? QuestionSetHeaderId { get; set; }
 
         public List<int> SelectedOptionIds { get; set; } = new List<int>();
     }
