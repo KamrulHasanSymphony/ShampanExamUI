@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShampanExam.Models.QuestionVM
@@ -17,11 +18,15 @@ namespace ShampanExam.Models.QuestionVM
         [Display(Name = "Remarks")]
         public string? Remarks { get; set; }
 
+
         public PeramModel PeramModel { get; set; }
+
+        public List<QuestionChapterVM> chapterList { get; set; }
 
         public QuestionSubjectVM()
         {
             PeramModel = new PeramModel();
+            chapterList = new List<QuestionChapterVM>();
         }
     }
 }

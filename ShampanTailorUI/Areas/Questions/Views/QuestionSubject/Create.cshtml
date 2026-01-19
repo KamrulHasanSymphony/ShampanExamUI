@@ -1,4 +1,7 @@
-﻿@model ShampanExam.Models.QuestionVM.QuestionSubjectVM
+﻿@using Newtonsoft.Json
+
+
+@model ShampanExam.Models.QuestionVM.QuestionSubjectVM
 
 @{
     ViewBag.Title = "Question Subject Create";
@@ -115,6 +118,8 @@
 
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.Operation)
+                            @Html.Hidden("ChapterDataJson", JsonConvert.SerializeObject(Model.chapterList ?? new List<ShampanExam.Models.QuestionVM.QuestionChapterVM>()))
+
 
                             <div class="form-group row">
                                 <div class="col-sm-2">
@@ -161,10 +166,23 @@
 
                             </div>
 
+                            
+
                         </div>
                     </div>
                 </form>
-
+                
+                    
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h3 class="card-title">Chapters</h3>
+                    </div>
+                    <div >
+                        <div id="chapterdatabySubject"></div>
+                    </div>
+                </div>
+                    
+                
                 <div class="card" style="flex-direction: row; justify-content: space-between; align-items: center;">
                     <div class="card-header p-2">
 

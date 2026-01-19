@@ -47,6 +47,73 @@ var QuestionSubjectController = function (CommonService, CommonAjaxService) {
                 window.location.href = "/Questions/QuestionSubject/NextPrevious?id=" + getId + "&status=Next";
             }
         });
+
+        var $table = $('#chapterdatabySubject');
+        var table = initEditTable($table, { searchHandleAfterEdit: false });
+        var chapterData = JSON.parse($("#ChapterDataJson").val() || "[]");
+        var ChapterData = new kendo.data.DataSource({
+            data: chapterData,
+            schema: {
+                model: {
+                    id: "Id",
+                    fields: {
+                        Name: { type: "string", defaultValue: "" },
+                        NameInBangla: { type: "string", defaultValue: "" },
+                        Remarks: { type: "string", defaultValue: "" }
+                    }
+                }
+            }
+        });
+
+        var rowNumber = 0;
+        $("#chapterdatabySubject").kendoGrid({
+            dataSource: ChapterData,
+            editable: false,
+            save: function (e) {
+                const grid = this;
+                setTimeout(function () {
+                    grid.dataSource.aggregate();
+                    grid.refresh();
+                }, 0);
+            },
+            columns: [
+                {
+                    title: "Sl No",
+                    width: 60,
+                    template: function (dataItem) {
+                        var grid = $("#chapterdatabySubject").data("kendoGrid");
+                        return grid.dataSource.indexOf(dataItem) + 1;
+                    },
+                    editable: false
+                },
+                {
+                    field: "Name",
+                    title: "Name",
+                    template: function (dataItem) {
+                        return dataItem.Name || "";
+                    },
+                    width: 150
+                },
+                {
+                    field: "NameInBangla",
+                    title: "NameInBangla",
+                    template: function (dataItem) {
+                        return dataItem.NameInBangla || "";
+                    },
+                    width: 150
+                },
+                {
+                    field: "Remarks",
+                    title: "Remarks",
+                    template: function (dataItem) {
+                        return dataItem.Remarks || "";
+                    },
+                    width: 150
+                }
+            ]
+        });
+
+
     };
 
     // Select data for delete
@@ -226,6 +293,7 @@ var QuestionSubjectController = function (CommonService, CommonAjaxService) {
                 }, 1000);
             },
             detailInit: function (e) {
+                var sl = 1;
                 $("<div/>").appendTo(e.detailCell).kendoGrid({
                     dataSource: {
                         serverPaging: true,
@@ -256,7 +324,13 @@ var QuestionSubjectController = function (CommonService, CommonAjaxService) {
                     pageable: true,
                     sortable: true,
                     columns: [
-                        { title: "SL", width: 50 },
+                        {
+                            title: "SL",
+                            width: 50,
+                            template: function () {
+                                return sl++;
+                            }
+                        },
                         { field: "Name", title: "Chapter Name" },
                         { field: "NameInBangla", title: "Bangla Name" },
                         { field: "Remarks", title: "Remarks" }
