@@ -222,20 +222,26 @@
                                 if (param.field === "Id") {
                                     param.field = "H.Id";
                                 }
-                                if (param.field === "ExamCode") {
+                                if (param.field === "Code") {
                                     param.field = "H.Code";
                                 }
-                                if (param.field === "SubjectName") {
-                                    param.field = "S.Name";
+                                if (param.field === "Name") {
+                                    param.field = "H.Name";
                                 }
-                                if (param.field === "NumberOfQuestion") {
-                                    param.field = "D.NumberOfQuestion";
+                                if (param.field === "Date") {
+                                    param.field = "H.Date";
                                 }
-                                if (param.field === "QuestionType") {
-                                    param.field = "D.QuestionType";
-                                }
-                                if (param.field === "QuestionMark") {
-                                    param.field = "D.QuestionMark";
+                                if (param.field === "Status") {
+                                    let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
+                                    if (statusValue.startsWith("a")) {
+                                        param.value = 1;
+                                    } else if (statusValue.startsWith("i")) {
+                                        param.value = 0;
+                                    } else {
+                                        param.value = null;
+                                    }
+                                    param.field = "H.IsActive";
+                                    param.operator = "eq";
                                 }
                             });
                         }
@@ -245,20 +251,26 @@
                                 if (param.field === "Id") {
                                     param.field = "H.Id";
                                 }
-                                if (param.field === "ExamCode") {
+                                if (param.field === "Code") {
                                     param.field = "H.Code";
                                 }
-                                if (param.field === "SubjectName") {
-                                    param.field = "S.Name";
+                                if (param.field === "Name") {
+                                    param.field = "H.Name";
                                 }
-                                if (param.field === "NumberOfQuestion") {
-                                    param.field = "D.NumberOfQuestion";
+                                if (param.field === "Date") {
+                                    param.field = "H.Date";
                                 }
-                                if (param.field === "QuestionType") {
-                                    param.field = "D.QuestionType";
-                                }
-                                if (param.field === "QuestionMark") {
-                                    param.field = "D.QuestionMark";
+                                if (param.field === "Status") {
+                                    let statusValue = param.value ? param.value.toString().trim().toLowerCase() : "";
+                                    if (statusValue.startsWith("a")) {
+                                        param.value = 1;
+                                    } else if (statusValue.startsWith("i")) {
+                                        param.value = 0;
+                                    } else {
+                                        param.value = null;
+                                    }
+                                    param.field = "H.IsActive";
+                                    param.operator = "eq";
                                 }
                             });
                         }
@@ -389,12 +401,10 @@
     //                    }
     //                },
                     { field: "Id", width: 50, hidden: true, sortable: true },
-                    { field: "ExamName", title: "Exam Name", sortable: true, width: 200 },
-                    { field: "ExamCode", title: "Exam Code", sortable: true, width: 200 },
-                    { field: "SubjectName", title: "Subject", sortable: true, width: 200 },
-                    { field: "NumberOfQuestion", title: "Number Of Question", sortable: true, width: 150 },
-                    { field: "QuestionType", title: "Question Type", sortable: true, width: 150 },
-                    { field: "QuestionMark", title: "Question Mark", sortable: true, width: 100 },
+                    { field: "Name", title: "Exam Name", sortable: true, width: 200 },
+                    { field: "Code", title: "Exam Code", sortable: true, width: 200 },
+                    { field: "Date", title: "Exam Date", sortable: true, width: 200 },
+                    { field: "Status", title: "Status", sortable: true, width: 100 },
                 ],
                 editable: false,
                 selectable: "multiple row",

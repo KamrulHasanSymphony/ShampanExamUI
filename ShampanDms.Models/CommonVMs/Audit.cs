@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShampanExam.Models
 {
@@ -28,6 +29,8 @@ namespace ShampanExam.Models
         public string? Operation { get; set; }
         public string? Status { get; set; }
         public bool IsArchive { get; set; }
+        [Display(Name = "Active")]
+
         public bool IsActive { get; set; }
 
 

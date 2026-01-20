@@ -354,19 +354,19 @@
                                 New
                             </button>
                             <!-- Always render both buttons -->
-                            <button id="btnProcess"
+                            @*<button id="btnProcess"
                                     type="button"
                                     class="button btnProcess"
                                     style="background-color:#1790D2;color:white;margin-left:10px; display:none;">
                                 Process
-                            </button>
+                            </button>*@
 
-                            <button id="btnRandomProcess"
+                            @*<button id="btnRandomProcess"
                                     type="button"
                                     class="button btnRandomProcess"
                                     style="background-color:#1790D2;color:white;margin-left:10px; display:none;">
                                 Random Process
-                            </button>
+                            </button>*@
                             <div class="auditshow">
                                 <img src="~/Content/Images/audit.png" title="Click for Audit" />
                             </div>
@@ -452,9 +452,11 @@
                 if (isQuestionSet) {
                     $('#btnProcess').show();
                     $('#btnRandomProcess').hide();
+                    $("#divQuestion").show();
                 } else {
                     $('#btnProcess').hide();
                     $('#btnRandomProcess').show();
+                    $("#divQuestion").hide();
                 }
             }
         });

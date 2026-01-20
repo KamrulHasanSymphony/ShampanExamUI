@@ -417,7 +417,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
 
                 if (result.Status == "Success" && result.DataVM != null)
                 {
-                    var gridData = JsonConvert.DeserializeObject<GridEntity<AutomatedExamDetailsVM>>(result.DataVM.ToString());
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<ExamVM>>(result.DataVM.ToString());
 
                     return Json(new
                     {

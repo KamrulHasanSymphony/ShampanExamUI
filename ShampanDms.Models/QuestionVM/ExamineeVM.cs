@@ -15,6 +15,9 @@ namespace ShampanExam.Models.QuestionVM
         [Required]
         [Display(Name = "Examinee Name")]
         public string? Name { get; set; }
+        public string? GroupName { get; set; }
+
+
         [Required]
 
         [Display(Name = "Mobile Number")]

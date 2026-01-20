@@ -39,7 +39,7 @@ namespace ShampanExam.Models.QuestionVM
         [Display(Name = "Remarks")]
         public string? Remarks { get; set; }
 
-        [Display(Name = "Is Exam By Question Set")]
+        [Display(Name = "Exam By Question Set")]
         public bool IsExamByQuestionSet { get; set; }
 
         [Display(Name = "Question Set")]
