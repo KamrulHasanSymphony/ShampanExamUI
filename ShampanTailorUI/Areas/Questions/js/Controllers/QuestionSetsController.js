@@ -726,19 +726,19 @@
         var grid = $("#kAddedQuestions").data("kendoGrid");
         if (grid) {
             var dataItems = grid.dataSource.view();
-
+            debugger;
             for (var i = 0; i < dataItems.length; i++) {
                 var item = dataItems[i];
 
                 // Validate if a Question is selected
-                if (!item.QuestionHeaderId || parseFloat(item.QuestionHeaderId) <= 0) {
-                    ShowNotification(3, "Question is required.");
-                    return;
-                }
+                //if (!item.QuestionHeaderId || parseFloat(item.QuestionHeaderId) <= 0) {
+                //    ShowNotification(3, "Question is required.");
+                //    return;
+                //}
 
                 Qdetails.push({
-                    QuestionSetHeaderId: item.Id,
-                    QuestionHeaderId: item.QuestionHeaderId,
+                    //QuestionSetHeaderId: item.Id,
+                    QuestionHeaderId: item.Id,
                     QuestionMark: item.QuestionMark
                 });
             }

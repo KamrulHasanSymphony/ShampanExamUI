@@ -16,6 +16,8 @@ namespace ShampanExam.Models.QuestionVM
         public string? QuestionType { get; set; }
         public int? QuestionMark { get; set; }
         public decimal? MarkObtain { get; set; }
+        public bool? IsExamSubmitted { get; set; }
+        public bool? IsExamMarksSubmitted { get; set; }
 
     }
 }

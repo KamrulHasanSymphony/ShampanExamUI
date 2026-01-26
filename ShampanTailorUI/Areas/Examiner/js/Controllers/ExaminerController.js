@@ -508,6 +508,7 @@ var ExaminerController = function (CommonService, CommonAjaxService) {
                     { field: "Id", width: 50, hidden: true, sortable: true },
                     { field: "ExamineeId", width: 50, hidden: true, sortable: true },
                     { field: "Name", title: "Name", sortable: true, width: 200 },
+                    { field: "Code", title: "Code", sortable: true, width: 200 },
                     { field: "ExamineeName", title: "Examinee Name", sortable: true, width: 200 },
                     { field: "Date", title: "Exam Date", sortable: true, width: 200 },
                     { field: "Duration", title: "Duration", sortable: true, width: 150 },

@@ -480,7 +480,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
 
                 };
 
-                ResultVM insertResult = _repo.Insert(model);
+                ResultVM insertResult = _repo.SelfInsert(model);
 
                 if (insertResult.Status != "Success" || insertResult.DataVM == null)
                 {
@@ -523,5 +523,33 @@ namespace ShampanExamUI.Areas.Questions.Controllers
             }
         }
 
+        [HttpGet]
+        public JsonResult RandomSubjectGridDataById(GridOptions options, int masterId)
+        {
+            ResultVM result = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+
+            try
+            {
+                result = _repo.RandomSubjectGridDataById(options, masterId);
+
+                if (result.Status == "Success" && result.DataVM != null)
+                {
+                    var gridData = JsonConvert.DeserializeObject<GridEntity<AutomatedExamDetailsVM>>(result.DataVM.ToString());
+
+                    return Json(new
+                    {
+                        Items = gridData.Items,
+                        TotalCount = gridData.TotalCount
+                    }, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(new { Error = true, Message = "No data found." }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(e);
+                return Json(new { Error = true, Message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

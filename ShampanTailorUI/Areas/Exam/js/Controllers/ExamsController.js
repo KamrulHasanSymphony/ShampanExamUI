@@ -140,7 +140,7 @@
 
         // Save button click handler
         $('.btnPost').click('click', function () {
-            
+            debugger;
             var getId = $('#Id').val();
             $("#actionType").val("Final");
             var status = "Save";
@@ -299,103 +299,7 @@
                     data: "Items",
                     total: "TotalCount"
                 }
-            });
-
-            //$("#GridDataList").kendoGrid({
-            //    dataSource: gridDataSource,
-            //    pageable: {
-            //        refresh: true,
-            //        serverPaging: true,
-            //        serverFiltering: true,
-            //        serverSorting: true,
-            //        pageSizes: [10, 20, 50, "all"]
-            //    },
-            //    noRecords: true,
-            //    messages: {
-            //        noRecords: "No Record Found!"
-            //    },
-            //    scrollable: true,
-            //    filterable: {
-            //        extra: true,
-            //        operators: {
-            //            string: {
-            //                startswith: "Starts with",
-            //                endswith: "Ends with",
-            //                contains: "Contains",
-            //                doesnotcontain: "Does not contain",
-            //                eq: "Is equal to",
-            //                neq: "Is not equal to",
-            //                gt: "Is greater than",
-            //                lt: "Is less than"
-            //            }
-            //        }
-            //    },
-            //    sortable: true,
-            //    resizable: true,
-            //    reorderable: true,
-            //    groupable: true,
-            //    toolbar: ["excel", "pdf", "search"],
-            //    excel: {
-            //        fileName: "Exams.xlsx",
-            //        filterable: true
-            //    },
-            //    pdf: {
-            //        fileName: `Exams_${new Date().toISOString().split('T')[0]}_${new Date().toTimeString().split(' ')[0]}.pdf`,
-            //        allPages: true,
-            //        avoidLink: true,
-            //        filterable: true
-            //    },
-            //    pdfExport: function (e) {
-            //        $(".k-grid-toolbar").hide();
-            //        $(".k-grouping-header").hide();
-            //        $(".k-floatwrap").hide();
-
-            //        var companyName = "Shampan Exam System.";
-            //        var fileName = `Exams_${new Date().toISOString().split('T')[0]}_${new Date().toTimeString().split(' ')[0]}.pdf`;
-
-            //        e.sender.options.pdf = {
-            //            paperSize: "A4",
-            //            margin: { top: "4cm", left: "1cm", right: "1cm", bottom: "4cm" },
-            //            landscape: true,
-            //            allPages: true,
-            //            template: `
-            //                <div style="position: absolute; top: 1cm; left: 1cm; right: 1cm; text-align: center; font-size: 12px; font-weight: bold;">
-            //                    <div>${companyName}</div>
-            //                </div> `
-            //        };
-
-            //        e.sender.options.pdf.fileName = fileName;
-
-            //        setTimeout(function () {
-            //            window.location.reload();
-            //        }, 1000);
-            //    },
-            //    columns: [
-            //        {
-            //            title: "Action",
-            //            width: 40,
-            //            template: function (dataItem) {
-            //                return `
-            //                    <a href="/Exam/Exam/Edit/${dataItem.ExamineeId}" class="btn btn-primary btn-sm mr-2 edit">
-            //                        <i class="fas fa-pencil-alt"></i>
-            //                    </a>`;
-            //            }
-            //        },
-            //        { field: "Id", width: 50, hidden: true, sortable: true },
-            //        { field: "ExamineeId", width: 50, hidden: true, sortable: true },
-            //        { field: "Name", title: "Name", sortable: true, width: 200 },
-            //        { field: "ExamineeName", title: "Examinee Name", sortable: true, width: 200 },
-            //        { field: "Date", title: "Exam Date", sortable: true, width: 200 },
-            //        { field: "Duration", title: "Duration", sortable: true, width: 150 },
-            //        { field: "TotalMark", title: "Total Marks", sortable: true, width: 150 },
-            //        { field: "MarkObtain", title: "Mark Obtain", sortable: true, width: 150 },
-            //        { field: "Status", title: "Status", sortable: true, width: 100 },
-            //    ],
-            //    editable: false,
-            //    selectable: "multiple row",
-            //    navigatable: true,
-            //    columnMenu: true
-            //});
+            });            
 
             $("#GridDataList").kendoGrid({
                 dataSource: gridDataSource,
@@ -403,8 +307,8 @@
                     refresh: true,
                     serverPaging: true,
                     serverFiltering: true,
-                    serverSorting: true,
-                    pageSizes: [10, 20, 50, "all"]
+                    serverSorting: true
+                    //pageSizes: [10, 20, 50, "all"]
                 },
                 noRecords: true,
                 messages: {
@@ -503,6 +407,7 @@
 
                     { field: "Id", width: 50, hidden: true, sortable: true },
                     { field: "ExamineeId", width: 50, hidden: true, sortable: true },
+                    { field: "Code", title: "Code", sortable: true, width: 200 },
                     { field: "Name", title: "Name", sortable: true, width: 200 },
                     { field: "ExamineeName", title: "Examinee Name", sortable: true, width: 200 },
                     { field: "Date", title: "Exam Date", sortable: true, width: 200 },
@@ -523,6 +428,7 @@
 
         // Save the form data
         function save() {
+            debugger;
             var validator = $("#frmEntry").validate();
             var formData = new FormData();
             var model = serializeInputs("frmEntry");

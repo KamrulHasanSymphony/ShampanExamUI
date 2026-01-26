@@ -179,19 +179,19 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
             try
             {
 
-                //CommonVM param = new CommonVM();
-                //List<QuestionVM> vms = new List<QuestionVM>();
-                //param.Name = Session["UserId"].ToString();
+                CommonVM param = new CommonVM();
+                List<QuestionVM> vms = new List<QuestionVM>();
+                param.Name = Session["UserId"].ToString();
 
-                //ExamineeRepo _examineeRepo = new ExamineeRepo();
+                ExamineeRepo _examineeRepo = new ExamineeRepo();
 
-                //ResultVM res = _examineeRepo.List(param);
+                ResultVM res = _examineeRepo.List(param);
 
-                //if (res.Status == "Success" && res.DataVM != null)
-                //{
-                //    var examee = JsonConvert.DeserializeObject<List<ShampanExam.Models.QuestionVM.ExamineeVM>>(res.DataVM.ToString());
-                //    options.vm.Id = examee.FirstOrDefault().Id.ToString();
-                //}
+                if (res.Status == "Success" && res.DataVM != null)
+                {
+                    var examee = JsonConvert.DeserializeObject<List<ShampanExam.Models.QuestionVM.ExamineeVM>>(res.DataVM.ToString());
+                    options.vm.Id = examee.FirstOrDefault().Id.ToString();
+                }
                 result = _examRepo.SelfGetGridData(options);
 
                 if (result.Status == "Success" && result.DataVM != null)

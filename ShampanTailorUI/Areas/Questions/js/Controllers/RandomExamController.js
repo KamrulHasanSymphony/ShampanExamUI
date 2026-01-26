@@ -355,6 +355,52 @@
                         window.location.reload();
                     }, 1000);
                 },
+                detailInit: function (e) {
+                    var sl = 1;
+                    $("<div/>").appendTo(e.detailCell).kendoGrid({
+                        dataSource: {
+                            serverPaging: true,
+                            serverSorting: true,
+                            serverFiltering: true,
+                            pageSize: 10,
+                            transport: {
+                                read: {
+                                    url: "/Questions/Exam/RandomSubjectGridDataById",
+                                    type: "GET",
+                                    dataType: "json"
+                                },
+                                parameterMap: function (options) {
+                                    return {
+                                        skip: options.skip,
+                                        take: options.take,
+                                        sort: options.sort,
+                                        filter: options.filter,
+                                        masterId: e.data.Id
+                                    };
+                                }
+                            },
+                            schema: {
+                                data: "Items",
+                                total: "TotalCount"
+                            }
+                        },
+                        pageable: true,
+                        sortable: true,
+                        columns: [
+                            {
+                                title: "SL",
+                                width: 50,
+                                template: function () {
+                                    return sl++;
+                                }
+                            },
+                            { field: "SubjectName", title: "Subject" },
+                            { field: "NumberOfQuestion", title: "No Of Question" },
+                            { field: "QuestionType", title: "Question Type" },
+                            { field: "QuestionMark", title: "Question Mark" }
+                        ]
+                    });
+                },
                 columns: [
                     {
                         title: "Action",

@@ -245,41 +245,14 @@ namespace ShampanExamUI.Areas.Exam.Controllers
                         {
                             vm = JsonConvert.DeserializeObject<List<ShampanExam.Models.QuestionVM.ExamVM>>(resultt.DataVM.ToString()).FirstOrDefault();
                         }
+                        var IsExamover = vm.examQuestionHeaderList[0].IsExamMarksSubmitted ?? false;
                         int i = 0;
                         foreach (var q in vms)
                         {
                             if (i == 0)
                             {
-                                q.IsExamover = false;
-                                q.RemainingSeconds = 0;
-                               // q.RemainingSeconds = (int)(examEnd - DateTime.Now).TotalSeconds;
-                                // 1. Date check
-                                //if (vm.Date != DateTime.Now.ToString("yyyy-MM-dd"))
-                                //{
-                                //    q.IsExamover = false;
-                                //    q.RemainingSeconds = 0;
-                                //}
-                                //else
-                                //{
-                                //    // Build full DateTime from Date + Time
-                                //    DateTime examDate = DateTime.Parse(vm.Date);      // yyyy-MM-dd
-                                //    TimeSpan examTime = vm.Time.Value;                    // TimeSpan HH:mm:ss
-
-                                //    DateTime examStart = examDate.Add(examTime);      // Full start datetime
-                                //    DateTime examEnd = examStart.AddMinutes(vm.Duration);
-
-                                //    // 2. Time check
-                                //    if (DateTime.Now >= examEnd)
-                                //    {
-                                //        q.IsExamover = true;
-                                //        q.RemainingSeconds = 0;
-                                //    }
-                                //    else
-                                //    {
-                                //        q.IsExamover = false;
-                                //        q.RemainingSeconds = (int)(examEnd - DateTime.Now).TotalSeconds;
-                                //    }
-                                //}
+                                q.IsExamover = IsExamover;
+                                q.RemainingSeconds = 0;                               
                             }
                             i++;
 

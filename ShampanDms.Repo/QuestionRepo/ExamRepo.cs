@@ -32,7 +32,25 @@ namespace ShampanExam.Repo.QuestionRepo
                 throw ex;
             }
         }
+        public ResultVM SelfInsert(ExamVM model)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                AuthModel authModel = httpRequestHelper.GetAuthentication(new CredentialModel { UserName = "erp", Password = "123456" });
 
+                #region Invoke API
+                var data = httpRequestHelper.PostData("api/Exam/SelfInsert", authModel, JsonConvert.SerializeObject(model));
+                ResultVM result = JsonConvert.DeserializeObject<ResultVM>(data);
+                #endregion
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         // Update Method
         public ResultVM Update(ExamVM model)
         {
@@ -293,6 +311,27 @@ namespace ShampanExam.Repo.QuestionRepo
                 #endregion
 
                 return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ResultVM RandomSubjectGridDataById(GridOptions options, int masterId)
+        {
+            try
+            {
+                HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+                CommonModel.AuthModel auth = new CommonModel.AuthModel
+                {
+                    token = ClaimNames.token
+                };
+                string value = httpRequestHelper.PostData($"api/Exam/RandomSubjectGridDataById?masterId={masterId}", auth, JsonConvert.SerializeObject(options, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                }));
+                return JsonConvert.DeserializeObject<ResultVM>(value);
             }
             catch (Exception ex)
             {
