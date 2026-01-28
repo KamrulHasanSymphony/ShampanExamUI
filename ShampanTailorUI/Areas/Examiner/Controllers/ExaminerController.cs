@@ -187,10 +187,19 @@ namespace ShampanExamUI.Areas.Examiner.Controllers
 
                 ResultVM res = _examineeRepo.List(param);
 
-                if (res.Status == "Success" && res.DataVM != null)
+                if (res != null && res.Status == "Success" && res.DataVM != null)
                 {
-                    var examee = JsonConvert.DeserializeObject<List<ShampanExam.Models.QuestionVM.ExamineeVM>>(res.DataVM.ToString());
-                    options.vm.Id = examee.FirstOrDefault().Id.ToString();
+                    var examee = JsonConvert.DeserializeObject<List<ExamineeVM>>(res.DataVM.ToString());
+
+                    var firstExamee = examee?.FirstOrDefault();
+                    if (firstExamee != null && options?.vm != null)
+                    {
+                        options.vm.Id = firstExamee.Id.ToString();
+                    }
+                }
+                else
+                {
+                    return Json(new { Error = true, Message = "Examinee data not found." });
                 }
                 result = _examRepo.SelfGetGridData(options);
 

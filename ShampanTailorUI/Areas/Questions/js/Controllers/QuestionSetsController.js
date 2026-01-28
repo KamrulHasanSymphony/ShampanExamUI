@@ -3,8 +3,8 @@
     var init = function () {
         var getId = $("#Id").val() || 0;
         var getOperation = $("#Operation").val() || '';
-        var getQuestionSubjectId = $("#QuestionSubjectId").val() || 0;
-        var getQuestionChapterId = $("#QuestionChapterId").val() || 0;
+         getQuestionSubjectId = $("#QuestionSubjectId").val() || 0;
+         getQuestionChapterId = $("#QuestionChapterId").val() || 0;
 
         // Index page
         if (parseInt(getId) == 0 && getOperation == '') {
@@ -86,6 +86,7 @@
     // =========================
 
     function GetQuestionSubjectComboBox() {
+
         $("#QuestionSubjectId").kendoMultiColumnComboBox({
             dataTextField: "Name",
             dataValueField: "Id",
@@ -95,17 +96,20 @@
                 { field: "Remarks", title: "Remarks", width: 150 }
             ],
             filter: "contains",
-            filterFields: ["Name", "Remarks"],
+            filterFields: ["Name"],
             dataSource: {
                 transport: {
-                    read: { url: "/Questions/QuestionSubject/Dropdown", dataType: "json" }
+                    read: "/Questions/QuestionSubject/Dropdown"
                 }
             },
             placeholder: "Select Question Subject",
-            change: function (e) {
-                var getQuestionSubjectId = this.value();
-                LoadChaptersCombo(getQuestionSubjectId); // ✅ call on change
-            }
+            dataBound: function () {
+                debugger;
+                if (getQuestionSubjectId && getQuestionSubjectId > 0) {
+                    this.value(getQuestionSubjectId);
+                }
+            },
+            change: onQuestionSubjectChange
         });
     }
 
@@ -122,8 +126,28 @@
                 ],
                 filter: "contains",
                 filterFields: ["Name", "Remarks"],
-                dataSource: [], 
+                //dataSource: [], 
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "/Questions/QuestionChapter/Dropdown",
+                            data: function () {
+                                return {
+                                    value: $("#QuestionSubjectId")
+                                        .data("kendoMultiColumnComboBox")?.value()
+                                };
+                            }
+                        }
+                    }
+                },
                 placeholder: "Select Question Chapter",
+                dataBound: function () {
+                    debugger;
+
+                    if (getQuestionChapterId && getQuestionChapterId > 0) {
+                        this.value(getQuestionChapterId);
+                    }
+                },
                 change: function (e) {
                     var getQuestionChapterId = this.value();
                     if (getQuestionChapterId && getQuestionChapterId !== "0") {
@@ -182,6 +206,14 @@
     //        }
     //    });
     //}
+    function onQuestionSubjectChange() {
+        debugger;
+        var chapterCombo = $("#QuestionChapterId")
+            .data("kendoMultiColumnComboBox");
+
+        chapterCombo.value("");
+        chapterCombo.dataSource.read();
+    }
     function ClearQuestionGrid() {
         var grid = $("#kAllQuestions").data("kendoGrid");
         if (grid) {
@@ -738,7 +770,7 @@
 
                 Qdetails.push({
                     //QuestionSetHeaderId: item.Id,
-                    QuestionHeaderId: item.Id,
+                    QuestionHeaderId: item.QuestionHeaderId,
                     QuestionMark: item.QuestionMark
                 });
             }

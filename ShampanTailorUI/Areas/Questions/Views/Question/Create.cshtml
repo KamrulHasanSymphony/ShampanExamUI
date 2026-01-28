@@ -137,14 +137,17 @@
                                 </div>
 
                                 <!-- Question Chapter -->
+                                @*<div class="col-sm-3">
+                                        @Html.LabelFor(model => model.QuestionChapterId)
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(model => model.QuestionChapterId, new { placeholder = "Enter Question Chapter", @class = "form-control form-control-sm" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.QuestionChapterId)
+                                    </div>*@
                                 <div class="col-sm-3">
-                                    @Html.LabelFor(model => model.QuestionChapterId)
-                                    <div class="input-group">
-                                        @Html.TextBoxFor(model => model.QuestionChapterId, new { placeholder = "Enter Question Chapter", @class = "form-control form-control-sm" })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.QuestionChapterId)
+                                    @Html.LabelFor(m => m.QuestionChapterId)
+                                    @Html.TextBoxFor(m => m.QuestionChapterId, new { @class = "form-control form-control-sm"})
                                 </div>
-
                                 <!-- Question Category -->
                                 <div class="col-sm-3">
                                     @Html.LabelFor(model => model.QuestionCategorieId)
@@ -190,7 +193,7 @@
                         </div>
                     </div>
 
-                    <div class="row"id="OptionDetails">
+                    <div class="row" id="OptionDetails">
                         <div class="col-md-12">
                             <div class="card card-secondary">
                                 <div class="card-header">

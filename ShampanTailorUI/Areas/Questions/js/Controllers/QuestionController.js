@@ -23,8 +23,7 @@ var QuestionController = function (CommonService, CommonAjaxService) {
         GetQuestionCategoryComboBox();
 
         function GetQuestionSubjectComboBox() {
-
-            var QuestionSubjectComboBox = $("#QuestionSubjectId").kendoMultiColumnComboBox({
+            $("#QuestionSubjectId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
                 height: 400,
@@ -40,20 +39,25 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                     }
                 },
                 placeholder: "Select Question Subject",
-                value: "",
-                dataBound: function (e) {
-                    if (getQuestionSubjectId) {
-                        this.value(parseInt(getQuestionSubjectId));
-                    }
-                }
-            }).data("kendoMultiColumnComboBox");
-        };
-        function GetQuestionChapterComboBox() {
+                dataBound: function () {
+                    var subjectCombo = this;
+                    if (getQuestionSubjectId && getQuestionSubjectId > 0) {
+                        subjectCombo.value(getQuestionSubjectId);
 
-            var QuestionChapterComboBox = $("#QuestionChapterId").kendoMultiColumnComboBox({
+                        // trigger chapter load for edit mode
+                        onQuestionSubjectChange.call(subjectCombo);
+                    }
+                },
+                change: onQuestionSubjectChange
+            });
+        }
+
+        function GetQuestionChapterComboBox() {
+            $("#QuestionChapterId").kendoMultiColumnComboBox({
                 dataTextField: "Name",
                 dataValueField: "Id",
                 height: 400,
+                autoBind: false, // important
                 columns: [
                     { field: "Name", title: "Name", width: 150 },
                     { field: "Remarks", title: "Remarks", width: 150 }
@@ -62,18 +66,25 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                 filterFields: ["Name"],
                 dataSource: {
                     transport: {
-                        read: "/Questions/QuestionChapter/Dropdown"
+                        read: {
+                            url: "/Questions/QuestionChapter/Dropdown",
+                            data: function () {
+                                return {
+                                    value: $("#QuestionSubjectId")
+                                        .data("kendoMultiColumnComboBox")?.value()
+                                };
+                            }
+                        }
                     }
                 },
-                placeholder: "Select Question Chapter",
-                value: "",
-                dataBound: function (e) {
-                    if (getQuestionChapterId) {
-                        this.value(parseInt(getQuestionChapterId));
+                dataBound: function () {
+                    // this runs AFTER chapter data is loaded
+                    if (getQuestionChapterId && getQuestionChapterId > 0) {
+                        this.value(getQuestionChapterId);
                     }
                 }
-            }).data("kendoMultiColumnComboBox");
-        };
+            });
+        }
         function GetQuestionCategoryComboBox() {
 
             var QuestionCategoryComboBox = $("#QuestionCategorieId").kendoMultiColumnComboBox({
@@ -245,6 +256,14 @@ var QuestionController = function (CommonService, CommonAjaxService) {
         });
 
         // Fetch grid data for the list
+        function onQuestionSubjectChange() {
+            var chapterCombo = $("#QuestionChapterId").data("kendoMultiColumnComboBox");
+
+            chapterCombo.value("");       // clear previous value
+            chapterCombo.dataSource.read(); // reload based on selected subject
+        }
+
+
         function GetGridDataList() {
             var gridDataSource = new kendo.data.DataSource({
                 type: "json",
