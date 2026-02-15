@@ -522,17 +522,25 @@
                             id: "Id"
                         }
                     },
-                    pageSize: 20
+                    pageSize: 10,
+                    serverPaging: true
                 },
+
                 toolbar: [
                     "search",
                     { name: "addSelectedQuestions", text: "Add Selected" }
                 ],
+
                 search: {
                     fields: ["QuestionText", "Name"]
                 },
-                //height: 400,
-                pageable: false,
+
+                pageable: {
+                    refresh: true,
+                    pageSizes: [10, 20, 50, 100],
+                    buttonCount: 5
+                },
+
                 sortable: false,
                 selectable: "multiple, row",
 
@@ -554,10 +562,65 @@
                             "<i class='fa fa-arrow-right'></i></button>"
                     }
                 ],
+
                 noRecords: {
                     template: "<div class='text-center p-3'>No question found.</div>"
                 }
             });
+
+            //$("#kQuestions").kendoGrid({
+            //    dataSource: {
+            //        transport: {
+            //            read: {
+            //                url: "/Questions/QuestionSets/GetQuestionGridData",
+            //                data: { groupId: groupId },
+            //                dataType: "json",
+            //                type: "POST"
+            //            }
+            //        },
+            //        schema: {
+            //            data: "Items",
+            //            total: "TotalCount",
+            //            model: {
+            //                id: "Id"
+            //            }
+            //        },
+            //        pageSize: 20
+            //    },
+            //    toolbar: [
+            //        "search",
+            //        { name: "addSelectedQuestions", text: "Add Selected" }
+            //    ],
+            //    search: {
+            //        fields: ["QuestionText", "Name"]
+            //    },
+            //    //height: 400,
+            //    pageable: false,
+            //    sortable: false,
+            //    selectable: "multiple, row",
+
+            //    columns: [
+            //        { selectable: true, width: 40 },
+            //        { field: "Id", hidden: true },
+            //        { field: "QuestionSetHeaderId", hidden: true },
+            //        { field: "SubjectName", title: "Subject", width: 60 },
+            //        { field: "ChapterName", title: "Chapter", width: 60 },
+            //        { field: "Name", title: "Set", width: 60 },
+            //        { field: "QuestionText", title: "Question Text", width: 60 },
+            //        { field: "QuestionType", title: "Question Type", width: 60 },
+            //        { field: "QuestionMark", title: "Question Mark", width: 60 },
+            //        {
+            //            title: "Action",
+            //            width: 20,
+            //            template:
+            //                "<button class='btn btn-sm btn-success k-grid-select'>" +
+            //                "<i class='fa fa-arrow-right'></i></button>"
+            //        }
+            //    ],
+            //    noRecords: {
+            //        template: "<div class='text-center p-3'>No question found.</div>"
+            //    }
+            //});
 
 
         }
