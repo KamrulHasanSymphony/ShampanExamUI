@@ -854,7 +854,12 @@
                 batch: true,
                 schema: {
                     data: "Items",
-                    total: "TotalCount"
+                    total: "TotalCount",
+                    model: {
+                        fields: {
+                            Date: { type: "date" }
+                        }
+                    }
                 }
             });
 
@@ -960,7 +965,13 @@
                     { field: "Id", width: 50, hidden: true, sortable: true },
                     { field: "Code", title: "Code", sortable: true, width: 200 },
                     { field: "Name", title: "Name", sortable: true, width: 200 },
-                    { field: "Date", title: "Exam Date", sortable: true, width: 200 },
+                    {
+                        field: "Date",
+                        title: "Exam Date",
+                        sortable: true,
+                        width: 200,
+                        format: "{0:dd-MMM-yyyy hh:mm}"
+                    },
                     { field: "Duration", title: "Duration", sortable: true, width: 150 },
                     { field: "TotalMark", title: "Total Marks", sortable: true, width: 150 },
                     { field: "Status", title: "Status", sortable: true, width: 100 },

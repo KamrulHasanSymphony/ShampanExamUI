@@ -364,7 +364,11 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                     { field: "QuestionText", title: "Question Text", width: 200 },
                     { field: "QuestionType", title: "Question Type", width: 150 },
                     { field: "QuestionMark", title: "Marks", width: 100 }
-                ]
+                ],
+                editable: false,
+                selectable: "multiple row",
+                navigatable: true,
+                columnMenu: true
             });
         }
 
