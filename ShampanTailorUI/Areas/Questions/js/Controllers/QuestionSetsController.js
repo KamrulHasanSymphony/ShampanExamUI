@@ -270,6 +270,7 @@
             }),
             columns: [
                 { field: "Id", hidden: true },
+                { field: "QuestionHeaderId", hidden: true },
                 { field: "QuestionText", title: "Question", width: 300 },
                 { field: "QuestionMark", title: "Mark", width: 80 },
                 {
@@ -409,9 +410,44 @@
         });
     }
 
+    //$("#btnAddQuestion").click(function (e) {
+    //    debugger;
+    //    e.preventDefault();
+    //    var grid = $("#kAllQuestions").data("kendoGrid");
+    //    var selectedRows = grid.select();
+
+    //    if (!selectedRows || selectedRows.length === 0) {
+    //        ShowNotification(3, "Please select at least one row to add.");
+    //        return;
+    //    }
+
+    //    var addGrid = $("#kAddedQuestions").data("kendoGrid");
+    //    var addDS = addGrid.dataSource;
+
+    //    selectedRows.each(function () {
+    //        var dataItem = grid.dataItem(this);
+    //        debugger;
+    //        // prevent duplicate transfer
+    //        var exists = addDS.data().some(i => i.QuestionHeaderId === dataItem.Id);
+    //        if (!exists) {
+    //            // Add a **copy** to prevent reference issues
+    //            addDS.add($.extend({}, dataItem));
+
+    //            // Disable the row visually
+    //            $(this).addClass("disabled-row").find("td").css("pointer-events", "none");
+
+    //            // Disable select button in row
+    //            $(this).find(".k-grid-select").prop("disabled", true);
+    //        }
+    //        else
+    //        {
+    //            ShowNotification(2, "Question already added.");
+    //        }
+    //    });
+    //});
     $("#btnAddQuestion").click(function (e) {
-        
         e.preventDefault();
+
         var grid = $("#kAllQuestions").data("kendoGrid");
         var selectedRows = grid.select();
 
@@ -424,25 +460,26 @@
         var addDS = addGrid.dataSource;
 
         selectedRows.each(function () {
+
             var dataItem = grid.dataItem(this);
 
-            // prevent duplicate transfer
+            // Proper duplicate check
             var exists = addDS.data().some(i => i.QuestionHeaderId === dataItem.Id);
+
             if (!exists) {
-                // Add a **copy** to prevent reference issues
-                addDS.add($.extend({}, dataItem));
 
-                // Disable the row visually
-                $(this).addClass("disabled-row").find("td").css("pointer-events", "none");
+                addDS.add({
+                    QuestionHeaderId: dataItem.Id,
+                    QuestionText: dataItem.QuestionText,
+                    QuestionMark: dataItem.QuestionMark
+                });
 
-                // Disable select button in row
-                $(this).find(".k-grid-select").prop("disabled", true);
-            }
-            else
-            {
+            } else {
                 ShowNotification(2, "Question already added.");
             }
+
         });
+
     });
 
     // ✅ Function: Add Question to "Added" Grid
@@ -454,6 +491,7 @@
                 dataSource: { data: [] },
                 columns: [
                     { field: "QuestionHeaderId", hidden: true },
+                    { field: "Id", hidden: true },
                     { field: "QuestionText", title: "Question", width: 300 },
                     { field: "QuestionMark", title: "Mark", width: 80 },
                     {
@@ -753,12 +791,12 @@
 
         var model = serializeInputs("frmEntry");
         var formData = new FormData();
+        debugger;
 
         var Qdetails = [];
         var grid = $("#kAddedQuestions").data("kendoGrid");
         if (grid) {
             var dataItems = grid.dataSource.view();
-            debugger;
             for (var i = 0; i < dataItems.length; i++) {
                 var item = dataItems[i];
 
@@ -769,7 +807,7 @@
                 //}
 
                 Qdetails.push({
-                    //QuestionSetHeaderId: item.Id,
+                    QuestionSetHeaderId: item.Id,
                     QuestionHeaderId: item.QuestionHeaderId,
                     QuestionMark: item.QuestionMark
                 });
