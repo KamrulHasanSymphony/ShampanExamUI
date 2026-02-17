@@ -70,12 +70,12 @@ namespace ShampanExamUI.Areas.Common.Controllers
         public JsonResult LoadBranchProfiles()
         {
             ResultVM resultVM = new ResultVM { Status = "Fail", Message = "Error", ExMessage = null, Id = "0", DataVM = null };
+            List<BranchProfileVM> lst = new List<BranchProfileVM>();
 
             try
             {
                 BranchProfileRepo _branchRepo = new BranchProfileRepo();
                 CommonVM vm = new CommonVM();
-                List<BranchProfileVM> lst = new List<BranchProfileVM>();
 
                 if (Session["UserId"] != null && Session["UserId"].ToString().ToLower() == "erp")
                 {
@@ -97,9 +97,47 @@ namespace ShampanExamUI.Areas.Common.Controllers
                     lst = lst.Where(b => b.IsActive == true).ToList();
                     foreach (var item in lst)
                     {
-                        item.Code = item.BranchCode?? item.Code;
-                        item.Name = item.BranchName?? item.Name;
+                        item.Code = item.BranchCode ?? item.Code;
+                        item.Name = item.BranchName ?? item.Name;
                         item.UserId = item.UserName ?? item.UserId;
+                    }
+
+                    if (lst.Count == 1)
+                    {
+                        var branch = lst.First();
+
+                        Session["CurrentBranch"] = branch.Id.ToString();
+                        Session["CurrentBranchCode"] = branch.Code;
+                        Session["CurrentBranchName"] = branch.Name;
+                        Session["UserId"] = branch.UserId;
+
+                        var identity = new ClaimsIdentity(User.Identity);
+                        identity.AddClaim(new Claim(ClaimNames.CurrentBranch, branch.Id.ToString()));
+                        identity.AddClaim(new Claim(ClaimNames.CurrentBranchCode, branch.Code));
+                        identity.AddClaim(new Claim(ClaimNames.CurrentBranchName, branch.Name.Trim()));
+
+                        var principal = new ClaimsPrincipal(identity);
+
+                        var ticket = new FormsAuthenticationTicket(
+                            1,
+                            branch.UserId.ToString(),
+                            DateTime.Now,
+                            DateTime.Now.AddMinutes(30),
+                            false,
+                            $"{branch.Id}|{branch.Code}|{branch.Name}",
+                            FormsAuthentication.FormsCookiePath
+                        );
+
+                        string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+                        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
+                        {
+                            Expires = ticket.Expiration,
+                            Path = FormsAuthentication.FormsCookiePath
+                        };
+                        Response.Cookies.Add(cookie);
+
+                        // Optional: redirect automatically if you want
+                        // return RedirectToAction("Index", "Home", new { area = "Common" });
                     }
                 }
 
