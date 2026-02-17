@@ -420,7 +420,34 @@
                         title: "Exam Date",
                         sortable: true,
                         width: 200,
-                        format: "{0:dd-MMM-yyyy hh:mm}"
+                        format: "{0:dd-MMM-yyyy}"
+                    },
+                    {
+                        field: "Time",
+                        title: "Time",
+                        template: function (dataItem) {
+                            if (dataItem.Time) {
+                                var hour = dataItem.Time.Hours;
+                                var minute = dataItem.Time.Minutes;
+                                var suffix = "AM";
+
+                                if (hour == 0) {
+                                    hour = 12;
+                                    suffix = "AM";
+                                } else if (hour < 12) {
+                                    suffix = "AM";
+                                } else if (hour == 12) {
+                                    suffix = "PM";
+                                } else { // 13-23
+                                    hour = hour - 12;
+                                    suffix = "PM";
+                                }
+
+                                return (hour < 10 ? "0" : "") + hour + ":" +
+                                    (minute < 10 ? "0" : "") + minute + " " + suffix;
+                            }
+                            return "";
+                        }
                     },
                     { field: "Duration", title: "Duration", sortable: true, width: 150 },
                     { field: "TotalMark", title: "Total Marks", sortable: true, width: 150 },
