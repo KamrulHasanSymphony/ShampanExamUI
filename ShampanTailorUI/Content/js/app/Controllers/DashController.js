@@ -2,7 +2,7 @@
 
     var init = function (count) {
         if (count == 0) {
-            $("#branchProfiles").modal("show");
+            //$("#branchProfiles").modal("show");
             loadBranchProfiles();
         }
 
@@ -83,6 +83,7 @@
 
                     }
                     else {
+                        $("#branchProfiles").modal("show");
                         var tbody = $('#tbdBranchProfiles');
                         tbody.empty();
                         response.data.forEach(function (branch) {
