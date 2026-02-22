@@ -384,7 +384,7 @@
                         title: "Action",
                         width: 100,
                         template: function (dataItem) {
-
+                            console.log(dataItem);
                             var examDateTime = kendo.parseDate(dataItem.ExamDateTime);
                             var now = new Date();
 
@@ -489,7 +489,7 @@
                     { field: "Duration", title: "Duration", sortable: true, width: 150 },
                     { field: "TotalMark", title: "Total Marks", sortable: true, width: 150 },
                     //{ field: "MarkObtain", title: "Mark Obtain", sortable: true, width: 150 },
-                    { field: "Status", title: "Status", sortable: true, width: 100 },
+                    { field: "Status", title: "Status", sortable: true, width: 100, hidden:true },
                 ],
 
                 editable: false,
