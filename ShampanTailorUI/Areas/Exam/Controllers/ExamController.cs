@@ -276,7 +276,7 @@ namespace ShampanExamUI.Areas.Exam.Controllers
             }
         }
 
-        public ActionResult Result(string id)
+        public ActionResult Result(string id, string examId)
         {
             try
             {
@@ -285,6 +285,7 @@ namespace ShampanExamUI.Areas.Exam.Controllers
                 ExaminerRepo _examRepo = new ExaminerRepo();
 
                 param.Id = id;
+                param.ExamId = examId;
                 ResultVM result = _examRepo.List(param);
 
                 if (result.Status == "Success" && result.DataVM != null)

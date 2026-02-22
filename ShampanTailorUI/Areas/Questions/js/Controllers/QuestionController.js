@@ -374,7 +374,7 @@ var QuestionController = function (CommonService, CommonAjaxService) {
 
         // Save the form data
         function save() {
-
+            debugger;
             var validator = $("#frmEntry").validate();
             if (!validator.form()) {
                 validator.focusInvalid();
@@ -397,7 +397,7 @@ var QuestionController = function (CommonService, CommonAjaxService) {
                 }
             }
 
-            var ShortDetails = [];
+            var ShortDetails = []; 
             var gridShort = $("#questionShortDetails").data("kendoGrid");
             if (gridShort) {
                 var dataItems = gridShort.dataSource.view();

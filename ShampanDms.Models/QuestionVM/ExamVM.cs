@@ -22,6 +22,7 @@ namespace ShampanExam.Models.QuestionVM
 
         [Display(Name = "Exam Time")]
         public TimeSpan? Time { get; set; }
+        public string? ExamDateTime { get; set; }
 
 
         [Display(Name = "Duration(M)")]
