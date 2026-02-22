@@ -386,7 +386,7 @@
                         template: function (dataItem) {
                             console.log(dataItem);
                             var examDateTime = kendo.parseDate(dataItem.ExamDateTime);
-                            var now = new Date();
+                            var now = kendo.parseDate(dataItem.CurrentDate);
 
                             var isAllowed = false;
 
