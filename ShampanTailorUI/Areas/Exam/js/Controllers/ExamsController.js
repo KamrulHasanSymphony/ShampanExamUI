@@ -385,29 +385,66 @@
                         width: 100,
                         template: function (dataItem) {
                             console.log(dataItem);
-                            let html = `
-                    <a href="/Exam/Exam/Edit?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
-               class="btn btn-primary btn-sm mr-2 edit"
-               title="View Exam">
-                <i class="fas fa-pencil-alt"></i>
-            </a>
-                `;
+                            var examDateTime = kendo.parseDate(dataItem.ExamDateTime);
+                            var now = kendo.parseDate(dataItem.CurrentDate);
 
-                            // Add second button only if IsExamMarksSubmitted is true/1/"true"
+                            var isAllowed = false;
+
+                            if (examDateTime && now >= examDateTime) {
+                                isAllowed = true;
+                            }
+
+                            // Start button (exam)
+                            let html = `
+        <a href="/Exam/Exam/Edit?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
+           class="btn btn-primary btn-sm mr-2 edit ${!isAllowed ? 'disabled' : ''}"
+           title="${isAllowed ? 'Start Exam' : 'Exam not started yet'}"
+           ${!isAllowed ? 'style="pointer-events:none;opacity:0.5;"' : ''}>
+            <i class="fas fa-play"></i>
+        </a>
+    `;
+
+                            // Result button
                             if (dataItem.IsExamMarksSubmitted === true ||
                                 dataItem.IsExamMarksSubmitted === 1 ||
                                 dataItem.IsExamMarksSubmitted === "true") {
 
                                 html += `
-                        <a href="/Exam/Exam/Result/${dataItem.ExamineeId}"
-                           class="btn btn-success btn-sm mr-2 view"  title="View Result">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                    `;
+            <a href="/Exam/Exam/Result?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
+               class="btn btn-success btn-sm mr-2 view"
+               title="View Result">
+                <i class="fas fa-eye"></i>
+            </a>
+        `;
                             }
 
                             return html;
                         }
+            //            template: function (dataItem) {
+            //                console.log(dataItem.ExamDateTime);
+            //                let html = `
+            //        <a href="/Exam/Exam/Edit?id=${dataItem.ExamineeId}&examId=${dataItem.Id}"
+            //   class="btn btn-primary btn-sm mr-2 edit"
+            //   title="View Exam">
+            //    <i class="fas fa-pencil-alt"></i>
+            //</a>
+            //    `;
+
+            //                // Add second button only if IsExamMarksSubmitted is true/1/"true"
+            //                if (dataItem.IsExamMarksSubmitted === true ||
+            //                    dataItem.IsExamMarksSubmitted === 1 ||
+            //                    dataItem.IsExamMarksSubmitted === "true") {
+
+            //                    html += `
+            //            <a href="/Exam/Exam/Result/${dataItem.ExamineeId}"
+            //               class="btn btn-success btn-sm mr-2 view"  title="View Result">
+            //                <i class="fas fa-eye"></i>
+            //            </a>
+            //        `;
+            //                }
+
+            //                return html;
+            //            }
                     },
 
                     { field: "Id", width: 50, hidden: true, sortable: true },
@@ -451,8 +488,8 @@
                     },
                     { field: "Duration", title: "Duration", sortable: true, width: 150 },
                     { field: "TotalMark", title: "Total Marks", sortable: true, width: 150 },
-                    { field: "MarkObtain", title: "Mark Obtain", sortable: true, width: 150 },
-                    { field: "Status", title: "Status", sortable: true, width: 100 },
+                    //{ field: "MarkObtain", title: "Mark Obtain", sortable: true, width: 150 },
+                    { field: "Status", title: "Status", sortable: true, width: 100, hidden:true },
                 ],
 
                 editable: false,

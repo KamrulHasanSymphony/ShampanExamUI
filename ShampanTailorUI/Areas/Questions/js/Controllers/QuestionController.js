@@ -378,14 +378,14 @@ var QuestionController = function (CommonService, CommonAjaxService) {
         });
     }
 
-    // Save the form data
-    function save() {
-        debugger;
-        var validator = $("#frmEntry").validate();
-        if (!validator.form()) {
-            validator.focusInvalid();
-            return;
-        }
+        // Save the form data
+        function save() {
+            debugger;
+            var validator = $("#frmEntry").validate();
+            if (!validator.form()) {
+                validator.focusInvalid();
+                return;
+            }
 
         var model = serializeInputs("frmEntry");
         var formData = new FormData();
@@ -403,17 +403,17 @@ var QuestionController = function (CommonService, CommonAjaxService) {
             }
         }
 
-        var ShortDetails = [];
-        var gridShort = $("#questionShortDetails").data("kendoGrid");
-        if (gridShort) {
-            var dataItems = gridShort.dataSource.view();
-            for (var i = 0; i < dataItems.length; i++) {
-                var item = dataItems[i];
-                ShortDetails.push({
-                    QuestionAnswer: item.QuestionAnswer
-                });
+            var ShortDetails = []; 
+            var gridShort = $("#questionShortDetails").data("kendoGrid");
+            if (gridShort) {
+                var dataItems = gridShort.dataSource.view();
+                for (var i = 0; i < dataItems.length; i++) {
+                    var item = dataItems[i];
+                    ShortDetails.push({
+                        QuestionAnswer: item.QuestionAnswer
+                    });
+                }
             }
-        }
 
         model.QuestionOptionDetails = OptionDetails;
         model.QuestionShortDetails = ShortDetails;
