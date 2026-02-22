@@ -53,6 +53,13 @@ namespace ShampanExamUI.Areas.Questions.Controllers
 
             return View("RandomCreate", vm);
         }
+        // GET: Questions/Exam/SelfCreate
+        public ActionResult SelfCreate()
+        {
+            AutomatedExamDetailsVM vm = new AutomatedExamDetailsVM();
+
+            return View("SelfCreate", vm);
+        }
         [HttpPost]
         public  ActionResult CreateEdit(ExamVM model)
         {
@@ -436,7 +443,8 @@ namespace ShampanExamUI.Areas.Questions.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetUserRandomProcessedData(string questionSubjectId,string questionType,string noOfQuestion,string questionMark)
+        //public ActionResult GetUserRandomProcessedData(string questionSubjectId,string questionType,string noOfQuestion,string questionMark)
+        public ActionResult GetUserRandomProcessedData(string questionSubjectId, string singleOptionNo, string multiOptionNo)
         {
             try
             {
@@ -449,6 +457,34 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
                 var user = Session["UserId"].ToString();
+
+                var automatedExamDetailList = new List<AutomatedExamDetailsVM>();
+
+                // SingleOption processing
+                if (!string.IsNullOrEmpty(singleOptionNo) && int.TryParse(singleOptionNo, out int singleNo))
+                {
+                    automatedExamDetailList.Add(new AutomatedExamDetailsVM
+                    {
+                        SubjectId = Convert.ToInt32(questionSubjectId),
+                        SingleOptionNo = singleNo,
+                        //MultiOptionNo = 0, 
+                        QuestionType = "SingleOption",
+                        QuestionMark = singleNo
+                    });
+                }
+
+                // MultiOption processing
+                if (!string.IsNullOrEmpty(multiOptionNo) && int.TryParse(multiOptionNo, out int multiNo))
+                {
+                    automatedExamDetailList.Add(new AutomatedExamDetailsVM
+                    {
+                        SubjectId = Convert.ToInt32(questionSubjectId),
+                        //SingleOptionNo = 0,
+                        MultiOptionNo = multiNo,
+                        QuestionType = "MultiOption",
+                        QuestionMark = multiNo
+                    });
+                }
                 var model = new ExamVM
                 {
                     Name = $"{user}_{DateTime.Now:yyyyMMdd_HHmm}",
@@ -467,16 +503,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     CreatedBy = Session["UserId"].ToString(),
                     CreatedOn = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                     CreatedFrom = Ordinary.GetLocalIpAddress(),
-                    automatedExamDetailList = new List<AutomatedExamDetailsVM>
-                    {
-                        new AutomatedExamDetailsVM
-                        {
-                            SubjectId =Convert.ToInt32(questionSubjectId),
-                            NumberOfQuestion = Convert.ToInt32(noOfQuestion),
-                            QuestionType = questionType,
-                            QuestionMark = Convert.ToInt32(questionMark)
-                        }
-                    }
+                    automatedExamDetailList = automatedExamDetailList
 
                 };
 
@@ -498,8 +525,8 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                     Id = model.Id.ToString(),
                     Group = model.ExamineeGroupId.ToString(),
                     QuestionSubjectId = questionSubjectId,
-                    QuestionType = questionType,
-                    NoOfQuestion = noOfQuestion,
+                    MultiOptionNo = multiOptionNo,
+                    SingleOptionNo = singleOptionNo,
                     UserId = Session["UserId"].ToString()
                 };
 
