@@ -14,6 +14,12 @@ namespace ShampanTailor.Models.QuestionVM
         public int? SubjectId { get; set; }
         public int? NumberOfQuestion { get; set; }
         public string? QuestionType { get; set; }
+        public string? SingleOption { get; set; }
+        public int? SingleOptionNo { get; set; }
+        public decimal? SingleQuestionMark { get; set; }
+        public string? MultiOption { get; set; }
+        public int? MultiOptionNo { get; set; }
+        public decimal? MultiQuestionMark { get; set; }
         public decimal? QuestionMark { get; set; }
         public string? SubjectName { get; set; }
         public string? ExamCode { get; set; }

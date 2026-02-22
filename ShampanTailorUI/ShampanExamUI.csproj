@@ -464,6 +464,7 @@
     <Content Include="Areas\Questions\js\Controllers\QuestionSetController.js" />
     <Content Include="Areas\Questions\js\Controllers\QuestionSetsController.js" />
     <Content Include="Areas\Questions\js\Controllers\QuestionSubjectController.js" />
+    <Content Include="Areas\Questions\js\Controllers\SelfCreateController.js" />
     <Content Include="Areas\SetUp\js\Controller\FiscalYearsController.js" />
     <Content Include="Areas\SetUp\js\Controller\ProductController.js" />
     <Content Include="Areas\SetUp\js\Controller\BranchProfileController.js" />
@@ -2633,6 +2634,7 @@
     <Content Include="Areas\Questions\Views\Exam\RandomIndex.cshtml" />
     <Content Include="Areas\Questions\Views\Exam\RandomCreate.cshtml" />
     <Content Include="Areas\Examiner\Views\Examiner\SelfIndex.cshtml" />
+    <Content Include="Areas\Questions\Views\Exam\SelfCreate.cshtml" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all-vsdoc.js" />
     <None Include="Content\assets\kendoUI2021\kendo\kendo.all.min.intellisense.js" />
     <Content Include="Content\assets\kendoUI2021\kendo\kendo.all.min.js" />
