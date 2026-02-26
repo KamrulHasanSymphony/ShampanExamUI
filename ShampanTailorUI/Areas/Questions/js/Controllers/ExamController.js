@@ -18,168 +18,168 @@
         GetQuestionSetComboBox();
         GenerateGrid();
 
-        var examDetailList = JSON.parse($("#automatedExamDetailListJson").val() || "[]");
+        //var examDetailList = JSON.parse($("#automatedExamDetailListJson").val() || "[]");
 
-        var kAddedQuestions = new kendo.data.DataSource({
-            data: examDetailList,
-            schema: {
-                model: {
-                    id: "Id",
-                    fields: {
-                        Id: { type: "number", defaultValue: 0 },
-                        AutomatedExamId: { type: "number", defaultValue: null },
-                        SubjectId: { type: "number", defaultValue: null },
-                        NumberOfQuestion: { type: "number", defaultValue: 0 },
-                        QuestionType: { type: "string", defaultValue: "" },
-                        QuestionMark: { type: "number", defaultValue: 0 }
-                    }
-                }
-            },
-            aggregate: [
-                { field: "NumberOfQuestion", aggregate: "sum" },
-                { field: "QuestionMark", aggregate: "sum" }
-            ],
-            change: function (e) {
-                if (e.action === "itemchange" && e.field === "NumberOfQuestion") {
-                    var model = e.items[0];
+        //var kAddedQuestions = new kendo.data.DataSource({
+        //    data: examDetailList,
+        //    schema: {
+        //        model: {
+        //            id: "Id",
+        //            fields: {
+        //                Id: { type: "number", defaultValue: 0 },
+        //                AutomatedExamId: { type: "number", defaultValue: null },
+        //                SubjectId: { type: "number", defaultValue: null },
+        //                NumberOfQuestion: { type: "number", defaultValue: 0 },
+        //                QuestionType: { type: "string", defaultValue: "" },
+        //                QuestionMark: { type: "number", defaultValue: 0 }
+        //            }
+        //        }
+        //    },
+        //    aggregate: [
+        //        { field: "NumberOfQuestion", aggregate: "sum" },
+        //        { field: "QuestionMark", aggregate: "sum" }
+        //    ],
+        //    change: function (e) {
+        //        if (e.action === "itemchange" && e.field === "NumberOfQuestion") {
+        //            var model = e.items[0];
 
-                    // Auto fill QuestionMark
-                    model.set("QuestionMark", model.NumberOfQuestion);
-                }
-            }
-        });
+        //            // Auto fill QuestionMark
+        //            model.set("QuestionMark", model.NumberOfQuestion);
+        //        }
+        //    }
+        //});
 
-        $("#kAddedQuestions").kendoGrid({
-            dataSource: kAddedQuestions,
-            toolbar: [{ name: "create", text: "Add" }],
-            editable: { mode: "incell", createAt: "bottom" },
-            save: function () {
-                var grid = this;
-                setTimeout(() => {
-                    grid.refresh();
-                }, 0);
-            },
-            dataBound: function () {
+        //$("#kAddedQuestions").kendoGrid({
+        //    dataSource: kAddedQuestions,
+        //    toolbar: [{ name: "create", text: "Add" }],
+        //    editable: { mode: "incell", createAt: "bottom" },
+        //    save: function () {
+        //        var grid = this;
+        //        setTimeout(() => {
+        //            grid.refresh();
+        //        }, 0);
+        //    },
+        //    dataBound: function () {
 
-            },
-            columns: [
-                {
-                    title: "SL",
-                    width: 30,
-                    template: function (dataItem) {
-                        var grid = $("#kAddedQuestions").data("kendoGrid");
-                        return grid.dataSource.indexOf(dataItem) + 1;
-                    },
-                    attributes: { style: "text-align:center;" }
-                },
-                { field: "AutomatedExamId", title: "AutomatedExamId", width: 150, hidden: true },
-                {
-                    field: "SubjectName",
-                    title: "Subject",
-                    width: 150,
-                    editor: function (container, options) {
-                        $('<input required data-bind="value:' + options.field + '" />')
-                            .appendTo(container)
-                            .kendoComboBox({
-                                dataTextField: "Name",
-                                dataValueField: "Id",
-                                dataSource: {
-                                    transport: {
-                                        read: "/Common/Common/GetSubjectList"
-                                    }
-                                },
-                                filter: "contains",
-                                placeholder: "Select Subject",
-                                value: options.model.SubjectId, // <-- pre-select the value based on SubjectId
-                                change: function (e) {
-                                    var selected = this.dataItem();
-                                    if (selected) {
-                                        options.model.SubjectName = selected.Name;
-                                        options.model.SubjectId = selected.Id;
-                                    }
-                                }
-                            });
-                    }
+        //    },
+        //    columns: [
+        //        {
+        //            title: "SL",
+        //            width: 30,
+        //            template: function (dataItem) {
+        //                var grid = $("#kAddedQuestions").data("kendoGrid");
+        //                return grid.dataSource.indexOf(dataItem) + 1;
+        //            },
+        //            attributes: { style: "text-align:center;" }
+        //        },
+        //        { field: "AutomatedExamId", title: "AutomatedExamId", width: 150, hidden: true },
+        //        {
+        //            field: "SubjectName",
+        //            title: "Subject",
+        //            width: 150,
+        //            editor: function (container, options) {
+        //                $('<input required data-bind="value:' + options.field + '" />')
+        //                    .appendTo(container)
+        //                    .kendoComboBox({
+        //                        dataTextField: "Name",
+        //                        dataValueField: "Id",
+        //                        dataSource: {
+        //                            transport: {
+        //                                read: "/Common/Common/GetSubjectList"
+        //                            }
+        //                        },
+        //                        filter: "contains",
+        //                        placeholder: "Select Subject",
+        //                        value: options.model.SubjectId, // <-- pre-select the value based on SubjectId
+        //                        change: function (e) {
+        //                            var selected = this.dataItem();
+        //                            if (selected) {
+        //                                options.model.SubjectName = selected.Name;
+        //                                options.model.SubjectId = selected.Id;
+        //                            }
+        //                        }
+        //                    });
+        //            }
 
-                    //editor: function (container, options) {
+        //            //editor: function (container, options) {
 
-                    //    $('<input required id="cmbCard" data-bind="value:' + options.field + '" />')
-                    //        .appendTo(container)
-                    //        .kendoComboBox({
-                    //            dataTextField: "Name",
-                    //            dataValueField: "Id",
-                    //            dataSource: {
-                    //                transport: {
-                    //                    read: "/Common/Common/GetSubjectList"
-                    //                }
-                    //            },
-                    //            filter: "contains",
-                    //            placeholder: "Select Subject",
+        //            //    $('<input required id="cmbCard" data-bind="value:' + options.field + '" />')
+        //            //        .appendTo(container)
+        //            //        .kendoComboBox({
+        //            //            dataTextField: "Name",
+        //            //            dataValueField: "Id",
+        //            //            dataSource: {
+        //            //                transport: {
+        //            //                    read: "/Common/Common/GetSubjectList"
+        //            //                }
+        //            //            },
+        //            //            filter: "contains",
+        //            //            placeholder: "Select Subject",
 
-                    //            change: function (e) {
-                    //                var selected = this.dataItem();
+        //            //            change: function (e) {
+        //            //                var selected = this.dataItem();
 
-                    //                if (selected) {
-                    //                    options.model.SubjectName = selected.Name;
+        //            //                if (selected) {
+        //            //                    options.model.SubjectName = selected.Name;
 
-                    //                    options.model.SubjectId = selected.Id;
-                    //                }
-                    //            }
-                    //        });
-                    //}
-                },
+        //            //                    options.model.SubjectId = selected.Id;
+        //            //                }
+        //            //            }
+        //            //        });
+        //            //}
+        //        },
 
-                {
-                    field: "NumberOfQuestion",
-                    title: "Number Of Question",
-                    width: 100,
-                    attributes: { style: "text-align:right;" },
-                    footerTemplate: "<b> #= kendo.toString(sum, 'n2') #</b>"
-                },
+        //        {
+        //            field: "NumberOfQuestion",
+        //            title: "Number Of Question",
+        //            width: 100,
+        //            attributes: { style: "text-align:right;" },
+        //            footerTemplate: "<b> #= kendo.toString(sum, 'n2') #</b>"
+        //        },
 
-                {
-                    field: "QuestionType",
-                    title: "QuestionType",
-                    width: 150,
-                    editor: function (container, options) {
+        //        {
+        //            field: "QuestionType",
+        //            title: "QuestionType",
+        //            width: 150,
+        //            editor: function (container, options) {
 
-                        $('<input required id="cmbCard" data-bind="value:' + options.field + '" />')
-                            .appendTo(container)
-                            .kendoComboBox({
-                                dataTextField: "Name",
-                                dataValueField: "Name",
-                                dataSource: {
-                                    transport: {
-                                        read: "/Common/Common/GetQuestionTypeList"
-                                    }
-                                },
-                                filter: "contains",
-                                placeholder: "Select Question Type",
+        //                $('<input required id="cmbCard" data-bind="value:' + options.field + '" />')
+        //                    .appendTo(container)
+        //                    .kendoComboBox({
+        //                        dataTextField: "Name",
+        //                        dataValueField: "Name",
+        //                        dataSource: {
+        //                            transport: {
+        //                                read: "/Common/Common/GetQuestionTypeList"
+        //                            }
+        //                        },
+        //                        filter: "contains",
+        //                        placeholder: "Select Question Type",
 
-                                change: function (e) {
-                                    var selected = this.dataItem();
+        //                        change: function (e) {
+        //                            var selected = this.dataItem();
 
-                                    if (selected) {
-                                        options.model.QuestionType = selected.Name;
-                                    }
-                                }
-                            });
-                    }
-                },
-                {
-                    field: "QuestionMark",
-                    title: "Question Mark",
-                    width: 100,
-                    attributes: { style: "text-align:right;" },
-                    footerTemplate: "<b> #= kendo.toString(sum, 'n2') #</b>"
-                },
-                {
-                    command: [{ name: "destroy", iconClass: "k-icon k-i-trash", text: "" }],
-                    title: "&nbsp;",
-                    width: 40
-                }
-            ]
-        });
+        //                            if (selected) {
+        //                                options.model.QuestionType = selected.Name;
+        //                            }
+        //                        }
+        //                    });
+        //            }
+        //        },
+        //        {
+        //            field: "QuestionMark",
+        //            title: "Question Mark",
+        //            width: 100,
+        //            attributes: { style: "text-align:right;" },
+        //            footerTemplate: "<b> #= kendo.toString(sum, 'n2') #</b>"
+        //        },
+        //        {
+        //            command: [{ name: "destroy", iconClass: "k-icon k-i-trash", text: "" }],
+        //            title: "&nbsp;",
+        //            width: 40
+        //        }
+        //    ]
+        //});
 
 
         function GenerateGrid() {
@@ -348,7 +348,6 @@
                     template: "<div class='text-center p-3'>No Data.</div>"
                 }
             });
-
 
         };
         function GetGradeComboBox() {
@@ -1111,7 +1110,7 @@
             model.automatedExamDetailList = [];
 
             if (!model.IsExamByQuestionSet) {
-                var automatedExamGrid = $("#kAddedQuestions").data("kendoGrid");
+                var automatedExamGrid = $("#kAddedQuestionsx").data("kendoGrid");
                 var sumPolicyMarks = 0;
 
                 if (automatedExamGrid) {

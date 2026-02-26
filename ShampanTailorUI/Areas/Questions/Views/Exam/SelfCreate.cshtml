@@ -67,29 +67,32 @@
         <div class="card-body">
             <div class="row compact-row">
                 <div class="col-md-3 mb-2">
+                    <label>Subject <span class="text-danger">*</span></label>
+                    @*<small class="text-muted">Select subject from dropdown.</small>*@
+                    <span class="text-danger small validation-msg" id="SubjectId_error"></span>
                     @Html.TextBoxFor(m => m.SubjectId,
                         new { @class = "form-control", id = "SubjectId", placeholder = "Select subject" })
-                    <label>Subject <span class="text-danger">*</span></label>
-                    <small class="text-muted">Select subject from dropdown.</small>
-                    <span class="text-danger small validation-msg" id="SubjectId_error"></span>
+
                 </div>
                 <div class="col-md-3">
                     <div class="form-floating">
-                        @Html.TextBoxFor(m => m.SingleOptionNo,
-                            new { @class = "form-control", type = "number", min = "1", step = "1", placeholder = "Single Option Questions" })
                         <label>Single Option Questions</label>
-                        <small class="text-muted">Enter number of single option questions</small>
+                        @*<small class="text-muted">Enter number of single option questions</small>*@
                         <span class="text-danger small" id="SingleOptionNumberOfQuestion_error"></span>
+                        @Html.TextBoxFor(m => m.SingleOptionNo,
+                            new { @class = "form-control", type = "number", min = "1", step = "1", placeholder = "Number of Single-Option Questions" })
+
                     </div>
                 </div>
 
                 <div class="col-md-3">
                     <div class="form-floating">
-                        @Html.TextBoxFor(m => m.MultiOptionNo,
-                            new { @class = "form-control", type = "number", min = "1", step = "1", placeholder = "Multi Option Questions" })
                         <label>Multi Option Questions</label>
-                        <small class="text-muted">Enter number of multi-option questions</small>
+                        @*<small class="text-muted">Enter number of multi-option questions</small>*@
                         <span class="text-danger small" id="MultiOptionNumberOfQuestion_error"></span>
+                        @Html.TextBoxFor(m => m.MultiOptionNo,
+                            new { @class = "form-control", type = "number", min = "1", step = "1", placeholder = "Number of Multi Option Questions" })
+
                     </div>
                 </div>
             </div>
