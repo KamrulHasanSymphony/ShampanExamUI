@@ -252,7 +252,8 @@ namespace ShampanExamUI.Areas.Exam.Controllers
                             if (i == 0)
                             {
                                 q.IsExamover = IsExamover;
-                                q.RemainingSeconds = 0;                               
+                                q.RemainingSeconds = 0;
+                                q.EditSelf = true;
                             }
                             i++;
 

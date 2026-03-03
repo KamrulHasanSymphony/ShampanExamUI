@@ -41,6 +41,7 @@ namespace ShampanExam.Models.Exam
         public int? QuestionSetHeaderId { get; set; }
         public string? SubjectName { get; set; }
         public string? ChapterName { get; set; }
+        public bool? EditSelf { get; set; }
 
         public List<int> SelectedOptionIds { get; set; } = new List<int>();
     }

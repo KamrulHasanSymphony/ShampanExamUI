@@ -523,6 +523,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
                 var param = new CommonVM
                 {
                     Id = model.Id.ToString(),
+                    ExamId = model.Id.ToString(),
                     Group = model.ExamineeGroupId.ToString(),
                     QuestionSubjectId = questionSubjectId,
                     MultiOptionNo = multiOptionNo,
@@ -535,7 +536,7 @@ namespace ShampanExamUI.Areas.Questions.Controllers
 
                 return Json(new
                 {
-                    success = result.Status == "Success",
+                    success = result.Status,
                     message = result.Message,
                     data = result.DataVM
                 }, JsonRequestBehavior.AllowGet);

@@ -76,18 +76,46 @@
             beforeSend: function () {
                 $(".btnRandomProcess").prop("disabled", true).text("Processing...");
             },
+
             success: function (response) {
-                if (response.success) {
+                console.log(response);
+                debugger;
+
+                if (response && response.success === "Success" && response.data?.examExamineeList?.length > 0) {
+
                     var data = response.data;
-                    debugger;
                     var examineeId = encodeURIComponent(data.examExamineeList[0].ExamineeId);
                     var examId = encodeURIComponent(data.examExamineeList[0].ExamId);
-                    debugger;
+
                     window.location.href = `/Exam/Exam/EditSelf?id=${examineeId}&examId=${examId}`;
-                } else {
-                    ShowNotification(response.message || "Error");
                 }
+                else {
+                    ShowNotification(3, "No questions exist for selected subject. Exam not created.");
+                }
+                //var data = response.DataVM;
+                //if (response.Status === "Success" && data.examExamineeList.length > 0) {
+                //    //var data = response.DataVM;
+                //    var examineeId = encodeURIComponent(data.examExamineeList[0].ExamineeId);
+                //    var examId = encodeURIComponent(data.examExamineeList[0].ExamId);
+                //    window.location.href = `/Exam/Exam/EditSelf?id=${examineeId}&examId=${examId}`;
+                //}
+                //else {
+                //    ShowNotification(3, "No questions exist for selected subject. Exam not created.");
+                //}
             },
+            //success: function (response) {
+
+            //    if (response.success) {
+            //        var data = response.data;
+            //        debugger;
+            //        var examineeId = encodeURIComponent(data.examExamineeList[0].ExamineeId);
+            //        var examId = encodeURIComponent(data.examExamineeList[0].ExamId);
+            //        debugger;
+            //        window.location.href = `/Exam/Exam/EditSelf?id=${examineeId}&examId=${examId}`;
+            //    } else {
+            //        ShowNotification(response.message || "Error");
+            //    }No
+            //},
             complete: function () {
                 $(".btnRandomProcess").prop("disabled", false).text("Process");
             }

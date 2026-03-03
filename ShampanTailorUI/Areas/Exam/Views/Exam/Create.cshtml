@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     bool isSubmitted = Model.FirstOrDefault()?.IsExamSubmitted ?? false;
     bool isExamover = Model.FirstOrDefault()?.IsExamover ?? false;
+    bool editSelf = Model.FirstOrDefault()?.EditSelf ?? false;
 }
 
 
@@ -97,9 +98,13 @@
             <div id="tabs-1">
                 <form id="frmEntry">
                     <div class="card card-secondary">
-                        <div class="alert alert-info">
-                            Time Remaining: <span id="time"></span>
-                        </div>
+                        @if (!editSelf)
+                        {
+                            <div class="alert alert-info">
+                                Time Remaining: <span id="time"></span>
+                            </div>
+                        }
+
                         <div class="card-header">
                             <h3 class="card-title">Exam</h3>
 
@@ -110,7 +115,8 @@
 
 
         </div>*@
-                    <input type="hidden" id="RemainingSeconds" value="@Model.First().RemainingSeconds" />
+
+                        <input type="hidden" id="RemainingSeconds" value="@Model.First().RemainingSeconds" />
                         @for (int i = 0; i < Model.Count; i++)
                         {
                             var question = Model[i];
